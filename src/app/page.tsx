@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function Home() {
   const handleLogin = async () => {
     const data = await authClient.signIn.social({
-      provider: "github",
+      provider: "google",
     });
     console.log(data);
   };
