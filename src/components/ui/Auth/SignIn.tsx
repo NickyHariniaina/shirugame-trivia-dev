@@ -19,7 +19,7 @@ export const SignIn = () => {
       </div>
       <Button className="w-full">Sign in</Button>
       <Link href="/auth/sign-up" className="text-sm  hover:underline">
-        I don't have an account.
+        Don't have an account ?
       </Link>
     </form>
   );

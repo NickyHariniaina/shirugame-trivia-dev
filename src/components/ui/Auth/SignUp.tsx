@@ -27,7 +27,7 @@ export const SignUp = () => {
       />
       <Button className="w-full">Sign in</Button>
       <Link href="/auth/sign-in" className=" text-sm hover:underline">
-        I already have an account.
+        Already have an account ?
       </Link>
     </form>
   );
