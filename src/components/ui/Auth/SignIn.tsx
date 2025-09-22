@@ -1,6 +1,8 @@
+"use client";
 import { Button } from "../button";
 import { Input } from "../input";
 import { Label } from "../label";
+import PasswordStrengthBar from "react-password-strength-bar";
 export const SignIn = () => {
   return (
     <form className="flex flex-col justify-center items-center gap-5">
@@ -18,6 +20,10 @@ export const SignIn = () => {
           <Input type="password" id="password" />
         </div>
       </div>
+      <PasswordStrengthBar
+        shortScoreWord="Too short"
+        scoreWords={["Weak", "Fair", "Good", "Strong", "Very strong"]}
+      />
       <Button className="w-full">Sign in</Button>
     </form>
   );
