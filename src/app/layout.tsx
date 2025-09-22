@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
-
+import "@/styles/globals.css";
 // TODO: Add head for SEO later
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
