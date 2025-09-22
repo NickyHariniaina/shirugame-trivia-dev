@@ -12,7 +12,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="flex flex-row justify-between gap-3">{children}</div>
         </ThemeProvider>
       </body>
     </html>
