@@ -1,3 +1,4 @@
+import { Button } from "../button";
 import { Input } from "../input";
 import { Label } from "../label";
 export const SignIn = () => {
@@ -17,6 +18,7 @@ export const SignIn = () => {
           <Input type="password" id="password" />
         </div>
       </div>
+      <Button className="w-full">Sign in</Button>
     </form>
   );
 };
