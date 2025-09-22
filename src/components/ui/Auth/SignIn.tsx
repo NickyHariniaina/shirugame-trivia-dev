@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Button } from "../button";
 import { Input } from "../input";
 import { Label } from "../label";
-
+import { motion } from "motion/react"
+const ButtonMotion = motion.create(Button)
 export const SignIn = () => {
   return (
     <form className="flex flex-col justify-center items-center gap-5">
@@ -17,7 +18,9 @@ export const SignIn = () => {
           <Input type="password" id="password" />
         </div>
       </div>
-      <Button className="w-full">Sign in</Button>
+      <ButtonMotion className="w-full" whileTap={{ scale: 0.8 }}>
+        Sign in
+      </ButtonMotion>
       <Link href="/auth/sign-up" className="text-sm  hover:underline">
         Don't have an account ?
       </Link>

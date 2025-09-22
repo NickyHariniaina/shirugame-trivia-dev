@@ -4,6 +4,9 @@ import { Button } from "../button";
 import { Input } from "../input";
 import { Label } from "../label";
 import PasswordStrengthBar from "react-password-strength-bar";
+import { motion } from "motion/react";
+
+const ButtonMotion = motion.create(Button);
 export const SignUp = () => {
   return (
     <form className="flex flex-col justify-center items-center gap-5">
@@ -25,7 +28,9 @@ export const SignUp = () => {
         shortScoreWord="Too short"
         scoreWords={["Weak", "Fair", "Good", "Strong", "Very strong"]}
       />
-      <Button className="w-full">Sign in</Button>
+      <ButtonMotion className="w-full" whileTap={{ scale: 0.8 }}>
+        Sign up
+      </ButtonMotion>
       <Link href="/auth/sign-in" className=" text-sm hover:underline">
         Already have an account ?
       </Link>
