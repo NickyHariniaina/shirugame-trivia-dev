@@ -1,7 +1,9 @@
 "use client";
-import { Github, Mail } from "lucide-react";
+import { Github } from "lucide-react";
 import { Button } from "../button";
 import { authClient } from "@/lib/auth-client";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 export const OAuth = () => {
   const handleGoogleSign = async () => {
@@ -23,7 +25,7 @@ export const OAuth = () => {
                    dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
         onClick={handleGoogleSign}
       >
-        <Mail /> Continue with Google
+        <FcGoogle /> Continue with Google
       </Button>
       <Button
         className="flex items-center gap-2 
@@ -31,7 +33,7 @@ export const OAuth = () => {
                    dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
         onClick={handleGithubSign}
       >
-        <Github /> Continue with GitHub
+        <FaGithub /> Continue with GitHub
       </Button>
     </div>
   );
