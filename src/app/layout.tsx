@@ -1,4 +1,8 @@
 import "@/styles/globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "react-hot-toast";
+import { BsBrightnessHigh } from "react-icons/bs";
+import { RiErrorWarningLine } from "react-icons/ri";
 // TODO: Add head for SEO later
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -19,7 +23,27 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+
+          <Toaster
+            toastOptions={{
+              success: {
+                icon: <BsBrightnessHigh />,
+              },
+              error: {
+                icon: <RiErrorWarningLine />,
+              },
+            }}
+          />
+        </ThemeProvider>
+      </body>
     </html>
   );
 };
