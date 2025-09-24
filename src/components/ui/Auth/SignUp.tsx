@@ -7,6 +7,7 @@ import PasswordStrengthBar from "react-password-strength-bar";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 const ButtonMotion = motion.create(Button);
 
@@ -29,10 +30,10 @@ export const SignUp = () => {
       },
       {
         onSuccess: () => {
-          console.log("Logged in");
+          toast.success("Welcome to shirugame.")
         },
         onError: (ctx) => {
-          console.log(ctx.error.message);
+          toast.error(ctx.error.message);
         },
       },
     );
