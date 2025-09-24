@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "react-hot-toast";
 import { BsBrightnessHigh } from "react-icons/bs";
 import { RiErrorWarningLine } from "react-icons/ri";
+
 // TODO: Add head for SEO later
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
