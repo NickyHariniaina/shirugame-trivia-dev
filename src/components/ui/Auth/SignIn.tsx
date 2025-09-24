@@ -28,7 +28,7 @@ export const SignIn = () => {
       },
       {
         onSuccess: () => {
-          toast.success("Hello world");
+          toast.success("Welcome back.");
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
