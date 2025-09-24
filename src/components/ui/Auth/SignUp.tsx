@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
-
+import { useState } from "react";
 const ButtonMotion = motion.create(Button);
 
 type FormType = {
@@ -19,10 +19,11 @@ type FormType = {
 export const SignUp = () => {
   const { register, handleSubmit } = useForm<FormType>();
 
+  const [ loading, setLoading] = useState<boolean>();
   const handleClick = async (data: FormType) => {
     const { email, password } = data;
-
-    const { error } = await authClient.signUp.email(
+    let loadId: string | undefined;
+    await authClient.signUp.email(
       {
         name: email,
         email: email,
@@ -30,11 +31,17 @@ export const SignUp = () => {
       },
       {
         onSuccess: () => {
-          toast.success("Welcome to shirugame.")
+          toast.success("Welcome to shirugame.", {id: loadId})
+          setLoading(false)
         },
         onError: (ctx) => {
-          toast.error(ctx.error.message);
+          toast.error(ctx.error.message, {id: loadId});
+          setLoading(false)
         },
+        onRequest: () => {
+          loadId = toast.loading("Wait please...")
+          setLoading(true)
+        }
       },
     );
   };
@@ -68,6 +75,7 @@ export const SignUp = () => {
         className="w-full"
         whileTap={{ scale: 0.98 }}
         onClick={handleSubmit(handleClick)}
+        disabled={loading}
       >
         Sign up
       </ButtonMotion>
