@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Rock+3D&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -119,4 +120,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.main-title {
+  font-family: "Rock 3D", system-ui;
 }
