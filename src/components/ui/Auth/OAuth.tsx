@@ -1,0 +1,40 @@
+"use client";
+import { Github } from "lucide-react";
+import { Button } from "../button";
+import { authClient } from "@/lib/auth-client";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+
+export const OAuth = () => {
+  const handleGoogleSign = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
+  const handleGithubSign = async () => {
+    const data = await authClient.signIn.social({
+      provider: "github",
+    });
+  };
+  return (
+    <div className="flex flex-col md:flex-row justify-center items-center gap-5 md:justify-around">
+      <Button
+        className="flex items-center gap-2 
+                   bg-white text-gray-800 border border-gray-300 hover:bg-gray-100
+                   dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
+        onClick={handleGoogleSign}
+      >
+        <FcGoogle /> Continue with Google
+      </Button>
+      <Button
+        className="flex items-center gap-2 
+                   bg-gray-900 text-white hover:bg-gray-800
+                   dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
+        onClick={handleGithubSign}
+      >
+        <FaGithub /> Continue with GitHub
+      </Button>
+    </div>
+  );
+};
