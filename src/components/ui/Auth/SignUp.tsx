@@ -18,9 +18,14 @@ type FormType = {
 
 export const SignUp = () => {
   const { register, handleSubmit } = useForm<FormType>();
-
+  const [cpass, setCPass] = useState<string>("");
   const [ loading, setLoading] = useState<boolean>();
+  const [score, setScore] = useState(0);
   const handleClick = async (data: FormType) => {
+    if (score < 2) {
+      toast.error("Your password is not strong enough...")
+      return 
+    }
     const { email, password } = data;
     let loadId: string | undefined;
     await authClient.signUp.email(
@@ -60,16 +65,22 @@ export const SignUp = () => {
       <div className="flex md:flex-row flex-col gap-4">
         <div className="flex flex-col gap-2">
           <Label htmlFor="NewPassword">New password</Label>
-          <Input type="password" id="NewPassword" />
+<Input
+  type="password"
+  id="NewPassword"
+  {...register("password", { onChange: (e) => setCPass(e.target.value) })}
+/>
         </div>
         <div className="flex flex-col gap-2">
           <Label htmlFor="password">Retype your password</Label>
-          <Input type="password" id="password" {...register("password")} />
+          <Input type="password"  id="password" />
         </div>
       </div>
       <PasswordStrengthBar
-        shortScoreWord="Too short"
+        password={cpass}
+        shortScoreWord="Too weak"
         scoreWords={["Weak", "Fair", "Good", "Strong", "Very strong"]}
+        onChangeScore={(score) => setScore(score)}
       />
       <ButtonMotion
         className="w-full"
