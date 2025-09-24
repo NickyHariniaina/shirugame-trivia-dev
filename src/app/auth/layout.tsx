@@ -1,5 +1,7 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import "@/styles/globals.css";
+import { Toaster } from "react-hot-toast";
+
 // TODO: Add head for SEO later
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -15,6 +17,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="flex flex-row justify-center items-center h-screen gap-3">
             {children}
           </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
