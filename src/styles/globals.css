@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import url('https://fonts.googleapis.com/css2?family=Rock+3D&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -122,6 +121,10 @@
   }
 }
 
-.main-title {
+body {
+  font-family: "Funnel Display", system-ui;
+}
+
+h1 {
   font-family: "Rock 3D", system-ui;
 }
