@@ -54,7 +54,7 @@ export const SignIn = () => {
       </div>
       <ButtonMotion
         className="w-full"
-        whileTap={{ scale: 0.8 }}
+        whileTap={{ scale: 0.98 }}
         onClick={handleSubmit(handleClick)}
       >
         Sign in
