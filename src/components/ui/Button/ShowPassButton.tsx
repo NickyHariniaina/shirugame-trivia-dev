@@ -5,13 +5,13 @@ type ShowPassButtonPropsType = {
   showPass: boolean;
   setShowPass: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export const ShowPassButton = (props: ShowPassButtonPropsType) => { 
+export const ShowPassButton = (props: ShowPassButtonPropsType) => {
   const handleShowPass = () => {
     props.setShowPass(!props.showPass);
-  }
-  return <Button onClick={handleShowPass}>
-    {props.showPass?
-      <PiEyeLight />: <PiEyeSlashBold />
-    }
-  </Button>
+  };
+  return (
+    <Button variant="ghost" type="button" onClick={handleShowPass}>
+      {props.showPass ? <PiEyeLight /> : <PiEyeSlashBold />}
+    </Button>
+  );
 };

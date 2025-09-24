@@ -1,14 +1,16 @@
 "use client";
-import Link from "next/link";
-import { Button } from "../button";
-import { Input } from "../input";
-import { Label } from "../label";
-import PasswordStrengthBar from "react-password-strength-bar";
-import { motion } from "motion/react";
-import { useForm } from "react-hook-form";
-import { authClient } from "@/lib/auth-client";
-import toast from "react-hot-toast";
 import { useState } from "react";
+import { Input } from "../input";
+import Link from "next/link";
+import { Label } from "../label";
+import { ShowPassButton } from "@/components/ui/Button/ShowPassButton";
+import PasswordStrengthBar from "react-password-strength-bar";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
+import { Button } from "../button";
+import { motion } from "motion/react";
+
 const ButtonMotion = motion.create(Button);
 
 type FormType = {
@@ -18,35 +20,38 @@ type FormType = {
 
 export const SignUp = () => {
   const { register, handleSubmit } = useForm<FormType>();
-  const [cpass, setCPass] = useState<string>("");
-  const [ loading, setLoading] = useState<boolean>();
+  const [cpass, setCPass] = useState("");
+  const [loading, setLoading] = useState(false);
   const [score, setScore] = useState(0);
+
+  const [showPass, setShowPass] = useState(false);
+
   const handleClick = async (data: FormType) => {
     if (score < 2) {
-      toast.error("Your password is not strong enough...")
-      return 
+      toast.error("Your password is not strong enough...");
+      return;
     }
     const { email, password } = data;
     let loadId: string | undefined;
     await authClient.signUp.email(
       {
         name: email,
-        email: email,
-        password: password,
+        email,
+        password,
       },
       {
         onSuccess: () => {
-          toast.success("Welcome to shirugame.", {id: loadId})
-          setLoading(false)
+          toast.success("Welcome to shirugame.", { id: loadId });
+          setLoading(false);
         },
         onError: (ctx) => {
-          toast.error(ctx.error.message, {id: loadId});
-          setLoading(false)
+          toast.error(ctx.error.message, { id: loadId });
+          setLoading(false);
         },
         onRequest: () => {
-          loadId = toast.loading("Wait please...")
-          setLoading(true)
-        }
+          loadId = toast.loading("Wait please...");
+          setLoading(true);
+        },
       },
     );
   };
@@ -62,26 +67,36 @@ export const SignUp = () => {
           placeholder="user@gmail.com"
         />
       </div>
+
       <div className="flex md:flex-row flex-col gap-4">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 relative">
           <Label htmlFor="NewPassword">New password</Label>
-<Input
-  type="password"
-  id="NewPassword"
-  {...register("password", { onChange: (e) => setCPass(e.target.value) })}
-/>
+          <Input
+            type={showPass ? "text" : "password"}
+            id="NewPassword"
+            {...register("password", {
+              onChange: (e) => setCPass(e.target.value),
+            })}
+          />
         </div>
+
         <div className="flex flex-col gap-2">
           <Label htmlFor="password">Retype your password</Label>
-          <Input type="password"  id="password" />
+          <Input type={showPass ? "text" : "password"} id="password" />
         </div>
       </div>
+
+      <div className="flex flex-col justify-center items-center">
+        <ShowPassButton showPass={showPass} setShowPass={setShowPass} />
+      </div>
+
       <PasswordStrengthBar
         password={cpass}
         shortScoreWord="Too weak"
         scoreWords={["Weak", "Fair", "Good", "Strong", "Very strong"]}
         onChangeScore={(score) => setScore(score)}
       />
+
       <ButtonMotion
         className="w-full"
         whileTap={{ scale: 0.98 }}
@@ -90,7 +105,8 @@ export const SignUp = () => {
       >
         Sign up
       </ButtonMotion>
-      <Link href="/auth/sign-in" className=" text-sm hover:underline">
+
+      <Link href="/auth/sign-in" className="text-sm  hover:underline">
         Already have an account ?
       </Link>
     </form>
