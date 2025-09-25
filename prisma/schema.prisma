@@ -19,8 +19,8 @@ model User {
   id            String    @id
   name          String
   username      String?   @unique
-  rank          Int       @unique
-  highestScore  Int
+  rank          Int?      @default(0)
+  highestScore  Int?      @default(0)
   email         String    @unique
   emailVerified Boolean   @default(false)
   image         String?
