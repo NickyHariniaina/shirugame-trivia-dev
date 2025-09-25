@@ -29,33 +29,33 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
-  openedRooms Room[]    @relation("OpenedRooms")
-  wonRooms    Room[]    @relation("Winner")
-  joinedRooms Room[]    @relation("RoomPlayers")
+  openedRooms Room[] @relation("OpenedRooms")
+  wonRooms    Room[] @relation("Winner")
+  joinedRooms Room[] @relation("RoomPlayers")
 }
 
 model Room {
-  id        String     @id
-  title     String     @unique
-  winnerId  String?   
-  winner    User?      @relation("Winner", fields: [winnerId], references: [id])
-  questions Question[] @relation("RoomQuestions") // nom de relation explicite
-  players   User[]     @relation("RoomPlayers")
-  startDate DateTime   @default(now())
+  id         String     @id
+  title      String     @unique
+  winnerId   String?
+  winner     User?      @relation("Winner", fields: [winnerId], references: [id])
+  questions  Question[] @relation("RoomQuestions") // nom de relation explicite
+  players    User[]     @relation("RoomPlayers")
+  startDate  DateTime   @default(now())
   openedById String
-  openedBy   User      @relation("OpenedRooms", fields: [openedById], references: [id])
+  openedBy   User       @relation("OpenedRooms", fields: [openedById], references: [id])
 }
 
 model Question {
-  id      String @id
+  id       String @id
   question String @unique
-  typeId  String
-  type    Type   @relation(fields: [typeId], references: [id])
-  Score   Int
-  Answer  String
+  typeId   String
+  type     Type   @relation(fields: [typeId], references: [id])
+  Score    Int
+  Answer   String
 
-  roomId  String
-  room    Room   @relation("RoomQuestions", fields: [roomId], references: [id])
+  roomId String
+  room   Room   @relation("RoomQuestions", fields: [roomId], references: [id])
 }
 
 model Type {
