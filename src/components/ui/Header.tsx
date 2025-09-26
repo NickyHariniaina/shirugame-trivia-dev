@@ -8,6 +8,7 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -21,7 +22,7 @@ type HeaderPropsType = {
 export const Header = (props: HeaderPropsType) => {
   const verified = true;
   return (
-    <div className="flex flex-row justify-between items-center m-4 rounded-3xl hover:shadow-2xl dark:hover:shadow-blue-900 transition-all duration-200 ease-in-out">
+    <div className="flex flex-row justify-between items-center md:m-4 rounded-3xl hover:shadow-2xl dark:hover:shadow-blue-900 transition-all duration-200 ease-in-out">
       <div className="m-5 sm:flex hidden">
         <ModeToggle />
       </div>
@@ -34,10 +35,7 @@ export const Header = (props: HeaderPropsType) => {
       </ul>
 
       {/* Mobile hamburger */}
-      <div className="sm:hidden flex flex-row items-center">
-        <div className="m-5">
-          <ModeToggle />
-        </div>
+      <div className="sm:hidden flex flex-row items-center m-3">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon">
@@ -47,13 +45,18 @@ export const Header = (props: HeaderPropsType) => {
           <SheetContent side="right">
             <SheetHeader>
               <SheetTitle>Shirugame</SheetTitle>
-              <SheetDescription>v0.0.1 </SheetDescription>
-              <ul className="flex flex-col gap-4 mt-8">
-                <Button variant="ghost">Rooms</Button>
-                <Button variant="ghost">Ranks</Button>
-                <Button variant="ghost">Settings</Button>
-              </ul>
+              <SheetDescription>v0.0.1</SheetDescription>
             </SheetHeader>
+            <ul className="flex flex-col gap-4 mt-8">
+              <Button variant="ghost">Rooms</Button>
+              <Button variant="ghost">Ranks</Button>
+              <Button variant="ghost">Settings</Button>
+            </ul>
+            <SheetFooter className="flex flex-row justify-end">
+              <div className="m-5 ">
+                <ModeToggle />
+              </div>
+            </SheetFooter>
           </SheetContent>
         </Sheet>
       </div>
