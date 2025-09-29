@@ -1,3 +1,9 @@
+import { HistoryIcon } from "lucide-react";
+
 export const UserHistory = () => {
-  return <div>This is user history</div>;
+  return (
+    <div>
+      <HistoryIcon />
+    </div>
+  );
 };
