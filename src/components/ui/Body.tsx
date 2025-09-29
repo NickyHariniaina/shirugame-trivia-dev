@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { Button } from "./button";
 import { CarouselDemo } from "./CarouselTemplate";
 import { Separator } from "./separator";
+import { UserHistory } from "./UserHistory";
 
 type BodyPropsType = {
   logged: boolean;
@@ -19,9 +20,11 @@ export const Body = (props: BodyPropsType) => {
         Ready to use your brain with Shirugame ? Create a room, share the link,
         and outsmart everyone else !
       </p>
-      <Button variant="default">Create room</Button>
+      <Button variant="default">
+        {props.logged ? "Create room" : "Get started"}
+      </Button>
       <Separator className="m-4" />
-      <CarouselDemo />
+      {!props.logged ? <CarouselDemo /> : <UserHistory />}
     </div>
   );
 };

@@ -16,7 +16,7 @@ import {
 import { BadgeCheckIcon, Menu } from "lucide-react";
 
 type HeaderPropsType = {
-  logged: boolean;
+  logged: boolean | undefined;
 };
 
 export const Header = (props: HeaderPropsType) => {
@@ -62,9 +62,20 @@ export const Header = (props: HeaderPropsType) => {
         </Sheet>
       </div>
 
-      <div className="flex flex-row items-center gap-2">
-        <Avatar src="" alt="N" size={40} />
-      </div>
+      {props.logged ? (
+        <div className="flex flex-row items-center gap-2">
+          <Avatar src="" alt="N" size={40} />
+        </div>
+      ) : (
+        <div className="flex flex-row items-center gap-2 p-4">
+          <Button variant="default" type="button">
+            Log in
+          </Button>
+          <Button variant="default" type="button">
+            Sign up
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
