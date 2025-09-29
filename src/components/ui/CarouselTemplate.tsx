@@ -57,8 +57,8 @@ export function CarouselDemo() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2" />
-      <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2" />
+      <CarouselPrevious className=" absolute left-0 top-1/2 transform -translate-y-1/2" />
+      <CarouselNext className=" absolute right-0 top-1/2 transform -translate-y-1/2" />
     </Carousel>
   );
 }
