@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { Button } from "./button";
 import { CarouselDemo } from "./CarouselTemplate";
 import { Separator } from "./separator";
+import { UserHistory } from "./UserHistory";
 
 type BodyPropsType = {
   logged: boolean;
@@ -23,7 +24,7 @@ export const Body = (props: BodyPropsType) => {
         {props.logged ? "Create room" : "Get started"}
       </Button>
       <Separator className="m-4" />
-      <CarouselDemo />
+      {!props.logged ? <CarouselDemo /> : <UserHistory />}
     </div>
   );
 };

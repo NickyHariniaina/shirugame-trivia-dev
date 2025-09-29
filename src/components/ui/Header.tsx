@@ -16,7 +16,7 @@ import {
 import { BadgeCheckIcon, Menu } from "lucide-react";
 
 type HeaderPropsType = {
-  logged: boolean;
+  logged: boolean | undefined;
 };
 
 export const Header = (props: HeaderPropsType) => {
