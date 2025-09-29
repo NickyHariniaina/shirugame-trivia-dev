@@ -16,35 +16,41 @@ type QAPropsType = {
 export function CarouselDemo() {
   const questions: QAPropsType[] = [
     {
-      question: "Which of the following is NOT a JavaScript framework?",
-      answers: ["React", "Vue", "Angular", "Laravel"],
-    },
-    {
-      question: "What does CSS stand for?",
+      question: "Which of these JavaScript concepts is NOT part of ES6?",
       answers: [
-        "Cascading Style Sheets",
-        "Computer Style Syntax",
-        "Creative Styling System",
-        "Colorful Style Sheets",
+        "Promises",
+        "Arrow Functions",
+        "Generators",
+        "Prototype Chains",
       ],
     },
     {
-      question: "Which method is used to parse JSON in JavaScript?",
+      question: "In CSS, what does the `clamp()` function do?",
       answers: [
-        "JSON.parse()",
-        "JSON.stringify()",
-        "JSON.toObject()",
-        "JSON.convert()",
+        "Restricts a value between a min and max",
+        "Rounds pixel values",
+        "Applies a CSS transition",
+        "Defines a grid template",
       ],
-    },
-    {
-      question: "What is the command to initialize a Git repository?",
-      answers: ["git init", "git start", "git create", "git new"],
     },
     {
       question:
-        "Which HTTP method is typically used to update data on a server?",
-      answers: ["PUT", "GET", "DELETE", "CONNECT"],
+        "Which array method creates a new array with the results of calling a provided function on every element?",
+      answers: ["map()", "forEach()", "filter()", "reduce()"],
+    },
+    {
+      question: "In Git, what does `git rebase` do?",
+      answers: [
+        "Re-applies commits on top of another base commit",
+        "Deletes the repository",
+        "Creates a new branch",
+        "Merges two branches automatically",
+      ],
+    },
+    {
+      question:
+        "Which HTTP status code indicates a resource has been permanently moved?",
+      answers: ["301", "302", "404", "500"],
     },
   ];
 
