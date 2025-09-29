@@ -17,7 +17,6 @@ const Page = () => {
       setLogged(true);
     }
   }, [session]);
-
   return (
     <div className="flex flex-col m-2 gap-3">
       <Header logged={false} />
