@@ -1,5 +1,7 @@
 import { motion } from "motion/react";
 import { Button } from "./button";
+import { CarouselDemo } from "./CarouselTemplate";
+import { Separator } from "./separator";
 
 type BodyPropsType = {
   logged: boolean;
@@ -13,11 +15,13 @@ export const Body = (props: BodyPropsType) => {
       >
         Shirugame
       </motion.h1>
-      <p className="m-4 text-center">
+      <p className="m-4 text-center animate">
         Ready to use your brain with Shirugame ? Create a room, share the link,
         and outsmart everyone else !
       </p>
       <Button variant="default">Create room</Button>
+      <Separator className="m-4" />
+      <CarouselDemo />
     </div>
   );
 };

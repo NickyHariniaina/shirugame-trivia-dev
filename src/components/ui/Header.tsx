@@ -20,7 +20,6 @@ type HeaderPropsType = {
 };
 
 export const Header = (props: HeaderPropsType) => {
-  const verified = true;
   return (
     <div className="flex flex-row justify-between items-center md:m-4 rounded-3xl hover:shadow-2xl dark:hover:shadow-blue-900 transition-all duration-200 ease-in-out">
       <div className="m-5 sm:flex hidden">
@@ -32,6 +31,7 @@ export const Header = (props: HeaderPropsType) => {
         <Button variant="ghost">Rooms</Button>
         <Button variant="ghost">Ranks</Button>
         <Button variant="ghost">Settings</Button>
+        <Button variant="ghost">Contact</Button>
       </ul>
 
       {/* Mobile hamburger */}
@@ -51,6 +51,7 @@ export const Header = (props: HeaderPropsType) => {
               <Button variant="ghost">Rooms</Button>
               <Button variant="ghost">Ranks</Button>
               <Button variant="ghost">Settings</Button>
+              <Button variant="ghost">Contact</Button>
             </ul>
             <SheetFooter className="flex flex-row justify-end">
               <div className="m-5 ">
@@ -62,15 +63,6 @@ export const Header = (props: HeaderPropsType) => {
       </div>
 
       <div className="flex flex-row items-center gap-2">
-        {verified ? (
-          <Badge
-            variant="secondary"
-            className="bg-blue-500 text-white dark:bg-blue-600"
-          >
-            <BadgeCheckIcon />
-            Verified
-          </Badge>
-        ) : null}
         <Avatar src="" alt="N" size={40} />
       </div>
     </div>
