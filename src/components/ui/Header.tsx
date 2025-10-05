@@ -97,10 +97,14 @@ export const Header = (props: HeaderPropsType) => {
         </div>
       ) : (
         <div className="flex flex-row items-center gap-2 p-4">
-          <Button variant="default" type="button">
+          <Button variant="default" type="button" onClick={() => {
+              router.push("/auth/sign-in");
+            }}>
             Log in
           </Button>
-          <Button variant="default" type="button">
+          <Button variant="default" type="button" onClick={() => {
+              router.push("/auth/sign-up");
+            }}>
             Sign up
           </Button>
         </div>
