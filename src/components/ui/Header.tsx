@@ -70,11 +70,11 @@ export const Header = (props: HeaderPropsType) => {
               <Button variant="ghost">Ranks</Button>
               <Button variant="ghost">Settings</Button>
               <Button variant="ghost">Contact</Button>
-              {props.logged? 
-              <Button variant="ghost" type="button" onClick={handleLogOut}>
-                Log out
-              </Button>: null
-              }
+              {props.logged ? (
+                <Button variant="ghost" type="button" onClick={handleLogOut}>
+                  Log out
+                </Button>
+              ) : null}
             </ul>
             <SheetFooter className="flex flex-row justify-end">
               <div className="m-5 ">
@@ -87,7 +87,7 @@ export const Header = (props: HeaderPropsType) => {
 
       {props.logged ? (
         <div className="flex flex-row items-center p-2 gap-2">
-          <Avatar src="" alt="N" size={40} />
+          <Avatar src="" alt="Nicky" size={40} />
           <Button
             variant="default"
             type="button"
@@ -99,14 +99,22 @@ export const Header = (props: HeaderPropsType) => {
         </div>
       ) : (
         <div className="flex flex-row items-center gap-2 p-4">
-          <Button variant="default" type="button" onClick={() => {
+          <Button
+            variant="default"
+            type="button"
+            onClick={() => {
               router.push("/auth/sign-in");
-            }}>
+            }}
+          >
             Log in
           </Button>
-          <Button variant="default" type="button" onClick={() => {
+          <Button
+            variant="default"
+            type="button"
+            onClick={() => {
               router.push("/auth/sign-up");
-            }}>
+            }}
+          >
             Sign up
           </Button>
         </div>
