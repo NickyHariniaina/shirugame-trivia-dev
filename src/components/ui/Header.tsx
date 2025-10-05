@@ -70,9 +70,11 @@ export const Header = (props: HeaderPropsType) => {
               <Button variant="ghost">Ranks</Button>
               <Button variant="ghost">Settings</Button>
               <Button variant="ghost">Contact</Button>
+              {props.logged? 
               <Button variant="ghost" type="button" onClick={handleLogOut}>
                 Log out
-              </Button>
+              </Button>: null
+              }
             </ul>
             <SheetFooter className="flex flex-row justify-end">
               <div className="m-5 ">
