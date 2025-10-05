@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { Avatar } from "./Avatar";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -14,12 +15,29 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { BadgeCheckIcon, Menu } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type HeaderPropsType = {
   logged: boolean | undefined;
 };
 
 export const Header = (props: HeaderPropsType) => {
+  const router = useRouter();
+
+  const handleLogOut = async () => {
+    try {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            router.push("/auth/sign-up");
+          },
+        },
+      });
+    } catch (error) {
+      console.log("There is an error while logging out.", error);
+    }
+  };
+
   return (
     <div className="flex flex-row justify-between items-center md:m-4 rounded-3xl hover:shadow-2xl dark:hover:shadow-blue-900 transition-all duration-200 ease-in-out">
       <div className="m-5 sm:flex hidden">
@@ -52,7 +70,7 @@ export const Header = (props: HeaderPropsType) => {
               <Button variant="ghost">Ranks</Button>
               <Button variant="ghost">Settings</Button>
               <Button variant="ghost">Contact</Button>
-              <Button variant="ghost" type="button">
+              <Button variant="ghost" type="button" onClick={handleLogOut}>
                 Log out
               </Button>
             </ul>
@@ -68,7 +86,12 @@ export const Header = (props: HeaderPropsType) => {
       {props.logged ? (
         <div className="flex flex-row items-center p-2 gap-2">
           <Avatar src="" alt="N" size={40} />
-          <Button variant="default" type="button" className="hidden md:block">
+          <Button
+            variant="default"
+            type="button"
+            className="hidden md:block"
+            onClick={handleLogOut}
+          >
             Log out
           </Button>
         </div>
