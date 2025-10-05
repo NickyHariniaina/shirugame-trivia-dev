@@ -52,6 +52,9 @@ export const Header = (props: HeaderPropsType) => {
               <Button variant="ghost">Ranks</Button>
               <Button variant="ghost">Settings</Button>
               <Button variant="ghost">Contact</Button>
+              <Button variant="ghost" type="button">
+                Log out
+              </Button>
             </ul>
             <SheetFooter className="flex flex-row justify-end">
               <div className="m-5 ">
@@ -63,8 +66,11 @@ export const Header = (props: HeaderPropsType) => {
       </div>
 
       {props.logged ? (
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex flex-row items-center p-2 gap-2">
           <Avatar src="" alt="N" size={40} />
+          <Button variant="default" type="button" className="hidden md:block">
+            Log out
+          </Button>
         </div>
       ) : (
         <div className="flex flex-row items-center gap-2 p-4">
