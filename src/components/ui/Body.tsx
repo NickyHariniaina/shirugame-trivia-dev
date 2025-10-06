@@ -3,11 +3,22 @@ import { Button } from "./button";
 import { CarouselDemo } from "./CarouselTemplate";
 import { Separator } from "./separator";
 import { UserHistory } from "./UserHistory";
-
+import { useRouter } from "next/navigation";
 type BodyPropsType = {
   logged: boolean;
 };
 export const Body = (props: BodyPropsType) => {
+  
+  const router = useRouter();
+
+  const handleStart = () => {
+    if (props.logged) {
+      router.push("/room") // Change it later 
+    } else {
+      router.push("/auth/sign-up");
+    }
+  }
+
   return (
     <div className="w-[100%] flex flex-col gap-4 justify-center items-center">
       <motion.h1
@@ -20,7 +31,7 @@ export const Body = (props: BodyPropsType) => {
         Ready to use your brain with Shirugame ? Create a room, share the link,
         and outsmart everyone else !
       </p>
-      <Button variant="default">
+      <Button onClick={handleStart} variant="default">
         {props.logged ? "Create room" : "Get started"}
       </Button>
       <Separator className="m-4" />
