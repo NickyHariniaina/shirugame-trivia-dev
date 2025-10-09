@@ -13,7 +13,14 @@ export const GET = async () => {
   }
 
   try {
-    const users = await prisma;
+    const users = await prisma.user.findMany();
+
+    return NextResponse.json(
+      {
+        data: users,
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
