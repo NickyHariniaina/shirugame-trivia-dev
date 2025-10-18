@@ -15,11 +15,13 @@ export const useUser = create<UserStore>((set, get) => ({
   userSession: null,
   userAccount: null,
   setUserData: async (id: string) => {
-    const response = await fetch("api/users", {
+    const url = `/api/users/${id}`;
+    const response = await fetch(url, {
       method: "GET",
     })
     const data = await response.json();
-    console.log(data);
+    console.log(data.data);
+    set({ userData: data.data })
   },
   setUserAccount: async (id: string) => {
     // TODO:

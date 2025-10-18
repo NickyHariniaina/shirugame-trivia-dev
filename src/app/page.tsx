@@ -17,7 +17,8 @@ const Page = () => {
       setLogged(false);
     } else {
       setLogged(true);
-      setUserData(1);
+      const userId = session.user.id;
+      setUserData(userId);
     }
   }, [session]);
 
