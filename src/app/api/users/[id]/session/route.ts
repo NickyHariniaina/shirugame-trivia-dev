@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (_req: NextRequest, context: RouteContext<"/api/users/[id]"> ) => {
+export const GET = async (_req: NextRequest, context: RouteContext<'/api/users/[id]'>) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -13,17 +13,16 @@ export const GET = async (_req: NextRequest, context: RouteContext<"/api/users/[
   }
 
   try {
-
-    const userId = await context.params.id;
-    const user = await prisma.user.findUnique({
+    const {id: userId } = await context.params;
+    const userSession = await prisma.session.findFirst({
       where: {
-        id: userId,
+        userId: userId,
       },
     });
 
     return NextResponse.json(
       {
-        data: user,
+        data: userSession,
       },
       { status: 200 },
     );

@@ -1,9 +1,9 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const GET = async (_req: NextRequest, context: RouteContext<"/api/users/[id]"> ) => {
+export const GET = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -13,20 +13,19 @@ export const GET = async (_req: NextRequest, context: RouteContext<"/api/users/[
   }
 
   try {
+    const {id: userId} = await context.params;
 
-    const userId = await context.params.id;
-    const user = await prisma.user.findUnique({
+    const userAccount = await prisma.account.findFirst({
       where: {
-        id: userId,
-      },
-    });
+        userId: userId,
+      }
+    })
 
-    return NextResponse.json(
-      {
-        data: user,
-      },
-      { status: 200 },
-    );
+    return NextResponse.json({
+      data: userAccount,
+    }, {
+      status: 200,
+    });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
@@ -38,4 +37,4 @@ export const GET = async (_req: NextRequest, context: RouteContext<"/api/users/[
       },
     );
   }
-}
+};

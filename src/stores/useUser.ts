@@ -24,9 +24,21 @@ export const useUser = create<UserStore>((set, get) => ({
     set({ userData: data.data })
   },
   setUserAccount: async (id: string) => {
-    // TODO:
+    const url = `/api/users/${id}/account`;
+    const response = await fetch(url, {
+      method: "GET",
+    })
+    const data = await response.json();
+    console.log(data.data);
+    set({ userAccount: data.data })
   },
   setUserSession: async (id: string) => {
-    // TODO:
+    const url = `/api/users/${id}/session`;
+    const response = await fetch(url, {
+      method: "GET",
+    })
+    const data = await response.json();
+    console.log(data.data);
+    set({ userSession: data.data })
   },
 }));
