@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "../button";
 import { motion } from "motion/react";
+import { useRouter } from "next/navigation";
 
 const ButtonMotion = motion.create(Button);
 
@@ -19,6 +20,7 @@ type FormType = {
 };
 
 export const SignUp = () => {
+  const router = useRouter()
   const { register, handleSubmit } = useForm<FormType>();
   const [cpass, setCPass] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,6 +44,7 @@ export const SignUp = () => {
       {
         onSuccess: () => {
           toast.success("Welcome to shirugame.", { id: loadId });
+          router.push("/auth/starter")
           setLoading(false);
         },
         onError: (ctx) => {
