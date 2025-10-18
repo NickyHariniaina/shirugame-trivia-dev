@@ -39,7 +39,7 @@ model Room {
   title      String     @unique
   winnerId   String?
   winner     User?      @relation("Winner", fields: [winnerId], references: [id])
-  questions  Question[] @relation("RoomQuestions") // nom de relation explicite
+  questions  Question[] @relation("RoomQuestions")
   players    User[]     @relation("RoomPlayers")
   startDate  DateTime   @default(now())
   openedById String
@@ -61,7 +61,7 @@ model Question {
 model Type {
   id        String     @id
   name      String     @unique
-  questions Question[] // inverse relation
+  questions Question[]
 }
 
 model Session {
