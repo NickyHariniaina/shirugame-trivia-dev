@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 const Page = () => {
   const [logged, setLogged] = useState<boolean>(false);
   const { data: session } = authClient.useSession();
-  const {setUserData, userData} = useUser();
+  const {fetchUserData, userData} = useUser();
   console.log(session);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const Page = () => {
     } else {
       setLogged(true);
       const userId = session.user.id;
-      setUserData(userId);
+      fetchUserData(userId);
     }
   }, [session]);
 

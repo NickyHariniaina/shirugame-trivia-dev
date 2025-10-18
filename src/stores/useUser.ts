@@ -5,16 +5,16 @@ type UserStore = {
   userData: User | null;
   userSession: Session | null;
   userAccount: Account | null;
-  setUserData: (id: string) => void;
-  setUserSession: (id: string) => void;
-  setUserAccount: (id: string) => void;
+  fetchUserData: (id: string) => void;
+  fetchUserSession: (id: string) => void;
+  fetchUserAccount: (id: string) => void;
 };
 
 export const useUser = create<UserStore>((set, get) => ({
   userData: null,
   userSession: null,
   userAccount: null,
-  setUserData: async (id: string) => {
+  fetchUserData: async (id: string) => {
     const url = `/api/users/${id}`;
     const response = await fetch(url, {
       method: "GET",
@@ -23,7 +23,7 @@ export const useUser = create<UserStore>((set, get) => ({
     console.log(data.data);
     set({ userData: data.data })
   },
-  setUserAccount: async (id: string) => {
+  fetchUserAccount: async (id: string) => {
     const url = `/api/users/${id}/account`;
     const response = await fetch(url, {
       method: "GET",
@@ -32,7 +32,7 @@ export const useUser = create<UserStore>((set, get) => ({
     console.log(data.data);
     set({ userAccount: data.data })
   },
-  setUserSession: async (id: string) => {
+  fetchUserSession: async (id: string) => {
     const url = `/api/users/${id}/session`;
     const response = await fetch(url, {
       method: "GET",
