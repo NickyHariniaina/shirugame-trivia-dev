@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import {  User } from "@/types/db";
+import { User } from "@/types/db";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -43,7 +43,7 @@ export const GET = async (
   }
 };
 
-export const POST = async (req: Request) => {
+export const PUT = async (req: Request) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -61,20 +61,23 @@ export const POST = async (req: Request) => {
 
   try {
     const dataReceived: User = await req.json();
+    const {
+      id,
+      sessions,
+      openedRooms,
+      wonRooms,
+      joinedRooms,
+      createdAt,
+      accounts,
+      ...dataToChange
+    } = dataReceived;
     await prisma.user.update({
       where: {
         id: session.user.id,
       },
       data: {
-        id: dataReceived.id,
-        name: dataReceived.name,
-        username: dataReceived.username,
-        rank: dataReceived.rank,
-        highestScore: dataReceived.highestScore,
-        email: dataReceived.email,
-        image: dataReceived.image,
-        updatedAt: dataReceived.updatedAt,
-      }
+        ...dataToChange,
+      },
     });
 
     return NextResponse.json(
