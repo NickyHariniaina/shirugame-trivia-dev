@@ -5,6 +5,7 @@ import { useState } from "react";
 type CCPropsType = {
   answer: string;
 };
+
 export function CustomCheckbox(props: CCPropsType) {
   const [checked, setChecked] = useState(false);
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { Spinner } from "../spinner";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../input";
@@ -28,7 +29,7 @@ export const WhoAmICard = (props: WhoAmICardProps) => {
       const { data: response } = await authClient.isUsernameAvailable({ username });
       if (response?.available) {
         await authClient.updateUser({ username });
-        router.push("/");
+        router.push("/auth/starter/first-room");
       } else {
         toast.error("Username already taken", { id: "username-taken" });
       }
@@ -49,7 +50,7 @@ export const WhoAmICard = (props: WhoAmICardProps) => {
       {errors.username && <p className="text-red-500">{errors.username.message}</p>}
 
       <Button type="submit" disabled={isSubmitting || loading}>
-        {loading ? <span className="animate-spin">.</span> : "Continue"}
+        {loading ? <Spinner /> : "Continue"}
       </Button>
     </form>
   );
