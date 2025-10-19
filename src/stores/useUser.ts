@@ -48,7 +48,7 @@ export const useUser = create<UserStore>((set, get) => ({
   setUserData: async (id: string, bodyReq: User) => {
     const url = `api/users/${id}`;
     await fetch(url, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-type": "application/json",
       },

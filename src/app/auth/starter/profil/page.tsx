@@ -2,7 +2,7 @@
 
 import { WhoAmICard } from "@/components/ui/starter-section/WhoAmICard";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const router = useRouter();

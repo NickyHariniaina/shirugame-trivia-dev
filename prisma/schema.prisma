@@ -28,6 +28,7 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  displayUsername String?
 
   openedRooms Room[] @relation("OpenedRooms")
   wonRooms    Room[] @relation("Winner")
