@@ -1,6 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { Button } from "./button";
+import { ArrowBigRightDash } from "lucide-react";
 
 export const StarterPage = () => {
   const router = useRouter();
@@ -14,7 +15,7 @@ export const StarterPage = () => {
         className="animate-bounce"
         onClick={() => router.push("/auth/starter/profil")}
       >
-        Continue
+        <ArrowBigRightDash />
       </Button>
     </div>
   );
