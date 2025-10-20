@@ -19,7 +19,7 @@ model User {
   id            String    @id
   name          String
   username      String?   @unique
-  rank          Int?      @default(0)
+  rank          Int?
   highestScore  Int?      @default(0)
   email         String    @unique
   emailVerified Boolean   @default(false)
@@ -28,6 +28,7 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  displayUsername String?
 
   openedRooms Room[] @relation("OpenedRooms")
   wonRooms    Room[] @relation("Winner")
@@ -39,7 +40,7 @@ model Room {
   title      String     @unique
   winnerId   String?
   winner     User?      @relation("Winner", fields: [winnerId], references: [id])
-  questions  Question[] @relation("RoomQuestions") // nom de relation explicite
+  questions  Question[] @relation("RoomQuestions")
   players    User[]     @relation("RoomPlayers")
   startDate  DateTime   @default(now())
   openedById String
@@ -61,7 +62,7 @@ model Question {
 model Type {
   id        String     @id
   name      String     @unique
-  questions Question[] // inverse relation
+  questions Question[]
 }
 
 model Session {

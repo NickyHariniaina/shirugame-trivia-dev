@@ -5,22 +5,55 @@ type UserStore = {
   userData: User | null;
   userSession: Session | null;
   userAccount: Account | null;
-  setUserData: (id: string) => void;
-  setUserSession: (id: string) => void;
-  setUserAccount: (id: string) => void;
+  fetchUserData: (id: string) => void;
+  fetchUserSession: (id: string) => void;
+  fetchUserAccount: (id: string) => void;
+  setUserData: (id: string, bodyReq: User) => void;
 };
 
 export const useUser = create<UserStore>((set, get) => ({
   userData: null,
   userSession: null,
   userAccount: null,
-  setUserData: async (id: string) => {
-    // TODO:
+  fetchUserData: async (id: string) => {
+    const url = `/api/users/${id}`;
+    const response = await fetch(url, {
+      method: "GET",
+    });
+    const data = await response.json();
+    console.log(data.data);
+    set({ userData: data.data });
   },
-  setUserAccount: async (id: string) => {
-    // TODO:
+
+  fetchUserAccount: async (id: string) => {
+    const url = `/api/users/${id}/account`;
+    const response = await fetch(url, {
+      method: "GET",
+    });
+    const data = await response.json();
+    console.log(data.data);
+    set({ userAccount: data.data });
   },
-  setUserSession: async (id: string) => {
-    // TODO:
+
+  fetchUserSession: async (id: string) => {
+    const url = `/api/users/${id}/session`;
+    const response = await fetch(url, {
+      method: "GET",
+    });
+    const data = await response.json();
+    console.log(data.data);
+    set({ userSession: data.data });
+  },
+
+  setUserData: async (id: string, bodyReq: User) => {
+    const url = `api/users/${id}`;
+    await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(bodyReq),
+    });
+    get().fetchUserData(id);
   },
 }));
