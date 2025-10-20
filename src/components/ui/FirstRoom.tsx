@@ -6,13 +6,14 @@ import { AddAndRemoveButton } from "./Button/AddAndRemoveButton";
 import { useState } from "react";
 import { Button } from "./button";
 import { Spinner } from "./spinner";
-
+import { useRouter } from "next/navigation";
 type FormValues = {
   title: string;
   startDate: Date;
 };
 
 export const FirstRoom = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -40,9 +41,10 @@ export const FirstRoom = () => {
           </div>
         </div>
         <div className="flex flex-row items-center gap-4">
-          <Button type="button" variant="outline">
+          <Button type="button" variant="outline" onClick={() => router.push("/")}>
             Cancel
           </Button>
+{/* TODO: later idk what but if you see this later, just do what you need to do */}
           <Button onClick={handleSubmit(
             (data: FormValues) => {
               setLoading(true);
