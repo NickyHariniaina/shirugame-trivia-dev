@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 type AvatarPropsType = {
-  src: string;
+  src: string | undefined;
   alt: string | undefined;
   size?: number;
   onClick?: () => void;
