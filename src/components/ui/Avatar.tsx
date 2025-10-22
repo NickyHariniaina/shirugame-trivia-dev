@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 
 type AvatarPropsType = {
-  src: string | undefined;
-  alt: string | undefined;
+  src: string ;
+  alt: string ;
   size?: number;
   onClick?: () => void;
 };
