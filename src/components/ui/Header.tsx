@@ -22,6 +22,7 @@ type HeaderPropsType = {
 };
 
 export const Header = (props: HeaderPropsType) => {
+  const session = authClient.useSession();
   const router = useRouter();
 
   const handleLogOut = async () => {
@@ -87,7 +88,7 @@ export const Header = (props: HeaderPropsType) => {
 
       {props.logged ? (
         <div className="flex flex-row items-center p-2 gap-2">
-          <Avatar src="" alt="Nicky" size={40} />
+          <Avatar src={session?.data?.user?.image} alt={session?.data?.user?.username} size={40} onClick={() => router.push("/setting/user/profil")}/>
           <Button
             variant="default"
             type="button"
@@ -121,4 +122,4 @@ export const Header = (props: HeaderPropsType) => {
       )}
     </div>
   );
-};
+}

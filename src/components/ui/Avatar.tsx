@@ -5,11 +5,12 @@ import { useState } from "react";
 
 type AvatarPropsType = {
   src: string;
-  alt?: string;
+  alt: string | undefined;
   size?: number;
+  onClick?: () => void;
 };
 
-export const Avatar = ({ src, alt = "avatar", size = 48 }: AvatarPropsType) => {
+export const Avatar = ({ src, alt = "avatar", size = 48, onClick }: AvatarPropsType) => {
   const [imgError, setImgError] = useState(false);
   const letter = alt.charAt(0).toUpperCase();
 
@@ -17,6 +18,7 @@ export const Avatar = ({ src, alt = "avatar", size = 48 }: AvatarPropsType) => {
     <div
       className="overflow-hidden rounded-full flex items-center justify-center border-1  m-4 text-black dark:text-white  font-bold"
       style={{ width: size, height: size }}
+      onClick={onClick}
     >
       {!imgError && src ? (
         <Image
