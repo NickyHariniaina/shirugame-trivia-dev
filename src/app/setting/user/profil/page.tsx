@@ -4,10 +4,9 @@ import { usePathname } from "next/navigation";
 import { Breadpath } from "@/components/ui/Breadpath";
 const Page = () => {
   const path = usePathname();
-  generatePath(path)
-  const formattedPath = "";
+  const [formattedPath, hrefPath] = generatePath(path);
   return <div>
-    <Breadpath path={formattedPath} />
+    <Breadpath path={formattedPath} hrefPath={hrefPath} />
   </div>
 }
 
