@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { Button } from "./button";
 
 type AvatarPropsType = {
   src: string ;
@@ -15,8 +16,8 @@ export const Avatar = ({ src, alt = "avatar", size = 48, onClick }: AvatarPropsT
   const letter = alt.charAt(0).toUpperCase();
 
   return (
-    <div
-      className="overflow-hidden rounded-full flex items-center justify-center border-1  m-4 text-black dark:text-white  font-bold"
+    <Button
+      className="overflow-hidden rounded-full flex items-center justify-center border-1   font-bold"
       style={{ width: size, height: size }}
       onClick={onClick}
     >
@@ -32,6 +33,6 @@ export const Avatar = ({ src, alt = "avatar", size = 48, onClick }: AvatarPropsT
       ) : (
         <span className="text-lg">{letter}</span>
       )}
-    </div>
+    </Button>
   );
 };

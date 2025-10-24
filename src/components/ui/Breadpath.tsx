@@ -1,3 +1,6 @@
+import { SlashIcon } from "lucide-react";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from "./breadcrumb";
+
 type BreadPathProps = {
   path: string[];
 };
@@ -6,10 +9,16 @@ type BreadPathProps = {
 // NOTE: here i should shrink with ... in case the path is too long.
 export const Breadpath = (props: BreadPathProps) => {
   return (
-    <div className="flex flex-row items-center gap-2">
-      {props.path.map((item, index) => (
-        <span key={index}>{item}</span>
-      ))}
-    </div>
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">Hello</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/">World</BreadcrumbLink>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
   );
 };
