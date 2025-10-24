@@ -17,6 +17,7 @@ export const Avatar = ({ src, alt = "avatar", size = 48, onClick }: AvatarPropsT
 
   return (
     <Button
+      variant="secondary"
       className="overflow-hidden rounded-full flex items-center justify-center border-1   font-bold"
       style={{ width: size, height: size }}
       onClick={onClick}
