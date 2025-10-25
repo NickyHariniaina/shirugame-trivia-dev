@@ -11,7 +11,7 @@ export const ProfilBody = () => {
   const session = authClient.useSession();
   const { userData, fetchUserData } = useUser();
 
-  const formattedRanking = formatRank(userData?.rank || 4);
+  const formattedRanking = formatRank(userData?.rank || 1);
   const [loading, setLoading] = useState(false);
   const image = userData?.image || "";
   const userId = session?.data?.user?.id || "";
