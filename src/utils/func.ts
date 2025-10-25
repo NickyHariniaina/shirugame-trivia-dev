@@ -21,3 +21,13 @@ export const formatRank = (rank: number) => {
     return stars;
   }
 }
+
+export const fetchImage = async (setImage: React.Dispatch<React.SetStateAction<string>>) => {
+  try {
+    const res = await fetch("/api/waifu");
+    const data = await res.json();
+    setImage(data[0].url);
+  } catch (error) {
+    console.log(error);
+  }
+}

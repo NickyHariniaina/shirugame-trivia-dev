@@ -23,14 +23,7 @@ export const Avatar = ({ src, alt = "avatar", size = 48, onClick }: AvatarPropsT
       onClick={onClick}
     >
       {!imgError && src ? (
-        <Image
-          src={src}
-          alt={alt}
-          width={size}
-          height={size}
-          className="object-cover"
-          onError={() => setImgError(true)}
-        />
+        <img src={src} alt={alt} width={size} height={size} className="object-cover" />
       ) : (
         <span className="text-lg">{letter}</span>
       )}
