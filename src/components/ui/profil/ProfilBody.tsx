@@ -6,6 +6,7 @@ import { formatRank, generateImage, initializeRank, setUserImage } from "@/utils
 import { Button } from "../button";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
+import { BadgeCheck } from "lucide-react";
 
 export const ProfilBody = () => {
   const session = authClient.useSession();
@@ -69,12 +70,18 @@ export const ProfilBody = () => {
       <Button variant="outline" onClick={regeneratePicture}>
         Re-generate profil pics
       </Button>
+      <div className="flex flex-row gap-2 items-center">
+
       <h2 className="text-2xl font-bold">@{session?.data?.user?.username}</h2>
+        {
+          userData?.emailVerified? <BadgeCheck className="text-green-500" /> : <Button className="text-xs h-6" variant="outline" onClick={verifyEmail}>Send email verification.</Button>
+        }
+      </div>
       <div>
         <p className="text-sm">Rank: {formattedRanking}</p>
         <p className="text-sm">High Score: {userData?.highestScore} pts</p>
       </div>
-      <Button variant="outline" onClick={reloadUserData}>Refresh or initialize</Button>
+      <Button variant="default" onClick={reloadUserData}>Refresh or initialize</Button>
     </div>
   );
 };
