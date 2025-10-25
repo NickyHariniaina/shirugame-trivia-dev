@@ -60,6 +60,17 @@ export const ProfilBody = () => {
   };
 
   const verifyEmail = async () => {
+    try {
+      await authClient.sendVerificationEmail({
+        email: userData?.email || "",
+        callbackURL: "/"
+      })
+      toast.success("Email sent successfully", { id: "email-sent" });
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while sending the email verification, please try again later", { id: "send-email-verification" });
+    }
+
   }
 
   return (
