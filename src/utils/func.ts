@@ -54,9 +54,12 @@ export const setUserImage = async (image: string | undefined, userId: string) =>
 
 export const initializeRank = async (userId: string) => {
   try {
-    const users = await prisma.user.findMany();
-    const userCount = users.length;
+    const usersRes = await fetch("/api/users");
+    const users = await usersRes.json();
+    console.log(users);
+    const userCount = users.data.length;
     const url = `/api/users/${userId}/rank`;
+    console.log(userCount);
     const res = await fetch(url, {
       method: "PATCH",
       headers: {

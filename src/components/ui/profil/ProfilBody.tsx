@@ -2,7 +2,7 @@
 import { useUser } from "@/stores/useUser";
 import { Avatar } from "../Avatar";
 import { authClient } from "@/lib/auth-client";
-import { formatRank, generateImage, setUserImage } from "@/utils/func";
+import { formatRank, generateImage, initializeRank, setUserImage } from "@/utils/func";
 import { Button } from "../button";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
@@ -16,6 +16,7 @@ export const ProfilBody = () => {
   const image = userData?.image || "";
   const userId = session?.data?.user?.id || "";
 
+
   useEffect(() => {
     if (userData) {
       setLoading(false);
@@ -26,6 +27,19 @@ export const ProfilBody = () => {
   }, [userData]);
 
   console.log(userData);
+
+
+  const reloadUserData = async () => {
+    if (!userData) {
+      return;
+    }
+    if (!userData.rank) {
+      await initializeRank(userId);
+      toast.success("Rank initialized successfully", { id: "initialize-rank" });
+    }
+    fetchUserData(userId);
+    toast.success("User data reloaded successfully", { id: "reload-user-data" });
+  }
 
   const regeneratePicture = async () => {
     try {
@@ -60,6 +74,7 @@ export const ProfilBody = () => {
         <p className="text-sm">Rank: {formattedRanking}</p>
         <p className="text-sm">High Score: {userData?.highestScore} pts</p>
       </div>
+      <Button variant="outline" onClick={reloadUserData}>Refresh or initialize</Button>
     </div>
   );
 };
