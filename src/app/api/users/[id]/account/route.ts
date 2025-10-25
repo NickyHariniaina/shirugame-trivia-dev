@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-export const GET = async () => {
+export const GET = async (_req: NextRequest, context: RouteContext<"/api/users/[id]/account">) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
