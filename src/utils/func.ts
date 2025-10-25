@@ -22,12 +22,30 @@ export const formatRank = (rank: number) => {
   }
 }
 
-export const fetchImage = async (setImage: React.Dispatch<React.SetStateAction<string>>) => {
+export const generateImage = async (setImage: React.Dispatch<React.SetStateAction<string>>) => {
   try {
     const res = await fetch("/api/waifu");
     const data = await res.json();
     console.log(data[0].url)
     setImage(data[0].url);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const setUserImage = async (image: string, userId: string) => {
+  try {
+    const res = await fetch(`/api/users/${userId}/image`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        image,
+      }),
+    });
+    const data = await res.json();
+    return data;
   } catch (error) {
     console.log(error);
   }
