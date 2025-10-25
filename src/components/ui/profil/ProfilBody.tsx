@@ -1,27 +1,61 @@
-"use client"
+"use client";
 import { useUser } from "@/stores/useUser";
-import { Avatar } from "../Avatar"
+import { Avatar } from "../Avatar";
 import { authClient } from "@/lib/auth-client";
-import {  formatRank } from "@/utils/func";
+import { formatRank, generateImage, setUserImage } from "@/utils/func";
+import { Button } from "../button";
+import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 export const ProfilBody = () => {
-
-
   const session = authClient.useSession();
-  const {userData} = useUser();
+  const { userData, fetchUserData } = useUser();
 
-  console.log(userData)
   const formattedRanking = formatRank(userData?.rank || 4);
+  const [loading, setLoading] = useState(false);
   const image = userData?.image || "";
-  console.log(image);
-  return <div className="flex flex-col gap-4 items-center">
-    <Avatar src={image} alt={session?.data?.user?.username || ""} size={200} />
-    <h2 className="text-2xl font-bold">@{session?.data?.user?.username}</h2>
-    <div>
+  const userId = session?.data?.user?.id || "";
 
-    <p className="text-sm">Rank: {formattedRanking }</p>
-      <p className="text-sm">High Score: { userData?.highestScore} pts</p>
+  useEffect(() => {
+    if (userData) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+      fetchUserData(userId);
+    }
+  }, [userData]);
+
+  console.log(userData);
+
+  const regeneratePicture = async () => {
+    try {
+      setLoading(true);
+      const image = await generateImage(userId);
+      await setUserImage(image, userId);
+      fetchUserData(userId);
+      setLoading(false);
+      toast.success("Picture regenerated successfully, it may need to reload the page...", { id: "regenerate-picture" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-4 items-center">
+      <Avatar
+        loading={loading}
+        src={image}
+        alt={session?.data?.user?.username || ""}
+        size={200}
+      />
+      <Button variant="outline" onClick={regeneratePicture}>
+        Re-generate profil pics
+      </Button>
+      <h2 className="text-2xl font-bold">@{session?.data?.user?.username}</h2>
+      <div>
+        <p className="text-sm">Rank: {formattedRanking}</p>
+        <p className="text-sm">High Score: {userData?.highestScore} pts</p>
+      </div>
     </div>
-
-  </div>
-}
+  );
+};

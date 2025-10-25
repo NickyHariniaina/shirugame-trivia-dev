@@ -22,17 +22,16 @@ export const formatRank = (rank: number) => {
   }
 }
 
-export const generateImage = async () => {
+export const generateImage = async (userId: string) => {
   try {
-    const res = await fetch("/api/waifu");
-    const data = await res.json();
-    return data[0].url;
+    const url = "https://api.dicebear.com/9.x/identicon/svg?scale=100&seed=" + userId;
+    return url as string;
   } catch (error) {
     console.log(error);
   }
 }
 
-export const setUserImage = async (image: string, userId: string) => {
+export const setUserImage = async (image: string | undefined, userId: string) => {
   try {
     const res = await fetch(`/api/users/${userId}/image`, {
       method: "PATCH",
