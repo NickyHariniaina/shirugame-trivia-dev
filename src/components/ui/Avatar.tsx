@@ -19,16 +19,21 @@ export const Avatar = ({ loading = false, src, alt = "avatar", size = 48, onClic
   return (
     <Button
       variant="secondary"
-      className="overflow-hidden rounded-full flex items-center justify-center border-1   font-bold"
+      className="overflow-hidden rounded-full flex items-center justify-center border font-bold p-0"
       style={{ width: size, height: size }}
       onClick={onClick}
     >
       {src && !loading ? (
-        <img src={src} alt={alt} width={size} height={size} className="object-cover" />
+        <img
+          src={src}
+          alt={alt}
+          className="w-full h-full object-cover object-center rounded-full"
+        />
       ) : !loading ? (
         <span className="text-lg">{letter}</span>
-      ): <Spinner />}
-
+      ) : (
+        <Spinner />
+      )}
     </Button>
   );
 };

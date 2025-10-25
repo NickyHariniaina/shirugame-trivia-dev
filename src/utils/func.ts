@@ -24,7 +24,7 @@ export const formatRank = (rank: number) => {
 
 export const generateImage = async (userId: string) => {
   try {
-    const url = "https://api.dicebear.com/9.x/identicon/svg?scale=100&seed=" + userId;
+    const url = "https://api.dicebear.com/9.x/fun-emoji/svg?scale=100&seed=" + userId;
     return url as string;
   } catch (error) {
     console.log(error);
