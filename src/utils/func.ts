@@ -22,12 +22,11 @@ export const formatRank = (rank: number) => {
   }
 }
 
-export const generateImage = async (setImage: React.Dispatch<React.SetStateAction<string>>) => {
+export const generateImage = async () => {
   try {
     const res = await fetch("/api/waifu");
     const data = await res.json();
-    console.log(data[0].url)
-    setImage(data[0].url);
+    return data[0].url;
   } catch (error) {
     console.log(error);
   }
