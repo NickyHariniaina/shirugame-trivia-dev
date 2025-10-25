@@ -9,6 +9,8 @@ import { formatRank } from "@/utils/func";
 // - Add separator later.
 
 export const ProfilBody = () => {
+
+
   const session = authClient.useSession();
   const {userData} = useUser();
   console.log(userData)
