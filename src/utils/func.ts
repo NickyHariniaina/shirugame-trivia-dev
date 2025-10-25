@@ -1,3 +1,5 @@
+import { prisma } from "@/lib/prisma";
+
 export const generatePath = (path: string) => {
   const formattedPath = path.split("/").slice(1);
   let currentPath = "";
@@ -48,3 +50,30 @@ export const setUserImage = async (image: string | undefined, userId: string) =>
     console.log(error);
   }
 }
+
+
+export const initializeRank = async (userId: string) => {
+  try {
+    const users = await prisma.user.findMany();
+    const userCount = users.length;
+    const url = `/api/users/${userId}/rank`;
+    const res = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        rank: userCount,
+      }),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+
+
