@@ -26,6 +26,7 @@ export const fetchImage = async (setImage: React.Dispatch<React.SetStateAction<s
   try {
     const res = await fetch("/api/waifu");
     const data = await res.json();
+    console.log(data[0].url)
     setImage(data[0].url);
   } catch (error) {
     console.log(error);
