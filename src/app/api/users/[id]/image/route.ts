@@ -1,34 +1,31 @@
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { User } from "@/types/db";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { updateUserProfile } from "@/services/user";
 
-export const GET = async (
-  _req: NextRequest,
-  context: RouteContext<"/api/users/[id]">,
-) => {
+export const PATCH = async (req: NextRequest, context: RouteContext<"/api/users/[id]/image">) => {
+
   const session = await auth.api.getSession({
     headers: await headers(),
-  });
+});
 
-  if (!session) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
+if (!session) {
+  return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+}
 
   try {
     const { id: userId } = await context.params;
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
+    const dataReceived = await req.json();
+    const image = dataReceived.image;
+    await updateUserProfile(userId, image);
 
     return NextResponse.json(
       {
-        data: user,
+        message: "User image updated successfully.",
       },
-      { status: 200 },
+      {
+        status: 200,
+      },
     );
   } catch (error) {
     console.log(error);
@@ -41,5 +38,4 @@ export const GET = async (
       },
     );
   }
-};
-
+}

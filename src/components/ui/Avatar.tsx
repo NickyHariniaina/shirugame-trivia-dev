@@ -2,36 +2,38 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { Button } from "./button";
+import { Spinner } from "./spinner";
 
 type AvatarPropsType = {
   src: string ;
   alt: string ;
   size?: number;
   onClick?: () => void;
+  loading?: boolean;
 };
 
-export const Avatar = ({ src, alt = "avatar", size = 48, onClick }: AvatarPropsType) => {
-  const [imgError, setImgError] = useState(false);
+export const Avatar = ({ loading = false, src, alt = "avatar", size = 48, onClick }: AvatarPropsType) => {
   const letter = alt.charAt(0).toUpperCase();
 
   return (
-    <div
-      className="overflow-hidden rounded-full flex items-center justify-center border-1  m-4 text-black dark:text-white  font-bold"
+    <Button
+      variant="secondary"
+      className="overflow-hidden rounded-full flex items-center justify-center border font-bold p-0"
       style={{ width: size, height: size }}
       onClick={onClick}
     >
-      {!imgError && src ? (
-        <Image
+      {src && !loading ? (
+        <img
           src={src}
           alt={alt}
-          width={size}
-          height={size}
-          className="object-cover"
-          onError={() => setImgError(true)}
+          className="w-full h-full object-cover object-center rounded-full"
         />
-      ) : (
+      ) : !loading ? (
         <span className="text-lg">{letter}</span>
+      ) : (
+        <Spinner />
       )}
-    </div>
+    </Button>
   );
 };

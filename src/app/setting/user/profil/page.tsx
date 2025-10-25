@@ -1,12 +1,14 @@
 "use client"
+import { generatePath } from "@/utils/func";
 import { usePathname } from "next/navigation";
 import { Breadpath } from "@/components/ui/Breadpath";
+import { ProfilBody } from "@/components/ui/profil/ProfilBody";
 const Page = () => {
   const path = usePathname();
-  const formattedPath = path.split("/").slice(1);
-
+  const [formattedPath, hrefPath] = generatePath(path);
   return <div>
-    <Breadpath path={formattedPath} />
+    <Breadpath path={formattedPath} hrefPath={hrefPath} />
+    <ProfilBody />
   </div>
 }
 

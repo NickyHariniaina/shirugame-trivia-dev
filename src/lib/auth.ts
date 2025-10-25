@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { username } from "better-auth/plugins";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
+import { sendEmail } from "@/utils/extern";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -25,8 +26,17 @@ export const auth = betterAuth({
   plugins: [
     username({
       usernameNormalization(username) {
-          return username.toLowerCase().trim().replaceAll(" ", "_");
+        return username.toLowerCase().trim().replaceAll(" ", "_");
       },
-    })
-  ]
+    }),
+  ],
+  emailVerification: {
+    sendVerificationEmail: async ({ user, url, token }, _request) => {
+      await sendEmail(
+        user.email,
+        "Verify your email",
+        `Please verify your email by clicking on the following link: ${url}?token=${token}`,
+      );
+    },
+  },
 });
