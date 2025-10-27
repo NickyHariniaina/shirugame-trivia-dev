@@ -31,7 +31,7 @@ export const auth = betterAuth({
     }),
   ],
   emailVerification: {
-    sendVerificationEmail: async ({ user, url, token }, _request) => {
+    sendVerificationEmail: async ({ user, url, token }, request) => {
       await sendEmail(
         user.email,
         "Verify your email",
@@ -39,16 +39,22 @@ export const auth = betterAuth({
       );
     },
   },
-user: {
-  changeEmail: {
-    enabled: true,
-    sendChangeEmailVerificationEmail: async ({ user, newEmail, url, token }, _request) => {
-      await sendEmail(
+  user: {
+    changeEmail: {
+      enabled: true,
+      sendChangeEmailVerification: async (
+        { user, newEmail, url, token },
+        request,
+      ) => {
+        await sendEmail(
           user.email,
-        "Approve email change",
-        "Click on the following link to approve your email change: " + url + "?token=" + token
-      );
-    }
-  }
-}
+          "Approve email change",
+          "Click on the following link to approve your email change: " +
+            url +
+            "?token=" +
+            token,
+        );
+      },
+    },
+  },
 });
