@@ -44,7 +44,7 @@ export const ProfilBody = () => {
 
   const regeneratePicture = async () => {
     try {
-      if (userData) {
+      if (userData?.image) {
         toast.error("You can't regenerate your picture if you have already set one", { id: "regenerate-picture" });
         return;
       }

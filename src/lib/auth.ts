@@ -39,4 +39,16 @@ export const auth = betterAuth({
       );
     },
   },
+user: {
+  changeEmail: {
+    enabled: true,
+    sendChangeEmailVerificationEmail: async ({ user, newEmail, url, token }, _request) => {
+      await sendEmail(
+          user.email,
+        "Approve email change",
+        "Click on the following link to approve your email change: " + url + "?token=" + token
+      );
+    }
+  }
+}
 });
