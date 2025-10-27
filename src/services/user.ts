@@ -29,3 +29,19 @@ export const updateUserRank = async (id: string, rank: number) => {
     console.log(error);
   }
 }
+
+export const updateHighScore = async (id: string, score: number) => {
+  try {
+    await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        highestScore: score,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+

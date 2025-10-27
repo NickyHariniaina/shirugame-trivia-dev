@@ -44,7 +44,7 @@ export const ProfilBody = () => {
 
   const regeneratePicture = async () => {
     try {
-      if (userData) {
+      if (userData?.image) {
         toast.error("You can't regenerate your picture if you have already set one", { id: "regenerate-picture" });
         return;
       }
@@ -93,7 +93,7 @@ export const ProfilBody = () => {
       </div>
       <div>
         <p className="text-sm">Rank: {formattedRanking}</p>
-        <p className="text-sm">High Score: {userData?.highestScore} pts</p>
+        <p className="text-sm">Score: {userData?.highestScore} pts</p>
       </div>
       <Button variant="default" onClick={reloadUserData}>Refresh or initialize</Button>
     </div>
