@@ -22,7 +22,7 @@ export const UserTable = ({ users }: UserTablePropsType) => {
         </TableHeader>
         <TableBody>
           {users.map((user) => (
-            <TableRow key={user.id} onClick={() => router.push(`/user/${user.username}`)}>
+            <TableRow key={user.id} onClick={() => router.push(`/user/${user.id}`)}>
               <TableCell>{user.rank}</TableCell>
               <TableCell className="flex flex-row gap-2 items-center"><Avatar src={user.image || ""} alt={user.username || ""} size={20} /><span className="text-sm">{user.username}</span></TableCell>
               <TableCell>{user.highestScore}</TableCell>
