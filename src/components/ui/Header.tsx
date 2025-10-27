@@ -39,6 +39,10 @@ export const Header = (props: HeaderPropsType) => {
     }
   };
 
+  const handleGoToLeaderboard = () => {
+    router.push("/leaderboard");
+  };
+
   return (
     <div className="flex flex-row justify-between items-center md:m-4 rounded-3xl hover:shadow-2xl dark:hover:shadow-blue-900 transition-all duration-200 ease-in-out">
       <div className="m-5 sm:flex hidden">
@@ -48,7 +52,7 @@ export const Header = (props: HeaderPropsType) => {
       {/* Desktop menu */}
       <ul className="hidden sm:flex flex-row items-center gap-3 p-1">
         <Button variant="ghost">Rooms</Button>
-        <Button variant="ghost">Ranks</Button>
+        <Button variant="ghost" onClick={handleGoToLeaderboard}>Leaderboard</Button>
         <Button variant="ghost">Settings</Button>
         <Button variant="ghost">Contact</Button>
       </ul>
@@ -68,7 +72,7 @@ export const Header = (props: HeaderPropsType) => {
             </SheetHeader>
             <ul className="flex flex-col gap-4 mt-8">
               <Button variant="ghost">Rooms</Button>
-              <Button variant="ghost">Ranks</Button>
+              <Button variant="ghost" onClick={handleGoToLeaderboard}>Leaderboard</Button>
               <Button variant="ghost">Settings</Button>
               <Button variant="ghost">Contact</Button>
               {props.logged ? (
