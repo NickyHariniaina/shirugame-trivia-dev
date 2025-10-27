@@ -6,9 +6,6 @@ import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-type ProfilSettingsPropsType = {
-  userId: string | undefined;
-};
 
 type FormValues = {
   username: string;
@@ -20,14 +17,6 @@ export const ProfilSettings = () => {
   let loadId: string | undefined;
   const { register, handleSubmit } = useForm<FormValues>();
   const { userData } = useUser();
-  const saveData = async (data: FormValues) => {
-    if (data.username) {
-      handleChangeUsername(data);
-    }
-    if (data.email) {
-      handleChangeEmail(data);
-    }
-  };
 
   const handleChangeEmail = async (data: FormValues) => {
     if (data.email) {
@@ -85,7 +74,7 @@ export const ProfilSettings = () => {
   };
 
   return (
-    <form className="flex flex-col gap-10 items-center">
+    <form className="my-5 flex flex-col gap-10 items-center">
       <div className="flex flex-col gap-6 justify-around items-center">
         <div className="flex flex-row gap-2 items-end">
           <div className="flex flex-col gap-2">
@@ -117,9 +106,6 @@ export const ProfilSettings = () => {
           </Button>
         </div>
       </div>
-      <Button onClick={handleSubmit(saveData)} disabled={loading}>
-        Update
-      </Button>
     </form>
   );
 };
