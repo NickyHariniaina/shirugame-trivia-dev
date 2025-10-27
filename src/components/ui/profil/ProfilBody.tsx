@@ -93,7 +93,7 @@ export const ProfilBody = () => {
       </div>
       <div>
         <p className="text-sm">Rank: {formattedRanking}</p>
-        <p className="text-sm">High Score: {userData?.highestScore} pts</p>
+        <p className="text-sm">Score: {userData?.highestScore} pts</p>
       </div>
       <Button variant="default" onClick={reloadUserData}>Refresh or initialize</Button>
     </div>

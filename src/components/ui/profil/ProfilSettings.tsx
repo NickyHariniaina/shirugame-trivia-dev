@@ -41,7 +41,9 @@ export const ProfilSettings = () => {
 
   const handleChangeUsername = async (data: FormValues) => {
     if (data.username) {
-      await authClient.updateUser({ username: data.username });
+      // TODO: format it in a better way
+      const verifiedUsername = data.username.replace(" ", "_");
+      await authClient.updateUser({ username: verifiedUsername });
       toast.success("Username updated successfully", {
         id: "username-updated",
       });
