@@ -76,7 +76,17 @@ export const initializeRank = async (userId: string) => {
   }
 }
 
-
+// TODO: A better critieria function that handle everything.
+export const getUsersWithCriteria = async (criteria: string) => {
+  try {
+    const url = `/api/users?criteria=${criteria}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 
