@@ -1,4 +1,7 @@
+"use client";
+import { useRouter } from "next/navigation";
 import { User } from "@/types/db";
+import { Avatar } from "../Avatar";
 import {  TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "../table";
 
 type UserTablePropsType = {
@@ -6,8 +9,9 @@ type UserTablePropsType = {
 };
 
 export const UserTable = ({ users }: UserTablePropsType) => {
+  const router = useRouter();
   return (
-    <div className="shadow-2xl dark:shadow-blue-900 max-w-full overflow-x-hidden border rounded-lg">
+    <div className="shadow-2xl dark:shadow-blue-700 max-w-full overflow-x-hidden border rounded-lg">
       <Table className="min-w-[400px] md:min-w-[600px] lg:min-w-[800px]">
         <TableHeader>
           <TableRow>
@@ -18,9 +22,9 @@ export const UserTable = ({ users }: UserTablePropsType) => {
         </TableHeader>
         <TableBody>
           {users.map((user) => (
-            <TableRow key={user.id}>
+            <TableRow key={user.id} onClick={() => router.push(`/user/${user.id}`)}>
               <TableCell>{user.rank}</TableCell>
-              <TableCell>{user.username}</TableCell>
+              <TableCell className="flex flex-row gap-2 items-center"><Avatar src={user.image || ""} alt={user.username || ""} size={20} /><span className="text-sm">{user.username}</span></TableCell>
               <TableCell>{user.highestScore}</TableCell>
             </TableRow>
           ))}
