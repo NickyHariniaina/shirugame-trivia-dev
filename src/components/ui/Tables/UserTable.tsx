@@ -2,7 +2,14 @@
 import { useRouter } from "next/navigation";
 import { User } from "@/types/db";
 import { Avatar } from "../Avatar";
-import {  TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "../table";
+import {
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+  Table,
+} from "../table";
 
 type UserTablePropsType = {
   users: User[];
@@ -22,9 +29,19 @@ export const UserTable = ({ users }: UserTablePropsType) => {
         </TableHeader>
         <TableBody>
           {users.map((user) => (
-            <TableRow key={user.id} onClick={() => router.push(`/user/${user.id}`)}>
+            <TableRow
+              key={user.id}
+              onClick={() => router.push(`/user/${user.id}`)}
+            >
               <TableCell>{user.rank}</TableCell>
-              <TableCell className="flex flex-row gap-2 items-center"><Avatar src={user.image || ""} alt={user.username || ""} size={20} /><span className="text-sm">{user.username}</span></TableCell>
+              <TableCell className="flex flex-row gap-2 items-center">
+                <Avatar
+                  src={user.image || ""}
+                  alt={user.username || ""}
+                  size={20}
+                />
+                <span className="text-sm">{user.username || user.email}</span>
+              </TableCell>
               <TableCell>{user.highestScore}</TableCell>
             </TableRow>
           ))}

@@ -34,12 +34,12 @@ export const ProfilBody = () => {
     if (!userData) {
       return;
     }
+    fetchUserData(userId);
+    toast.success("User data reloaded successfully", { id: "reload-user-data" });
     if (!userData.rank) {
       await initializeRank(userId);
       toast.success("Rank initialized successfully", { id: "initialize-rank" });
     }
-    fetchUserData(userId);
-    toast.success("User data reloaded successfully", { id: "reload-user-data" });
   }
 
   const regeneratePicture = async () => {
