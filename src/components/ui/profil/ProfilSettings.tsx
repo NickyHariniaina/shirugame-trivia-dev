@@ -44,6 +44,8 @@ export const ProfilSettings = () => {
       toast.error("Email is required", { id: "email-required" });
       setLoading(false);
     }
+
+    setLoading(false)
   };
 
   const handleChangeUsername = async (data: FormValues) => {
