@@ -31,12 +31,14 @@ export const GameList = () => {
   ]
   return <div className="flex flex-col gap-2">
     <h3>List of avalaible game:</h3>
-    <ul>
+    <ul className='flex flex-col gap-3'>
       {
         games.map((game, index) => {
-          return <li key={index}>
-            <p>{game.name}</p>
-            <p>{game.host}</p>
+          return <li key={index} className='border rounded p-3 flex gap-4 items-center justify-between'>
+            <div>
+              <p className='text-2xl'>{game.name}</p>
+              <p>{game.host}</p>
+            </div>
             <Button>Join</Button>
           </li>
         })
