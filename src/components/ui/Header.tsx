@@ -2,7 +2,6 @@
 
 import { authClient } from "@/lib/auth-client";
 import { Avatar } from "./Avatar";
-import { Badge } from "./badge";
 import { Button } from "./button";
 import { ModeToggle } from "./Button/DarkModeToogle";
 import {
@@ -14,7 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { BadgeCheckIcon, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type HeaderPropsType = {
