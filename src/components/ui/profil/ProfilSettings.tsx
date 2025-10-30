@@ -26,7 +26,7 @@ export const ProfilSettings = () => {
       const { error } = await authClient.changeEmail({
         newEmail: data.email,
       });
-
+      console.log("here")
       if (error) {
         toast.error(
           error.message || "Something went wrong while changing the email",
