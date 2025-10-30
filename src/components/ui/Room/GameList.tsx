@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "../button";
+import { RoomsNotFoundMessage } from "../NotFound/RoomsNotFoundMessage";
 import { ScrollArea } from "../scroll-area";
 import { useEffect, useState } from "react";
 import { RoomSearchBar } from "../SearchBar/RoomSearchBar";
@@ -31,9 +32,7 @@ export const GameList = () => {
       <ScrollArea className="flex flex-col gap-3 rounded-md border p-4 h-100">
         {!loading ? (
           rooms.length === 0 ? (
-            <div className="flex flex-col items-center justify-center">
-              <p>No rooms yet... come back later</p>
-            </div>
+            <RoomsNotFoundMessage />
           ) : (
             rooms.map((room, index) => {
               return (
