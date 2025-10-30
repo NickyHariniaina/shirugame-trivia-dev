@@ -59,19 +59,19 @@ export const ProfilBody = () => {
     }
   };
 
-  const verifyEmail = async () => {
-    try {
-      await authClient.sendVerificationEmail({
-        email: userData?.email || "",
-        callbackURL: "/"
-      })
-      toast.success("Email sent successfully", { id: "email-sent" });
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong while sending the email verification, please try again later", { id: "send-email-verification" });
-    }
-
-  }
+  // const verifyEmail = async () => {
+  //   try {
+  //     await authClient.sendVerificationEmail({
+  //       email: userData?.email || "",
+  //       callbackURL: "/"
+  //     })
+  //     toast.success("Email sent successfully", { id: "email-sent" });
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error("Something went wrong while sending the email verification, please try again later", { id: "send-email-verification" });
+  //   }
+  //
+  // }
 
   return (
     <div className="flex flex-col gap-4 items-center">
@@ -87,9 +87,9 @@ export const ProfilBody = () => {
       <div className="flex flex-row gap-2 items-center">
 
       <h2 className="text-2xl font-bold">@{session?.data?.user?.username}</h2>
-        {
-          userData?.emailVerified? <BadgeCheck className="text-green-500" /> : <Button className="text-xs h-6" variant="outline" onClick={verifyEmail}>Send email verification.</Button>
-        }
+        {/* { */}
+        {/*   userData?.emailVerified? <BadgeCheck className="text-green-500" /> : <Button className="text-xs h-6" variant="outline" onClick={verifyEmail}>Send email verification.</Button> */}
+        {/* } */}
       </div>
       <div>
         <p className="text-sm">Rank: {formattedRanking}</p>
