@@ -23,7 +23,7 @@ export const RoomSearchBar = (props: RoomSearchBarProps) => {
 
   return <div className="flex gap-2">
     <Input placeholder="Search for a game..." {...register("roomToSearch")} />
-    <Button variant="default" onClick={handleSubmit(onSubmit)}>
+    <Button variant="default" disabled={props.loading} onClick={handleSubmit(onSubmit)}>
       {props.loading ? <Spinner /> : "Search"}
     </Button>
   </div>
