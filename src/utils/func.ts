@@ -94,7 +94,8 @@ export const getQuestions = async (numberOfQuestion: number) => {
     const url = `/api/questions?numberOfQuestion=${numberOfQuestion}`;
     const res = await fetch(url);
     const data = await res.json();
-    return data;
+    console.log(data)
+    return data.data;
   } catch (error) {
     console.log(error);
   }
