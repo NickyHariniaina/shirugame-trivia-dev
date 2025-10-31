@@ -15,6 +15,7 @@ export const GET = async (req: NextRequest) => {
   try {
     const numberOfQuestionQueryNotFormatted=  req?.nextUrl?.searchParams?.get("numberOfQuestion") || "1";
     const numberOfQuestion = parseInt(numberOfQuestionQueryNotFormatted);
+
     const questions = await prisma.question.findMany({
       take: numberOfQuestion,
     });
