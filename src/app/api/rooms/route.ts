@@ -6,7 +6,13 @@ import { auth } from "@/lib/auth";
 
 export const GET = async () => {
   try {
-    const rooms = await prisma.room.findMany();
+    const rooms = await prisma.room.findMany({
+      include: {
+        openedBy: true,
+        players: true,
+        questions: true,
+      },
+    });
 
     return NextResponse.json({data: rooms});
 
