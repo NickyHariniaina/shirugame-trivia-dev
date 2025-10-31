@@ -16,11 +16,11 @@ export const GET = async (req: NextRequest) => {
     const numberOfQuestionQueryNotFormatted=  req?.nextUrl?.searchParams?.get("numberOfQuestion") || "1";
     const numberOfQuestion = parseInt(numberOfQuestionQueryNotFormatted);
 
-    const questions = await prisma.question.findMany({
-      take: numberOfQuestion,
-    });
-
-    console.log(questions);
+    const questions = await prisma.$queryRaw`
+      SELECT * FROM "Question"
+      ORDER BY RANDOM()
+      LIMIT ${numberOfQuestion}
+    `
 
     return NextResponse.json({ data: questions }, { status: 200});
   } catch (error) {
