@@ -8,6 +8,7 @@ import { Button } from "../button";
 import { QuestionDisplayer } from "../QA/QuestionDisplayer";
 import { Question } from "@/types/db";
 import toast from "react-hot-toast";
+import { getQuestions } from "@/utils/func";
 
 type FormValues = {
   title: string;
@@ -15,23 +16,26 @@ type FormValues = {
   numberOfQuestion: number;
 };
 
-
 export const RoomCreationBodyCard = () => {
-
   const [generatedQuestion, setGeneratedQuestion] = useState<Question[]>([]);
-
+  const [loading, setLoading] = useState(false);
   const [numberOfQuestion, setNumberOfQuestion] = useState(1);
-  const generateQuestions = async() => {
+  const generateQuestionsHandler = async () => {
     try {
+      setLoading(true);
       // TODO: Create this func later
-      const questions: Question[] = await generateQuestions(numberOfQuestion);
+      const questions: Question[] = await getQuestions(numberOfQuestion);
       setGeneratedQuestion(questions);
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong while generating questions, please try again later",
-        { id: "generate-questions" });
+      toast.error(
+        "Something went wrong while generating questions, please try again later",
+        { id: "generate-questions" },
+      );
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   const { register } = useForm<FormValues>();
   return (
@@ -49,8 +53,14 @@ export const RoomCreationBodyCard = () => {
               <div>{numberOfQuestion}</div>
               <AddAndRemoveButton setNumberOfQuestion={setNumberOfQuestion} />
             </div>
-            <Button variant="secondary" onClick={generateQuestions}>Generate questions</Button>
-            <QuestionDisplayer questions={generatedQuestion}/>
+            <Button
+              variant="secondary"
+              disabled={loading}
+              onClick={generateQuestionsHandler}
+            >
+              Generate questions
+            </Button>
+            <QuestionDisplayer loading={loading} questions={generatedQuestion} />
           </div>
         </div>
       </div>
