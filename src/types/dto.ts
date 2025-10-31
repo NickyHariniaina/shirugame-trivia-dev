@@ -1,4 +1,6 @@
+import { Question } from "./db";
+
 export type RoomDto = {
   title: string;
-  questions: string[];
+  questions: Question[];
 };
