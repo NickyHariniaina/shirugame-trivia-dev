@@ -1,3 +1,4 @@
+import { DateAndHourPicker } from "../DateAndHourPicker"
 import { Input } from "../input"
 
 export const RoomCreationBodyCard = () => {
@@ -6,7 +7,7 @@ export const RoomCreationBodyCard = () => {
       <div className='flex flex-col gap-2'>
         <Input placeholder='Choose a title for your room' type='text'/>
         <Input placeholder='Choose a description for your room' type='text'/>
-        <Input type='date'/>
+        <DateAndHourPicker/>
       </div>
     </div>
   </div>
