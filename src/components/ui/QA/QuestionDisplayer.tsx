@@ -13,18 +13,20 @@ export const QuestionDisplayer = (props: QuestionDisplayerProps) => {
   });
   // TODO: Add fallback for empty questions
   return (
-    <ScrollArea className="w-full flex flex-col items-center gap-3 rounded-md border p-4 h-40 justify-center">
-      {props.loading ? (
-        <Spinner />
-      ) : (
-        questions.map((question, index) => {
-          return (
-            <div key={index} className="flex flex-col gap-2">
-              <p className="py-4 border-y">{question}</p>
-            </div>
-          );
-        })
-      )}
-    </ScrollArea>
+<ScrollArea className="w-full h-40 rounded-md border p-4">
+  {props.loading ? (
+    <div className="flex h-full w-full items-center justify-center">
+      <Spinner />
+    </div>
+  ) : (
+    <div className="flex flex-col items-center gap-3">
+      {questions.map((question, index) => (
+        <div key={index} className="flex flex-col gap-2 w-full">
+          <p className="py-4 border-y">{question}</p>
+        </div>
+      ))}
+    </div>
+  )}
+</ScrollArea>
   );
 };
