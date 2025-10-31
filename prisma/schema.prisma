@@ -55,8 +55,8 @@ model Question {
   Score    Int
   Answer   String
 
-  roomId String
-  room   Room   @relation("RoomQuestions", fields: [roomId], references: [id])
+  roomId String?
+  room   Room?   @relation("RoomQuestions", fields: [roomId], references: [id])
 }
 
 model Type {

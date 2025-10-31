@@ -50,7 +50,7 @@ export const Header = (props: HeaderPropsType) => {
 
       {/* Desktop menu */}
       <ul className="hidden sm:flex flex-row items-center gap-3 p-1">
-        <Button variant="ghost">Rooms</Button>
+        <Button variant="ghost" onClick={() => router.push("/room")}>Rooms</Button>
         <Button variant="ghost" onClick={handleGoToLeaderboard}>Leaderboard</Button>
         <Button variant="ghost">Settings</Button>
         <Button variant="ghost">Contact</Button>
@@ -70,7 +70,7 @@ export const Header = (props: HeaderPropsType) => {
               <SheetDescription>v0.0.1</SheetDescription>
             </SheetHeader>
             <ul className="flex flex-col gap-4 mt-8">
-              <Button variant="ghost">Rooms</Button>
+              <Button variant="ghost" onClick={() => router.push("/room")}>Rooms</Button>
               <Button variant="ghost" onClick={handleGoToLeaderboard}>Leaderboard</Button>
               <Button variant="ghost">Settings</Button>
               <Button variant="ghost">Contact</Button>

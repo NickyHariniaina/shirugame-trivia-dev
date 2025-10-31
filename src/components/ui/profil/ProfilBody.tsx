@@ -6,7 +6,7 @@ import { formatRank, generateImage, initializeRank, setUserImage } from "@/utils
 import { Button } from "../button";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { BadgeCheck } from "lucide-react";
+// import { BadgeCheck } from "lucide-react";
 
 export const ProfilBody = () => {
   const session = authClient.useSession();

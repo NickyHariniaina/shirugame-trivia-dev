@@ -8,12 +8,12 @@ type BodyPropsType = {
   logged: boolean;
 };
 export const Body = (props: BodyPropsType) => {
-  
+
   const router = useRouter();
 
   const handleStart = () => {
     if (props.logged) {
-      router.push("/room") // Change it later 
+      router.push("/room/create")
     } else {
       router.push("/auth/sign-up");
     }
