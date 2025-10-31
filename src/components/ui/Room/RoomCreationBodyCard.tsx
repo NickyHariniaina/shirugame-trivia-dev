@@ -23,7 +23,6 @@ export const RoomCreationBodyCard = () => {
   const generateQuestionsHandler = async () => {
     try {
       setLoading(true);
-      // TODO: Create this func later
       const questions: Question[] = await getQuestions(numberOfQuestion);
       setGeneratedQuestion(questions);
     } catch (error) {
@@ -37,7 +36,20 @@ export const RoomCreationBodyCard = () => {
     }
   };
 
-  const { register } = useForm<FormValues>();
+  const { handleSubmit ,register } = useForm<FormValues>();
+
+  const createRoomHandler = async (data: FormValues) => {
+    try {
+      const newData = {questions: generatedQuestion ,...data}
+      console.log(newData)
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        "Something went wrong while creating room, please try again later",
+        { id: "create-room" },
+      );
+    }
+  };
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-4">
@@ -63,6 +75,7 @@ export const RoomCreationBodyCard = () => {
             <QuestionDisplayer loading={loading} questions={generatedQuestion} />
           </div>
         </div>
+        <Button variant='default' onClick={handleSubmit(createRoomHandler)} disabled={loading}>Create</Button>
       </div>
     </div>
   );
