@@ -51,7 +51,7 @@ export const RoomCreationBodyCard = () => {
     }
   };
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mx-5">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col items-center gap-4">
           <Input

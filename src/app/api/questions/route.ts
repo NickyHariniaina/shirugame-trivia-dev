@@ -20,6 +20,8 @@ export const GET = async (req: NextRequest) => {
       take: numberOfQuestion,
     });
 
+    console.log(questions);
+
     return NextResponse.json({ data: questions }, { status: 200});
   } catch (error) {
     return NextResponse.json(
