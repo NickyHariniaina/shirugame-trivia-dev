@@ -89,5 +89,13 @@ export const getUsersWithCriteria = async (criteria: string) => {
   }
 }
 
-
-
+export const getQuestions = async (numberOfQuestion: number) => {
+  try {
+    const url = `/api/questions?numberOfQuestion=${numberOfQuestion}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

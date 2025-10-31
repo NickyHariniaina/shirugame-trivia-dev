@@ -15,7 +15,7 @@ export const QuestionDisplayer = (props:  QuestionDisplayerProps) => {
     {
       questions.map((question, index) => {
         return <div key={index} className="flex flex-col gap-2">
-          <p className='py-4 border-y'>{}</p>
+          <p className='py-4 border-y'>{question}</p>
         </div>
       })
     }
