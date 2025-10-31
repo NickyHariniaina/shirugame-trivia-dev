@@ -48,7 +48,7 @@ export const RoomCreationBodyCard = () => {
             {...register("title")}
           />
           <div className="flex flex-col items-center justify-center gap-4">
-            <p>Number of players</p>
+            <p>Limit number of players</p>
             <div className="flex flex-row items-center gap-4">
               <div>{numberOfQuestion}</div>
               <AddAndRemoveButton setNumberOfQuestion={setNumberOfQuestion} />
