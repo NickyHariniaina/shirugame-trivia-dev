@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { User } from "@/types/db";
+import { RoomDto } from "@/types/dto";
 
 export const generatePath = (path: string) => {
   const formattedPath = path.split("/").slice(1);
@@ -96,6 +98,24 @@ export const getQuestions = async (numberOfQuestion: number) => {
     const data = await res.json();
     console.log(data)
     return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+export const createRoom = async (data: RoomDto) => {
+  try {
+    const url = `/api/rooms`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const dataRes = await res.json();
+    return dataRes;
   } catch (error) {
     console.log(error);
   }
