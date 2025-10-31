@@ -27,8 +27,8 @@ export const GameList = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <h3>List of avalaible room:</h3>
       <RoomSearchBar loading={loading} setSearchedRooms={setSearchedRooms} />
+      <h3>List of avalaible room:</h3>
       <ScrollArea className="flex flex-col gap-3 rounded-md border p-4 h-100">
         {!loading ? (
           rooms.length === 0 ? (
