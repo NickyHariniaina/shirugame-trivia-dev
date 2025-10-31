@@ -8,7 +8,7 @@ import { Button } from "../button";
 import { QuestionDisplayer } from "../QA/QuestionDisplayer";
 import { Question } from "@/types/db";
 import toast from "react-hot-toast";
-import { getQuestions } from "@/utils/func";
+import { createRoom, getQuestions } from "@/utils/func";
 
 type FormValues = {
   title: string;
@@ -38,16 +38,22 @@ export const RoomCreationBodyCard = () => {
 
   const { handleSubmit ,register } = useForm<FormValues>();
 
+
   const createRoomHandler = async (data: FormValues) => {
     try {
+      setLoading(true);
       const newData = {questions: generatedQuestion ,...data}
-      console.log(newData)
+      const res = await createRoom(newData);
+      console.log(res)
+      toast.success("Room created successfully", { id: "create-room" });
+      setLoading(false);
     } catch (error) {
       console.log(error);
       toast.error(
         "Something went wrong while creating room, please try again later",
         { id: "create-room" },
       );
+      setLoading(false);
     }
   };
   return (
@@ -75,7 +81,7 @@ export const RoomCreationBodyCard = () => {
             <QuestionDisplayer loading={loading} questions={generatedQuestion} />
           </div>
         </div>
-        <Button variant='default' onClick={handleSubmit(createRoomHandler)} disabled={loading}>Create</Button>
+        <Button disabled={loading} onClick={handleSubmit(createRoomHandler)} variant='default'>Create</Button>
       </div>
     </div>
   );
