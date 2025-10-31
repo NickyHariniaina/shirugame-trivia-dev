@@ -13,7 +13,7 @@ export const QuestionDisplayer = (props: QuestionDisplayerProps) => {
   });
   // TODO: Add fallback for empty questions
   return (
-    <ScrollArea className="flex flex-col w-[75%] gap-3 rounded-md border p-4 h-40">
+    <ScrollArea className="w-full flex flex-col items-center gap-3 rounded-md border p-4 h-40 justify-center">
       {props.loading ? (
         <Spinner />
       ) : (
