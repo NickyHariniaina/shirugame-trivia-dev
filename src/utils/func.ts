@@ -133,7 +133,15 @@ export function filterSearchRoom(initialData: Room[], queryString: string) {
   })
 }
 
-
+export const fetchRoomById = async (userId: string) => {
+  try {
+    const res = await fetch("/api/rooms/" + userId);
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 
 
