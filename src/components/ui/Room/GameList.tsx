@@ -6,8 +6,19 @@ import { useEffect, useState } from "react";
 import { RoomSearchBar } from "../SearchBar/RoomSearchBar";
 import { Spinner } from "../spinner";
 import { Room } from "@/types/db";
+import { Link2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 export const GameList = () => {
+  const handleCopyLink = async () => {
+    try {
+      // TODO: Create the copy to clipboard function later
+      toast.success('Link copied to clipboard successfully.', { id: "copyId"})
+    } catch (error) {
+      console.log(error)
+      toast.error('Error while copying the link, try again later...', { id: "errorCopyId" })
+    }
+  }
   const [rooms, setRooms] = useState<Room[]>([]);
 
   const [searchedRooms, setSearchedRooms] = useState<string>("");
@@ -45,6 +56,9 @@ export const GameList = () => {
                     <p>{room.openedBy.email}</p>
                   </div>
                   <Button>Join</Button>
+                  <Button onClick={handleCopyLink} variant="secondary">
+                    <Link2 />
+                  </Button>
                 </li>
               );
             })
