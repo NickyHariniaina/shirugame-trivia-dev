@@ -42,8 +42,7 @@ export const GameList = () => {
 
   useEffect(() => {
     fetchRooms();
-  }, []);
-  console.log(searchedRooms)
+  }, [searchedRooms]);
 
   return (
     <div className="flex flex-col gap-2">
