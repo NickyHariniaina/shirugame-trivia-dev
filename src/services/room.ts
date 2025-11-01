@@ -22,3 +22,13 @@ export const createRoom = async (data: RoomDto, userId: string) => {
     }
   })
 }
+
+export const getRoomById = async (roomId: string) => {
+  const room = await prisma.room.findUnique({
+    where: {
+      id: roomId
+    }
+  })
+
+  return room;
+}
