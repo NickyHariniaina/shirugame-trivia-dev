@@ -27,6 +27,12 @@ export const getRoomById = async (roomId: string) => {
   const room = await prisma.room.findUnique({
     where: {
       id: roomId
+    },
+    include : {
+      openedBy: true,
+      questions: true,
+      winner: true,
+      players: true,
     }
   })
 
