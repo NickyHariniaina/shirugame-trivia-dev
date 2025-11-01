@@ -8,6 +8,7 @@ import { Spinner } from "../spinner";
 import { Room } from "@/types/db";
 import { Link2 } from "lucide-react";
 import toast from "react-hot-toast";
+import { filterSearchRoom } from "@/utils/func";
 
 export const GameList = () => {
   const handleCopyLink = async () => {
@@ -28,13 +29,21 @@ export const GameList = () => {
     setLoading(true);
     const response = await fetch("/api/rooms");
     const data = await response.json();
-    setRooms(data.data);
+    let filteredData: Room[]
+    if (searchedRooms === "") {
+      filteredData = data.data
+    } else {
+      filteredData = filterSearchRoom(data.data, searchedRooms);
+    }
+
+    setRooms(filteredData);
     setLoading(false);
   };
 
   useEffect(() => {
     fetchRooms();
   }, []);
+  console.log(searchedRooms)
 
   return (
     <div className="flex flex-col gap-2">

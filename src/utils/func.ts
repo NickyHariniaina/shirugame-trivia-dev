@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { User } from "@/types/db";
+import { Room, User } from "@/types/db";
 import { RoomDto } from "@/types/dto";
+import React from "react";
 
 export const generatePath = (path: string) => {
   const formattedPath = path.split("/").slice(1);
@@ -120,3 +121,22 @@ export const createRoom = async (data: RoomDto) => {
     console.log(error);
   }
 }
+
+export const copyToClipboard = async () => {
+  // TODO: complete later
+}
+
+// TODO: Search how to do generics with arrowed function
+export function filterSearchRoom(initialData: Room[], queryString: string) {
+  return initialData.filter((room: Room) => {
+    return room.title.includes(queryString);
+  })
+}
+
+
+
+
+
+
+
+
