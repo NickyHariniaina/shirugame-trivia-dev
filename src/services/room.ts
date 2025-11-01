@@ -7,6 +7,7 @@ export const createRoom = async (data: RoomDto, userId: string) => {
     return { id: question.id };
   });
 
+  // FIXME: Replace the data.title as the id later. It should be something more secure
   await prisma.room.create({
     data: {
       id: data.title,

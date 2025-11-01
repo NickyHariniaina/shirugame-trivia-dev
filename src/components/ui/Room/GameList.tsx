@@ -9,8 +9,10 @@ import { Room } from "@/types/db";
 import { Link2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { filterSearchRoom } from "@/utils/func";
+import { useRouter } from "next/navigation";
 
 export const GameList = () => {
+  const router = useRouter()
   const handleCopyLink = async () => {
     try {
       // TODO: Create the copy to clipboard function later
@@ -58,6 +60,7 @@ export const GameList = () => {
                 <li
                   key={index}
                   className="border-y p-3 flex gap-4 items-center justify-between"
+                  onClick={() => {router.push(`/room/${room.id}`)}}
                 >
                   <div>
                     <p className="text-2xl">{room.title}</p>
