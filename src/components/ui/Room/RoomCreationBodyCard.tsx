@@ -36,15 +36,14 @@ export const RoomCreationBodyCard = () => {
     }
   };
 
-  const { handleSubmit ,register } = useForm<FormValues>();
-
+  const { handleSubmit, register } = useForm<FormValues>();
 
   const createRoomHandler = async (data: FormValues) => {
     try {
       setLoading(true);
-      const newData = {questions: generatedQuestion ,...data}
+      const newData = { questions: generatedQuestion, ...data };
       const res = await createRoom(newData);
-      console.log(res)
+      console.log(res);
       toast.success("Room created successfully", { id: "create-room" });
       setLoading(false);
     } catch (error) {
@@ -78,10 +77,19 @@ export const RoomCreationBodyCard = () => {
             >
               Generate questions
             </Button>
-            <QuestionDisplayer loading={loading} questions={generatedQuestion} />
+            <QuestionDisplayer
+              loading={loading}
+              questions={generatedQuestion}
+            />
           </div>
         </div>
-        <Button disabled={loading} onClick={handleSubmit(createRoomHandler)} variant='default'>Create</Button>
+        <Button
+          disabled={loading}
+          onClick={handleSubmit(createRoomHandler)}
+          variant="default"
+        >
+          Create
+        </Button>
       </div>
     </div>
   );

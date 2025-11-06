@@ -1,39 +1,40 @@
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getRoomById } from "@/services/room";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   _req: NextRequest,
-  context: RouteContext<"/api/users/[id]">,
+  context: RouteContext<"/api/rooms/[id]">,
 ) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      {
+        message: "Unauthorized",
+      },
+      {
+        status: 401,
+      },
+    );
   }
 
   try {
-    const { id: userId } = await context.params;
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
+    const { id: roomId } = await context.params;
+    const room = await getRoomById(roomId);
     return NextResponse.json(
       {
-        data: user,
+        data: room,
       },
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       {
-        message: "Internal Server Error",
+        message: "Internal Server Error" + error,
       },
       {
         status: 500,
@@ -41,4 +42,3 @@ export const GET = async (
     );
   }
 };
-
