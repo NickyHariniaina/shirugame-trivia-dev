@@ -143,6 +143,24 @@ export const fetchRoomById = async (userId: string) => {
   }
 }
 
+export const insertRoomPlayer = async (roomId: string, userId: string) => {
+  try {
+    const url = `/api/rooms/${roomId}/players`;
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+      }),
+    });
+    const data = await res.json();
+    return data
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 
