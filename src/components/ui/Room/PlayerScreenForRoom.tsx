@@ -14,7 +14,7 @@ export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
   return (
     <div className="flex flex-col gap-1 m-2 items-center p-2">
       <h2>About this session</h2>
-      <p>Title: "{props.room?.title}"</p>
+      <p>Title: {props.room?.title}</p>
       <div className="">
         Owner: {" "}
         <span

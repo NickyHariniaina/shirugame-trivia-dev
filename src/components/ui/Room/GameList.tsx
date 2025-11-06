@@ -12,16 +12,18 @@ import { filterSearchRoom } from "@/utils/func";
 import { useRouter } from "next/navigation";
 
 export const GameList = () => {
-  const router = useRouter()
+  const router = useRouter();
   const handleCopyLink = async () => {
     try {
       // TODO: Create the copy to clipboard function later
-      toast.success('Link copied to clipboard successfully.', { id: "copyId"})
+      toast.success("Link copied to clipboard successfully.", { id: "copyId" });
     } catch (error) {
-      console.log(error)
-      toast.error('Error while copying the link, try again later...', { id: "errorCopyId" })
+      console.log(error);
+      toast.error("Error while copying the link, try again later...", {
+        id: "errorCopyId",
+      });
     }
-  }
+  };
   const [rooms, setRooms] = useState<Room[]>([]);
 
   const [searchedRooms, setSearchedRooms] = useState<string>("");
@@ -31,9 +33,9 @@ export const GameList = () => {
     setLoading(true);
     const response = await fetch("/api/rooms");
     const data = await response.json();
-    let filteredData: Room[]
+    let filteredData: Room[];
     if (searchedRooms === "") {
-      filteredData = data.data
+      filteredData = data.data;
     } else {
       filteredData = filterSearchRoom(data.data, searchedRooms);
     }
@@ -47,7 +49,7 @@ export const GameList = () => {
   }, [searchedRooms]);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="px-4 flex flex-col gap-2">
       <RoomSearchBar loading={loading} setSearchedRooms={setSearchedRooms} />
       <h3>List of avalaible room:</h3>
       <ScrollArea className="flex flex-col gap-3 rounded-md border p-4 h-100">
@@ -60,7 +62,9 @@ export const GameList = () => {
                 <li
                   key={index}
                   className="border-y p-3 flex gap-4 items-center justify-between"
-                  onClick={() => {router.push(`/room/${room.id}`)}}
+                  onClick={() => {
+                    router.push(`/room/${room.id}`);
+                  }}
                 >
                   <div>
                     <p className="text-2xl">{room.title}</p>
