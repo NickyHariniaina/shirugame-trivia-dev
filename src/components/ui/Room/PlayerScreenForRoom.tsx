@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { insertRoomPlayer } from "@/utils/func";
 import { authClient } from "@/lib/auth-client";
+import { CircleX, RefreshCw } from "lucide-react";
 
 type PlayerScreenForRoomProps = {
   room: Room | undefined;
@@ -51,7 +52,7 @@ export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
   });
 
   return (
-    <div className="flex flex-col gap-1 m-2 items-start p-2">
+    <div className="flex flex-col gap-3 m-2 items-start p-2">
       <h2>About this session</h2>
       <p>Title: {props.room?.title}</p>
       <div className="">
@@ -66,7 +67,8 @@ export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
         </span>
       </div>
       <p>It contains {props.room?.questions.length} questions</p>
-      <p>Status: open</p>
+      <p className='flex flex-row gap-3 '>Status: {props.room?.winner? <CircleX />: <RefreshCw />}</p>
+      <p>Winner: {props.room?.winner?.email || "No winner yet"}</p>
       <div className='p-3'>
         List of players: <br />
         <PlayerList players={props.room?.players} />
