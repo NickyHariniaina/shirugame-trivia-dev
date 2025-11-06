@@ -1,15 +1,54 @@
 "use client";
 import { Room, User } from "@/types/db";
 import { useRouter } from "next/navigation";
-import { Avatar } from "../Avatar";
 import { Button } from "../button";
+import { PlayerList } from "./PlayerList";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
+import { insertRoomPlayer } from "@/utils/func";
+import { authClient } from "@/lib/auth-client";
 
 type PlayerScreenForRoomProps = {
   room: Room | undefined;
 };
 
 export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
+  const session = authClient.useSession();
   const router = useRouter();
+  const [ isUserInRoom, setIsUserInRoom ] = useState<boolean>(false);
+
+  const verifyUserInRoom = async () => {
+    const isUserInRoom = props.room?.players.find((player: User) => {
+      return player.id === session?.data?.user.id;
+    });
+
+    // The ternary operator is needed cause here we might have an undefined value for isUserInRoom
+    setIsUserInRoom(isUserInRoom? true: false);
+  }
+
+  const handleJoinRoom = () => {
+    try {
+      verifyUserInRoom();
+      if (isUserInRoom) {
+        toast.error("You are already in this room.", { id: "errorId" });
+        return
+      }
+      const res = insertRoomPlayer(props.room?.id || "", session?.data?.user.id || "");
+      toast.success("You joined the room successfully.", { id: "successId" });
+    } catch (error) {
+      console.log(error);
+      toast.error("Error while joining the room, try again later...", {
+        id: "errorId",
+      });
+    }
+
+  };
+
+
+  useEffect(() => {
+    verifyUserInRoom();
+  }, []);
+
 
   return (
     <div className="flex flex-col gap-1 m-2 items-center p-2">
@@ -30,19 +69,9 @@ export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
       <p>Status: open</p>
       <p className='p-3'>
         List of players: <br />
-        {props.room?.players.map((player: User) => {
-          return (
-            <span key={player.id}>
-              <Avatar
-                onClick={() => router.push("/user/" + player.id)}
-                src={player.image || ""}
-                alt={player.email}
-              />
-            </span>
-          );
-        })}
+        <PlayerList players={props.room?.players} />
       </p>
-      <Button>Join</Button>
+      <Button disabled={isUserInRoom} onClick={handleJoinRoom}>Join</Button>
     </div>
   );
 };
