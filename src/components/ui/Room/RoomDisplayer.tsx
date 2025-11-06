@@ -5,6 +5,8 @@ import { fetchRoomById } from "@/utils/func"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { PlayerScreenForRoom } from "./PlayerScreenForRoom"
+import { OwnerScreenForRoom } from "./OwnerScreenForRoom"
+import { useUser } from "@/stores/useUser"
 
 export const RoomDisplayer = () => {
   const [room, setRoom] = useState<Room>()
@@ -12,15 +14,18 @@ export const RoomDisplayer = () => {
   const roomId = params.roomId as string
   const {data: session} = authClient.useSession();
   const [isOwner, setIsOwner] = useState<boolean>();
-
+  const { userData } = useUser();
 
   const fetchRoom = async () => {
     const fetchedRoom: Room = await fetchRoomById(roomId)
     setRoom(fetchedRoom)
   }
 
+  console.log(userData?.id)
+  console.log(room?.openedBy.id)
   useEffect(() => {
-    if (session?.user.id == room?.openedBy.id) {
+    if (userData?.id == room?.openedBy.id) {
+      console.log("isOwner")
       setIsOwner(true);
     } else {
       setIsOwner(false);
@@ -28,10 +33,9 @@ export const RoomDisplayer = () => {
     fetchRoom()
   }, [])
 
-  console.log(room)
   return <div className='flex flex-col gap-2'>
     {
-      isOwner? <PlayerScreenForRoom room={room}/>: <PlayerScreenForRoom room={room}/>
+      isOwner? <OwnerScreenForRoom room={room}/>: <PlayerScreenForRoom room={room}/>
     }
   </div>
 }
