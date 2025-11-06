@@ -1,6 +1,5 @@
 import { User } from "@/types/db";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { Separator } from "../separator";
 
 type PlayerListProps = {
   players: User[] | undefined;

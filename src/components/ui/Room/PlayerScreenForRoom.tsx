@@ -34,6 +34,7 @@ export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
         return
       }
       const res = insertRoomPlayer(props.room?.id || "", session?.data?.user.id || "");
+      console.log(res);
       toast.success("You joined the room successfully.", { id: "successId" });
     } catch (error) {
       console.log(error);
@@ -47,8 +48,7 @@ export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
 
   useEffect(() => {
     verifyUserInRoom();
-  }, []);
-
+  });
 
   return (
     <div className="flex flex-col gap-1 m-2 items-center p-2">
@@ -67,10 +67,10 @@ export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
       </div>
       <p>It contains {props.room?.questions.length} questions</p>
       <p>Status: open</p>
-      <p className='p-3'>
+      <div className='p-3'>
         List of players: <br />
         <PlayerList players={props.room?.players} />
-      </p>
+      </div>
       <Button disabled={isUserInRoom} onClick={handleJoinRoom}>Join</Button>
     </div>
   );
