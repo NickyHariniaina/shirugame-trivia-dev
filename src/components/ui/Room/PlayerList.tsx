@@ -11,7 +11,7 @@ export const PlayerList = (props: PlayerListProps) => {
       {props.players?.map((player: User, index: number) => {
         return (
           <div key={index} className="flex gap-2 items-center">
-            <p className='border-y py-2'>{player.username}</p>
+            <p className='border-y py-2 w-[100%]'>{player.username}</p>
           </div>
         );
       })}

@@ -51,7 +51,7 @@ export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
   });
 
   return (
-    <div className="flex flex-col gap-1 m-2 items-center p-2">
+    <div className="flex flex-col gap-1 m-2 items-start p-2">
       <h2>About this session</h2>
       <p>Title: {props.room?.title}</p>
       <div className="">
@@ -71,7 +71,7 @@ export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
         List of players: <br />
         <PlayerList players={props.room?.players} />
       </div>
-      <Button disabled={isUserInRoom} onClick={handleJoinRoom}>Join</Button>
+      <Button disabled={isUserInRoom} onClick={handleJoinRoom} className='w-[100%]'>Join</Button>
     </div>
   );
 };
