@@ -1,7 +1,5 @@
-import { prisma } from "@/lib/prisma";
-import { Room, User } from "@/types/db";
+import { Room } from "@/types/db";
 import { RoomDto } from "@/types/dto";
-import React from "react";
 
 export const generatePath = (path: string) => {
   const formattedPath = path.split("/").slice(1);
@@ -162,6 +160,16 @@ export const insertRoomPlayer = async (roomId: string, userId: string) => {
   }
 }
 
+export const fetchMissingField = async (userId: string) => {
+  try {
+    const url = `/api/users/${userId}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 

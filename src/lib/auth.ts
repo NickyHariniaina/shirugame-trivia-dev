@@ -6,7 +6,11 @@ import { sendEmail } from "@/utils/extern";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: "postgresql" }),
-  emailAndPassword: { enabled: true, minPasswordLength: 8, maxPasswordLength: 20 },
+  emailAndPassword: {
+    enabled: true,
+    minPasswordLength: 8,
+    maxPasswordLength: 20,
+  },
   socialProviders: {
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -47,6 +51,17 @@ export const auth = betterAuth({
     },
   },
   user: {
+    additionalFields: {
+      rank: {
+        type: "number",
+        required: false,
+      },
+      highestScore: {
+        type: "number",
+        required: false,
+        defaultValue: 0,
+      },
+    },
     changeEmail: {
       enabled: true,
       sendChangeEmailVerification: async ({ user, newEmail, url }) => {

@@ -1,12 +1,13 @@
 export type User = {
   id: string;
   name: string;
-  username?: string;
+  username?: string | null | undefined;
   rank?: number;
   highestScore?: number;
   email: string;
   emailVerified: boolean;
-  image?: string;
+  displayUsername?: string | null | undefined;
+  image?: string | null | undefined;
   createdAt: Date;
   updatedAt: Date;
   sessions: Session[];
