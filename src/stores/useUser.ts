@@ -11,18 +11,12 @@ type UserStore = {
 export const useUser = create<UserStore>((set) => ({
   userData: null,
   setUserData: async (userData: UserDto | undefined) => {
-    if (!userData) {
-      throw new Error();
-    }
+    if (!userData) throw new Error("No user data");
+
     const userId = userData.id;
     const realUserData = await fetchMissingField(userId);
-    console.log(realUserData);
     const user = {
-      sessions: realUserData.sessions,
-      accounts: realUserData.accounts,
-      openedRooms: realUserData.openedRooms,
-      wonRooms: realUserData.wonRooms,
-      joinedRooms: realUserData.joinedRooms,
+      ...realUserData,
       ...userData,
     };
     set({ userData: user });
