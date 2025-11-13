@@ -1,7 +1,5 @@
-import { prisma } from "@/lib/prisma";
-import { Room, User } from "@/types/db";
+import { Room } from "@/types/db";
 import { RoomDto } from "@/types/dto";
-import React from "react";
 
 export const generatePath = (path: string) => {
   const formattedPath = path.split("/").slice(1);

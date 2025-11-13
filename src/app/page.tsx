@@ -19,7 +19,7 @@ const Page = () => {
       setLogged(true);
       setUserData(session?.user);
     }
-  }, [session]);
+  }, [session, setUserData]);
 
   console.log(userData);
   return (
