@@ -162,6 +162,16 @@ export const insertRoomPlayer = async (roomId: string, userId: string) => {
   }
 }
 
+export const fetchMissingField = async (userId: string) => {
+  try {
+    const url = `/api/users/${userId}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 
