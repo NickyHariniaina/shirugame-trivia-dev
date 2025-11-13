@@ -21,6 +21,13 @@ export const GET = async (
       where: {
         id: userId,
       },
+      include: {
+        accounts: true,
+        sessions: true,
+        openedRooms: true,
+        wonRooms: true,
+        joinedRooms: true,
+      },
     });
 
     return NextResponse.json(
