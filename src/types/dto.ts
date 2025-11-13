@@ -8,13 +8,12 @@ export type RoomDto = {
 // I created this one for BetterAuth
 export type UserDto = {
   id: string;
-  name: string;
-  username?: string;
-  rank?: number;
-  highestScore?: number;
-  email: string;
-  emailVerified: boolean;
-  image?: string;
   createdAt: Date;
   updatedAt: Date;
+  email: string;
+  emailVerified: boolean;
+  name: string;
+  image?: string | null | undefined;
+  username?: string | null | undefined;
+  displayUsername?: string | null | undefined;
 };

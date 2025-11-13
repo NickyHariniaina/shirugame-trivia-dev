@@ -6,16 +6,23 @@ import { formatRank, generateImage, initializeRank, setUserImage } from "@/utils
 import { Button } from "../button";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-// import { BadgeCheck } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export const ProfilBody = () => {
-  const session = authClient.useSession();
-  const { userData, fetchUserData } = useUser();
+  const {data: session} = authClient.useSession();
+  const { userData, setUserData } = useUser();
+  const router = useRouter();
 
   const formattedRanking = formatRank(userData?.rank || 1);
   const [loading, setLoading] = useState(false);
+
+  if (!session) {
+    router.push("/auth/sign-in");
+  }
+
   const image = userData?.image || "";
-  const userId = session?.data?.user?.id || "";
+  const userId = session?.user?.id || "";
+
 
 
   useEffect(() => {
@@ -23,7 +30,7 @@ export const ProfilBody = () => {
       setLoading(false);
     } else {
       setLoading(true);
-      fetchUserData(userId);
+      setUserData(session?.user);
     }
   }, [userData]);
 
@@ -34,7 +41,8 @@ export const ProfilBody = () => {
     if (!userData) {
       return;
     }
-    fetchUserData(userId);
+    const { data: session } = authClient.useSession();
+    setUserData(session?.user);
     toast.success("User data reloaded successfully", { id: "reload-user-data" });
     if (!userData.rank) {
       await initializeRank(userId);
@@ -51,7 +59,8 @@ export const ProfilBody = () => {
       setLoading(true);
       const image = await generateImage(userId);
       await setUserImage(image, userId);
-      fetchUserData(userId);
+      const {data: session} = authClient.useSession();
+      setUserData(session?.user);
       setLoading(false);
       toast.success("Picture regenerated successfully, it may need to reload the page...", { id: "regenerate-picture" });
     } catch (error) {
@@ -78,7 +87,7 @@ export const ProfilBody = () => {
       <Avatar
         loading={loading}
         src={image}
-        alt={session?.data?.user?.username || ""}
+        alt={session?.user?.username || ""}
         size={200}
       />
       <Button variant="outline" onClick={regeneratePicture}>
@@ -86,10 +95,7 @@ export const ProfilBody = () => {
       </Button>
       <div className="flex flex-row gap-2 items-center">
 
-      <h2 className="text-2xl font-bold">@{session?.data?.user?.username}</h2>
-        {/* { */}
-        {/*   userData?.emailVerified? <BadgeCheck className="text-green-500" /> : <Button className="text-xs h-6" variant="outline" onClick={verifyEmail}>Send email verification.</Button> */}
-        {/* } */}
+      <h2 className="text-2xl font-bold">@{session?.user?.username}</h2>
       </div>
       <div>
         <p className="text-sm">Rank: {formattedRanking}</p>
