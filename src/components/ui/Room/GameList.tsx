@@ -61,7 +61,7 @@ export const GameList = () => {
               return (
                 <li
                   key={index}
-                  className="border-y p-3 flex gap-4 items-center justify-between"
+                  className="border-y p-3 flex gap-4 items-center justify-between hover:cursor-pointer"
                   onClick={() => {
                     router.push(`/room/${room.id}`);
                   }}

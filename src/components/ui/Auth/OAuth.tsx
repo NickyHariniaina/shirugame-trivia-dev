@@ -11,7 +11,7 @@ export const OAuth = () => {
   const setLoading = useUser((state) => state.setLoading);
   const loading = useUser((state) => state.loading);
   const handleGoogleSign = async () => {
-    console.log(loading)
+    setLoading(true);
     const data = await authClient.signIn.social({
       provider: "google",
     });
@@ -48,7 +48,7 @@ export const OAuth = () => {
                    dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
         onClick={handleGithubSign}
       >
-        <FaGithub /> Continue with GitHub
+        { loading ? ( <Spinner /> ) : ( <FaGithub /> )} Continue with GitHub
       </Button>
     </div>
   );
