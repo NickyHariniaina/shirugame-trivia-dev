@@ -84,7 +84,7 @@ export const ProfilSettings = () => {
             <Input
               type="text"
               {...register("username")}
-              placeholder={userData?.username}
+              placeholder={userData?.username || "Your username here"}
             />
           </div>
           <Button
