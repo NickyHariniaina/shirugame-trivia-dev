@@ -19,7 +19,7 @@ export const Avatar = ({ loading = false, src, alt = "avatar", size = 48, onClic
   return (
     <Button
       variant="secondary"
-      className="overflow-hidden rounded-full flex items-center justify-center border font-bold p-0"
+      className="overflow-hidden rounded-full flex items-center justify-center border font-bold p-0 hover:cursor-pointer"
       style={{ width: size, height: size }}
       onClick={onClick}
     >
