@@ -1,5 +1,4 @@
 "use client";
-
 import { authClient } from "@/lib/auth-client";
 import { Avatar } from "./Avatar";
 import { Button } from "./button";
@@ -15,17 +14,22 @@ import {
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/stores/useUser";
+import { Spinner } from "./spinner";
 
 type HeaderPropsType = {
   logged: boolean | undefined;
 };
 
 export const Header = (props: HeaderPropsType) => {
+  const loading = useUser((state) => state.loading);
+  const setLoading = useUser((state) => state.setLoading);
   const session = authClient.useSession();
   const router = useRouter();
 
   const handleLogOut = async () => {
     try {
+      setLoading(true);
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
@@ -35,6 +39,8 @@ export const Header = (props: HeaderPropsType) => {
       });
     } catch (error) {
       console.log("There is an error while logging out.", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,7 +82,7 @@ export const Header = (props: HeaderPropsType) => {
               <Button variant="ghost">Contact</Button>
               {props.logged ? (
                 <Button variant="ghost" type="button" onClick={handleLogOut}>
-                  Log out
+                  { loading ? <Spinner /> : "Log out" }
                 </Button>
               ) : null}
             </ul>
