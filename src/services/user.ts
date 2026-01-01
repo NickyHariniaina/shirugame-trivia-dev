@@ -15,7 +15,7 @@ export const updateUserProfile = async (id: string, url: string) => {
   }
 };
 
-export const updateUserRank = async (id: string, rank: number) => {
+export const updateUserRank = async () => {
   try {
     // A special query for updating global rank.
     await prisma.$executeRaw`

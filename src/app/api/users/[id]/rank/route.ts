@@ -16,7 +16,7 @@ if (!session) {
     const { id: userId } = await context.params;
     const dataReceived = await req.json();
     const rank = dataReceived.rank;
-    await updateUserRank(userId, rank);
+    await updateUserRank();
 
     return NextResponse.json(
       {
