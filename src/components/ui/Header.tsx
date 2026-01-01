@@ -59,7 +59,7 @@ export const Header = (props: HeaderPropsType) => {
         <Button variant="ghost" onClick={() => router.push("/room")}>Rooms</Button>
         <Button variant="ghost" onClick={handleGoToLeaderboard}>Leaderboard</Button>
         <Button variant="ghost">Settings</Button>
-        <Button variant="ghost">Contact</Button>
+        <Button variant="ghost" onClick={() => router.push("/contact")}>Contact</Button>
       </ul>
 
       {/* Mobile hamburger */}
@@ -79,7 +79,7 @@ export const Header = (props: HeaderPropsType) => {
               <Button variant="ghost" onClick={() => router.push("/room")}>Rooms</Button>
               <Button variant="ghost" onClick={handleGoToLeaderboard}>Leaderboard</Button>
               <Button variant="ghost">Settings</Button>
-              <Button variant="ghost">Contact</Button>
+              <Button variant="ghost" onClick={() => router.push("/contact")}>Contact</Button>
               {props.logged ? (
                 <Button variant="ghost" type="button" onClick={handleLogOut}>
                   { loading ? <Spinner /> : "Log out" }
