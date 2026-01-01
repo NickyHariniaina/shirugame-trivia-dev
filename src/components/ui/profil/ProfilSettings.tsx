@@ -103,7 +103,7 @@ export const ProfilSettings = () => {
               {...register("email")}
             />
           </div>
-          <Button disabled={loading} onClick={handleSubmit(handleChangeEmail)}>
+          <Button disabled={loading} onClick={() => toast.error("Email change is not avalaible... Please contact the dev team if it's urgent", { id: "email-change-disabled" })}>
             Change
           </Button>
         </div>

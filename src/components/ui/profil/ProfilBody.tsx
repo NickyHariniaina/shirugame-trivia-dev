@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { useReloadUserData } from "@/hooks/useReloadUserData";
 
 export const ProfilBody = () => {
-    const { reloadUserData } = useReloadUserData();
   const {data: session} = authClient.useSession();
   const { userData, setUserData } = useUser();
   const router = useRouter();
@@ -19,10 +18,10 @@ export const ProfilBody = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!userData) {
+    if (session?.user == null) {
       router.push("/auth/sign-in");
     }
-  }, [userData, router]);
+  }, [router, session]);
 
   const image = userData?.image || "";
   const userId = session?.user?.id || "";
@@ -74,6 +73,7 @@ export const ProfilBody = () => {
   //
   // }
 
+  const { reloadUserData } = useReloadUserData();
   return (
     <div className="flex flex-col gap-4 items-center">
       <Avatar

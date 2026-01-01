@@ -15,9 +15,13 @@ const Page = () => {
   const router = useRouter();
   const { data: session } = authClient.useSession();
 
-  if (!session) {
-    router.push("/auth/sign-in");
-  }
+  // useEffect(() => {
+  //   if (!session) {
+  //     router.push("/auth/sign-in");
+  //   } else {
+  //     setUserData(session.user);
+  //   }
+  // }, [session, router, setUserData]);
 
   useEffect(() => {
     setUserData(session?.user)
