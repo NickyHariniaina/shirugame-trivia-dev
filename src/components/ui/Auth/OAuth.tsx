@@ -8,28 +8,29 @@ import { useUser } from "@/stores/useUser";
 import { Spinner } from "../spinner";
 
 export const OAuth = () => {
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [githubLoading, setGithubLoading] = useState(false);
   const setLoading = useUser((state) => state.setLoading);
-  const loading = useUser((state) => state.loading);
   const handleGoogleSign = async () => {
-    setLoading(true);
+    setGoogleLoading(true)
     const data = await authClient.signIn.social({
       provider: "google",
     });
     if (data) {
       toast.success("Redirecting to Google...");
     }
-    setLoading(false);
+    setGoogleLoading(false)
   };
 
   const handleGithubSign = async () => {
-    setLoading(true);
+    setGithubLoading(true)
     const data = await authClient.signIn.social({
       provider: "github",
     });
     if (data) {
       toast.success("Redirecting to GitHub...");
     }
-    setLoading(false);
+    setGithubLoading(false)
   };
 
   return (
@@ -40,7 +41,7 @@ export const OAuth = () => {
                    dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
         onClick={handleGoogleSign}
       >
-        { loading ? ( <Spinner /> ) : ( <FcGoogle /> )} Continue with Google
+        { googleLoading ? ( <Spinner /> ) : ( <FcGoogle /> )} Continue with Google
       </Button>
       <Button
         className="flex items-center gap-2
@@ -48,7 +49,7 @@ export const OAuth = () => {
                    dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
         onClick={handleGithubSign}
       >
-        { loading ? ( <Spinner /> ) : ( <FaGithub /> )} Continue with GitHub
+        { githubLoading ? ( <Spinner /> ) : ( <FaGithub /> )} Continue with GitHub
       </Button>
     </div>
   );
