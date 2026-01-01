@@ -2,6 +2,7 @@
 import { StepBack } from "lucide-react";
 import { Button } from "../button";
 import { useRouter } from "next/navigation";
+import { ModeToggle } from "../Button/DarkModeToogle";
 
 export const LeaderboardHeader = () => {
   const router = useRouter();
@@ -9,6 +10,7 @@ export const LeaderboardHeader = () => {
     <div className="m-4 md:m-5 flex flex-row items-center justify-center gap-3 md:gap-5">
       <Button onClick={() => router.push("/")} variant="ghost" className="p-2 md:p-3">
         <StepBack className="w-5 h-5 md:w-6 md:h-6" />
+        <ModeToggle />
       </Button>
       <h1 className="text-3xl sm:text-4xl md:text-6xl text-center">
         Shirugame
