@@ -5,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useUser } from "@/stores/useUser";
+import { useState } from "react";
 import { Spinner } from "../spinner";
 
 export const OAuth = () => {
