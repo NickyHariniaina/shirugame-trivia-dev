@@ -2,6 +2,7 @@
 import { getUsersWithCriteria } from "@/utils/func";
 import { User } from "@/types/db";
 import { useState, useEffect } from "react";
+import { Button } from "../button";
 import { Spinner } from "../spinner";
 import { UserTable } from "../Tables/UserTable";
 
@@ -19,6 +20,7 @@ export const LeaderboardBody = () => {
 
   console.log(users);
   return <div className="flex flex-col gap-5 items-center justify-center m-4">
+    <Button variant="secondary">Refresh leaderboard</Button>
     {users.length === 0 ? <Spinner /> : <UserTable users={users} />}
   </div>;
 };
