@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useReloadUserData } from "@/hooks/useReloadUserData";
 import { YouNeedAnAccount } from "../ChoreComponent/YouNeedAnAccount";
+import { useLogged } from "@/stores/useLogged";
 
 export const ProfilBody = () => {
   const {data: session} = authClient.useSession();
@@ -18,6 +19,7 @@ export const ProfilBody = () => {
 
   const formattedRanking = formatRank(userData?.rank || 1);
   const [loading, setLoading] = useState(false);
+  const { reloadUserData } = useReloadUserData();
 
   useEffect(() => {
     if (session?.user == null) {
@@ -37,9 +39,11 @@ export const ProfilBody = () => {
       setLoading(false);
     } else {
       setLoading(true);
-      setUserData(session?.user);
+      if (session?.user) {
+        setUserData(session?.user);
+      }
     }
-  }, [userData]);
+  }, [userData, session]);
 
   console.log(userData);
 
@@ -78,7 +82,6 @@ export const ProfilBody = () => {
   //
   // }
 
-  const { reloadUserData } = useReloadUserData();
   return (
     <div className="flex flex-col gap-4 items-center">
       <Avatar
