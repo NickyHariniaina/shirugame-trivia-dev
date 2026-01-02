@@ -2,11 +2,13 @@ import { Spinner } from "@/components/ui/spinner";
 
 const Page = () => {
   return (
-    <div className="flex flex-col justify-center items-center h-full gap-4">
-      <Spinner />
-      <p>
-        please wait...
-      </p>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="flex flex-row justify-center items-center gap-4">
+        <Spinner />
+        <p>
+          please wait...
+        </p>
+      </div>
     </div>
   );
 };
