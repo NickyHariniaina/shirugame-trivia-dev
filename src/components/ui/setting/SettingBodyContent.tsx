@@ -76,35 +76,35 @@ export const SettingBodyContent = ({ user }: SettingBodyContentProps) => {
 
       <div className="flex-1 flex flex-col min-h-0">
         {profilShowed && (
-          <ScrollArea className="flex-1 flex flex-col gap-4 min-h-0">
+          <div className="flex flex-col h-[75%]">
             <ProfilBody />
             <Separator className="my-4" />
             <ProfilSettings />
-          </ScrollArea>
+          </div>
         )}
 
         {accountShowed && (
-          <ScrollArea className="flex-1 flex flex-col gap-4 min-h-0">
+          <div className="flex-1 flex flex-col gap-4 min-h-0">
             <PartUnderConstruction />
-          </ScrollArea>
+          </div>
         )}
 
         {accessibilityShowed && (
-          <ScrollArea className="flex-1 flex flex-col gap-4 min-h-0">
+          <div className="flex-1 flex flex-col gap-4 min-h-0">
             <PartUnderConstruction />
-          </ScrollArea>
+          </div>
         )}
 
         {sessionShowed && (
-          <ScrollArea className="flex-1 flex flex-col gap-4 min-h-0">
+          <div className="flex-1 flex flex-col gap-4 min-h-0">
             <PartUnderConstruction />
-          </ScrollArea>
+          </div>
         )}
 
         {appearanceShowed && (
-          <ScrollArea className="flex-1 flex flex-col gap-4 min-h-0">
+          <div className="flex-1 flex flex-col gap-4 min-h-0">
             <PartUnderConstruction />
-          </ScrollArea>
+          </div>
         )}
       </div>
     </div>
