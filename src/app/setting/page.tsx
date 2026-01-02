@@ -1,5 +1,6 @@
 'use client'
 import { Header } from "@/components/ui/Header";
+import { SettingBodyContent } from "@/components/ui/setting/SettingBodyContent";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 
@@ -17,6 +18,7 @@ const Page = () => {
 
   return <div>
     <Header logged={logged}/>
+    <SettingBodyContent />
   </div>
 }
 
