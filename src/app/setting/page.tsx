@@ -3,8 +3,6 @@
 import { authClient } from "@/lib/auth-client";
 
 const Page = () => {
-
-
   return <div>Profil</div>
 }
 

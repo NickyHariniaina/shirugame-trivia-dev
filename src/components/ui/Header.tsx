@@ -58,7 +58,7 @@ export const Header = (props: HeaderPropsType) => {
       <ul className="hidden sm:flex flex-row items-center gap-3 p-1">
         <Button variant="ghost" onClick={() => router.push("/room")}>Rooms</Button>
         <Button variant="ghost" onClick={handleGoToLeaderboard}>Leaderboard</Button>
-        <Button variant="ghost">Settings</Button>
+        <Button variant="ghost" onClick={() => router.push("/setting")}>Settings</Button>
         <Button variant="ghost" onClick={() => router.push("/contact")}>Contact</Button>
       </ul>
 
@@ -78,7 +78,7 @@ export const Header = (props: HeaderPropsType) => {
             <ul className="flex flex-col gap-4 mt-8">
               <Button variant="ghost" onClick={() => router.push("/room")}>Rooms</Button>
               <Button variant="ghost" onClick={handleGoToLeaderboard}>Leaderboard</Button>
-              <Button variant="ghost">Settings</Button>
+              <Button variant="ghost" onClick={() => router.push("/setting")}>Settings</Button>
               <Button variant="ghost" onClick={() => router.push("/contact")}>Contact</Button>
               {props.logged ? (
                 <Button variant="ghost" type="button" onClick={handleLogOut}>
