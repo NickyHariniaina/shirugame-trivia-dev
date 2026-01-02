@@ -29,9 +29,6 @@ const Page = () => {
 
   return <div>
     <Breadpath path={formattedPath} hrefPath={hrefPath} />
-    <ProfilBody />
-    <Separator className="my-4" />
-    <ProfilSettings />
   </div>
 }
 
