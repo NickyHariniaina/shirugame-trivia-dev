@@ -7,7 +7,7 @@ export const YouNeedAnAccount = () => {
   const router = useRouter();
   return (
     <div className="p-5 flex flex-col items-center justify-center h-full gap-6 text-center px-4">
-      <User size={64} className="text-yellow-500 animate-bounce" />
+      <User size={64} className="animate-bounce" />
 
       <h2 className="text-3xl md:text-5xl font-extrabold text-gray-800 dark:text-white">
         Please sign in to continue using this part of the app.
