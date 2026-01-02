@@ -5,7 +5,7 @@ type LoggedStore = {
   setIsLogged: (isLogged: boolean) => void;
 };
 
-export const useUser = create<LoggedStore>((set) => ({
+export const useLogged = create<LoggedStore>((set) => ({
   isLogged: false,
   setIsLogged: (isLogged: boolean) => set({ isLogged }),
 }));

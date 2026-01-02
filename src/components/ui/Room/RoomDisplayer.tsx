@@ -8,8 +8,11 @@ import { PlayerScreenForRoom } from "./PlayerScreenForRoom";
 import { OwnerScreenForRoom } from "./OwnerScreenForRoom";
 import { useUser } from "@/stores/useUser";
 import { useRouter } from "next/navigation";
+import { useLogged } from "@/stores/useLogged";
+import { YouNeedAnAccount } from "../ChoreComponent/YouNeedAnAccount";
 
 export const RoomDisplayer = () => {
+  const {isLogged, setIsLogged} = useLogged();
   const [room, setRoom] = useState<Room>();
   const params = useParams();
   const roomId = params.roomId as string;
@@ -26,16 +29,20 @@ export const RoomDisplayer = () => {
   };
 
     if (!session) {
-      router.push("/auth/sign-in");
+      setIsLogged(false)
     }
     if (session?.user.id === room?.openedBy.id) {
       console.log("isOwner");
       setIsOwner(true);
+      setIsLogged(true);
     } else {
       setIsOwner(false);
+      setIsLogged(true);
     }
     fetchRoom();
-  }, [router, roomId, session, userData, room?.openedBy.id]);
+  }, [router, roomId, session, userData, room?.openedBy.id, setIsLogged]);
+
+  if (!isLogged) return <YouNeedAnAccount />;
 
   return (
     <div className="flex flex-col gap-2 mx-4">

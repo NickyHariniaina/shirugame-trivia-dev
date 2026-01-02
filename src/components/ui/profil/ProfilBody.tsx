@@ -8,20 +8,24 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useReloadUserData } from "@/hooks/useReloadUserData";
+import { YouNeedAnAccount } from "../ChoreComponent/YouNeedAnAccount";
 
 export const ProfilBody = () => {
   const {data: session} = authClient.useSession();
   const { userData, setUserData } = useUser();
   const router = useRouter();
+  const {isLogged, setIsLogged} = useLogged();
 
   const formattedRanking = formatRank(userData?.rank || 1);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (session?.user == null) {
-      router.push("/auth/sign-in");
+      setIsLogged(false);
+    } else {
+      setIsLogged(true);
     }
-  }, [router, session]);
+  }, [router, session, setIsLogged]);
 
   const image = userData?.image || "";
   const userId = session?.user?.id || "";
@@ -40,6 +44,7 @@ export const ProfilBody = () => {
   console.log(userData);
 
 
+  if (!isLogged) return <YouNeedAnAccount />;
 
   const regeneratePicture = async () => {
     try {

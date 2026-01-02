@@ -9,8 +9,7 @@ import { useState, useEffect } from "react";
 const Page = () => {
   const [logged, setLogged] = useState<boolean>(false);
   const { data: session } = authClient.useSession();
-  const {setUserData, userData} = useUser();
-  console.log(session);
+  const {setUserData } = useUser();
 
   useEffect(() => {
     if (!session) {
@@ -21,7 +20,6 @@ const Page = () => {
     }
   }, [session, setUserData]);
 
-  console.log(userData);
   return (
     <div className="flex flex-col m-2 gap-3">
       <Header logged={logged} />

@@ -1,17 +1,25 @@
 "use client";
 
+import { YouNeedAnAccount } from "@/components/ui/ChoreComponent/YouNeedAnAccount";
 import { WhoAmICard } from "@/components/ui/starter-section/WhoAmICard";
 import { authClient } from "@/lib/auth-client";
+import { useLogged } from "@/stores/useLogged";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const router = useRouter();
+
+  const {isLogged, setIsLogged} = useLogged();
 
   const session = authClient.useSession();
 
   if (!session) {
-    router.push("/auth/sign-in");
+    setIsLogged(false);
+  } else {
+    setIsLogged(true);
   }
+
+  if (!isLogged)
+    return <YouNeedAnAccount />;
 
   return <div className="flex flex-col items-center gap-5">
     <h2 className="text-3xl">whoami</h2>
