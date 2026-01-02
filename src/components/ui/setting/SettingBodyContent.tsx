@@ -45,30 +45,35 @@ export const SettingBodyContent = ({ user }: SettingBodyContentProps) => {
         <Button
           variant={profilShowed ? "outline" : "ghost"}
           onClick={() => handleShow("profil")}
+          className="justify-start"
         >
           Profil
         </Button>
         <Button
           variant={accountShowed ? "outline" : "ghost"}
           onClick={() => handleShow("account")}
+          className="justify-start"
         >
           Account
         </Button>
         <Button
           variant={accessibilityShowed ? "outline" : "ghost"}
           onClick={() => handleShow("accessibility")}
+          className="justify-start"
         >
           Accessibility
         </Button>
         <Button
           variant={sessionShowed ? "outline" : "ghost"}
           onClick={() => handleShow("session")}
+          className="justify-start"
         >
           Session
         </Button>
         <Button
           variant={appearanceShowed ? "outline" : "ghost"}
           onClick={() => handleShow("appearance")}
+          className="justify-start"
         >
           Appearance
         </Button>
