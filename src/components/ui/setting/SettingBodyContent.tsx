@@ -5,6 +5,7 @@ import { ProfilBody } from "../profil/ProfilBody";
 import { Separator } from "../separator";
 import { ProfilSettings } from "../profil/ProfilSettings";
 import { ScrollArea } from "../scroll-area";
+import { PartUnderConstruction } from "../ChoreComponent/PartUnderConstruction";
 
 interface UserSession {
   id: string;
@@ -84,25 +85,25 @@ export const SettingBodyContent = ({ user }: SettingBodyContentProps) => {
 
         {accountShowed && (
           <ScrollArea className="flex-1 flex flex-col gap-4 min-h-0">
-            <div>Account Settings Content</div>
+            <PartUnderConstruction />
           </ScrollArea>
         )}
 
         {accessibilityShowed && (
           <ScrollArea className="flex-1 flex flex-col gap-4 min-h-0">
-            <div>Accessibility Settings Content</div>
+            <PartUnderConstruction />
           </ScrollArea>
         )}
 
         {sessionShowed && (
           <ScrollArea className="flex-1 flex flex-col gap-4 min-h-0">
-            <div>Session Settings Content</div>
+            <PartUnderConstruction />
           </ScrollArea>
         )}
 
         {appearanceShowed && (
           <ScrollArea className="flex-1 flex flex-col gap-4 min-h-0">
-            <div>Appearance Settings Content</div>
+            <PartUnderConstruction />
           </ScrollArea>
         )}
       </div>
