@@ -16,9 +16,11 @@ const Page = () => {
     }
   }, [session]);
 
+  console.log(session?.user);
+
   return <div>
     <Header logged={logged}/>
-    <SettingBodyContent />
+    <SettingBodyContent user={session?.user}/>
   </div>
 }
 
