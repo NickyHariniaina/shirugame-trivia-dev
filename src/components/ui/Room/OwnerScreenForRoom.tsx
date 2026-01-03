@@ -74,7 +74,7 @@ export const OwnerScreenForRoom = ({ room }: OwnerScreenForRoomProps) => {
       </div>
 
       <div className="flex flex-col md:flex-row gap-2 mt-2">
-        <Button className="flex-1">Start</Button>
+        <Button className="flex-1" onClick={() => router.push("/room/" + room?.id + "/game")}>Start</Button>
         <Button className="flex-1" variant="secondary" onClick={handleCopyLink}>Copy link</Button>
         <Button className="flex-1" variant="destructive" onClick={handleDeleteRoom}>
           Delete room

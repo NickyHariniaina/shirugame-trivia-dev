@@ -38,7 +38,7 @@ export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
       await insertRoomPlayer(room?.id || "", session?.data?.user.id || "");
       toast.success("You joined the room successfully.", { id: "successId" });
       verifyUserInRoom(); // refresh state
-      router.refresh();
+      router.push("/room/" + room?.id + "/game");
     } catch (error) {
       console.log(error);
       toast.error("Error while joining the room, try again later...", { id: "errorId" });
