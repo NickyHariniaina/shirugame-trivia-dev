@@ -3,6 +3,8 @@ import { CircleX, RefreshCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { PlayerList } from "./PlayerList";
 import { Button } from "../button";
+import { deleteRoomById } from "@/utils/func";
+import toast from "react-hot-toast";
 
 type OwnerScreenForRoomProps = {
   room: Room | undefined;
@@ -11,7 +13,16 @@ type OwnerScreenForRoomProps = {
 export const OwnerScreenForRoom = ({ room }: OwnerScreenForRoomProps) => {
   const router = useRouter();
   const handleDeleteRoom = async () => {
-
+    try {
+      const data = await deleteRoomById(room?.id || "");
+      if (data.message) {
+        toast.success(data.message, { id: "delete-room" });
+        router.push("/room");
+      }
+    } catch (error) {
+      toast.error("Something went wrong, room not deleted successfully.", { id: "delete-room" });
+      console.log(error);
+    }
   }
 
   return (
