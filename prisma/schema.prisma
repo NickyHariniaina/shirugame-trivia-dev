@@ -40,7 +40,7 @@ model Room {
   title      String     @unique
   winnerId   String?
   winner     User?      @relation("Winner", fields: [winnerId], references: [id])
-  questions  Question[] @relation("RoomQuestions")
+  questions  Question[]
   players    User[]     @relation("RoomPlayers")
   startDate  DateTime   @default(now())
   chronoTiming Int @default(10)
@@ -49,16 +49,16 @@ model Room {
 }
 
 model Question {
-  id       String @id
-  question String @unique
+  id       String  @id
+  question String  @unique
   typeId   String
-  type     Type   @relation(fields: [typeId], references: [id])
+  type     Type    @relation(fields: [typeId], references: [id])
   Score    Int
   Answer   String
 
-  roomId String?
-  room   Room?   @relation("RoomQuestions", fields: [roomId], references: [id])
+  rooms    Room[]
 }
+
 
 model Type {
   id        String     @id
