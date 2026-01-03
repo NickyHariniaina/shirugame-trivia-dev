@@ -12,6 +12,16 @@ type OwnerScreenForRoomProps = {
 
 export const OwnerScreenForRoom = ({ room }: OwnerScreenForRoomProps) => {
   const router = useRouter();
+
+  const handleCopyLink = async () => {
+    try {
+      navigator.clipboard.writeText(window.location.href);
+      toast.success("Link copied successfully", { id: "copy-link" });
+    } catch (error) {
+      toast.error("Something went wrong, link not copied successfully.", { id: "copy-link" });
+      console.log(error);
+    }
+  }
   const handleDeleteRoom = async () => {
     try {
       const data = await deleteRoomById(room?.id || "");
@@ -65,6 +75,7 @@ export const OwnerScreenForRoom = ({ room }: OwnerScreenForRoomProps) => {
 
       <div className="flex flex-col md:flex-row gap-2 mt-2">
         <Button className="flex-1">Start</Button>
+        <Button className="flex-1" variant="secondary" onClick={handleCopyLink}>Copy link</Button>
         <Button className="flex-1" variant="destructive" onClick={handleDeleteRoom}>
           Delete room
         </Button>
