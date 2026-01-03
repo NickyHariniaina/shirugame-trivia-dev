@@ -7,72 +7,111 @@ import toast from "react-hot-toast";
 import { insertRoomPlayer } from "@/utils/func";
 import { authClient } from "@/lib/auth-client";
 import { CircleX, RefreshCw } from "lucide-react";
+import { quitRoom } from "@/services/room";
 
 type PlayerScreenForRoomProps = {
   room: Room | undefined;
 };
 
-export const PlayerScreenForRoom = (props: PlayerScreenForRoomProps) => {
+export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
   const session = authClient.useSession();
   const router = useRouter();
-  const [ isUserInRoom, setIsUserInRoom ] = useState<boolean>(false);
+  const [isUserInRoom, setIsUserInRoom] = useState<boolean>(false);
 
   const verifyUserInRoom = async () => {
-    const isUserInRoom = props.room?.players.find((player: User) => {
-      return player.id === session?.data?.user.id;
-    });
-
-    // The ternary operator is needed cause here we might have an undefined value for isUserInRoom
-    setIsUserInRoom(isUserInRoom? true: false);
-  }
-
-  const handleJoinRoom = () => {
-    try {
-      verifyUserInRoom();
-      if (isUserInRoom) {
-        toast.error("You are already in this room.", { id: "errorId" });
-        return
-      }
-      const res = insertRoomPlayer(props.room?.id || "", session?.data?.user.id || "");
-      console.log(res);
-      toast.success("You joined the room successfully.", { id: "successId" });
-    } catch (error) {
-      console.log(error);
-      toast.error("Error while joining the room, try again later...", {
-        id: "errorId",
-      });
-    }
-
+    const inRoom = room?.players.some(
+      (player: User) => player.id === session?.data?.user.id
+    );
+    setIsUserInRoom(inRoom || false);
   };
-
 
   useEffect(() => {
     verifyUserInRoom();
-  });
+  }, [room, session?.data?.user.id]);
+
+  const handleJoinRoom = async () => {
+    try {
+      if (isUserInRoom) {
+        toast.error("You are already in this room.", { id: "errorId" });
+        return;
+      }
+      await insertRoomPlayer(room?.id || "", session?.data?.user.id || "");
+      toast.success("You joined the room successfully.", { id: "successId" });
+      verifyUserInRoom(); // refresh state
+    } catch (error) {
+      console.log(error);
+      toast.error("Error while joining the room, try again later...", { id: "errorId" });
+    }
+  };
+
+  const handleLeaveRoom = async () => {
+    try {
+      await quitRoom(room?.id || "", session?.data?.user.id || "");
+      toast.success("You left the room successfully.", { id: "successId" });
+      verifyUserInRoom(); // refresh state
+    } catch (error) {
+      console.log(error);
+      toast.error("Error while leaving the room, try again later...", { id: "errorId" });
+    }
+  };
 
   return (
-    <div className="flex flex-col gap-3 m-2 items-start p-2">
-      <h2>About this session</h2>
-      <p>Title: {props.room?.title}</p>
-      <div className="">
-        Owner: {" "}
+    <div className="flex flex-col gap-4 p-4 md:p-6 mx-2 md:mx-1 w-full rounded-lg shadow-md">
+      <h2 className="text-xl md:text-2xl font-bold">About this session</h2>
+
+      <p className="text-sm md:text-base">
+        <span className="font-semibold">Title:</span> {room?.title}
+      </p>
+
+      <p className="text-sm md:text-base">
+        <span className="font-semibold">Owner:</span>{" "}
         <span
-          className="underline"
-          onClick={() => {
-            router.push("/user/" + props.room?.openedBy.id);
-          }}
+          className="underline cursor-pointer text-blue-600 dark:text-blue-400"
+          onClick={() => router.push("/user/" + room?.openedBy.id)}
         >
-          {props.room?.openedBy.username || props.room?.openedBy.email}
+          {room?.openedBy.username || room?.openedBy.email}
         </span>
+      </p>
+
+      <p className="text-sm md:text-base">
+        <span className="font-semibold">Questions:</span> {room?.questions.length}
+      </p>
+
+      <p className="flex flex-row items-center gap-2 text-sm md:text-base">
+        <span className="font-semibold">Status:</span>{" "}
+        {room?.winner ? (
+          <CircleX className="text-red-500" />
+        ) : (
+          <RefreshCw className="text-green-500 animate-spin" />
+        )}
+      </p>
+
+      <p className="text-sm md:text-base">
+        <span className="font-semibold">Winner:</span> {room?.winner?.email || "No winner yet"}
+      </p>
+
+      <div className="flex flex-col gap-2 max-h-60 overflow-auto">
+        <span className="font-semibold">List of players:</span>
+        <PlayerList players={room?.players} />
       </div>
-      <p>It contains {props.room?.questions.length} questions</p>
-      <p className='flex flex-row gap-3 '>Status: {props.room?.winner? <CircleX />: <RefreshCw />}</p>
-      <p>Winner: {props.room?.winner?.email || "No winner yet"}</p>
-      <div className='p-3'>
-        List of players: <br />
-        <PlayerList players={props.room?.players} />
+
+      <div className="flex flex-col md:flex-row gap-2 mt-2">
+        <Button
+          className="flex-1"
+          onClick={handleJoinRoom}
+          disabled={isUserInRoom}
+        >
+          Join
+        </Button>
+        <Button
+          className="flex-1"
+          variant="secondary"
+          onClick={handleLeaveRoom}
+          disabled={!isUserInRoom}
+        >
+          Leave
+        </Button>
       </div>
-      <Button disabled={isUserInRoom} onClick={handleJoinRoom} className='w-[100%]'>Join</Button>
     </div>
   );
 };

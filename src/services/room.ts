@@ -54,6 +54,19 @@ export const insertUserInRoom = async (roomId: string, userId: string) => {
   });
 };
 
+export const quitRoom = async (roomId: string, userId: string) => {
+  await prisma.room.update({
+    where: {
+      id: roomId,
+    },
+    data: {
+      players: {
+        disconnect: [{ id: userId }],
+      },
+    },
+  });
+};
+
 export const deleteRoom = async (roomId: string) => {
   await prisma.room.delete({
     where: {
