@@ -45,7 +45,7 @@ export const RoomDisplayer = () => {
   if (!isLogged) return <YouNeedAnAccount />;
 
   return (
-    <div className="flex flex-col gap-2 m-1 w-full">
+    <div className="flex flex-col gap-2 m-1 w-full p-4">
       {isOwner ? (
         <OwnerScreenForRoom room={room} />
       ) : (

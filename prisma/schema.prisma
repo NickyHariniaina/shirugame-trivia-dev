@@ -43,6 +43,7 @@ model Room {
   questions  Question[] @relation("RoomQuestions")
   players    User[]     @relation("RoomPlayers")
   startDate  DateTime   @default(now())
+  chronoTiming Int @default(10)
   openedById String
   openedBy   User       @relation("OpenedRooms", fields: [openedById], references: [id])
 }
