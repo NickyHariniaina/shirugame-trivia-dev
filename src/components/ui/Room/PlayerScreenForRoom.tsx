@@ -38,6 +38,7 @@ export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
       await insertRoomPlayer(room?.id || "", session?.data?.user.id || "");
       toast.success("You joined the room successfully.", { id: "successId" });
       verifyUserInRoom(); // refresh state
+      router.refresh();
     } catch (error) {
       console.log(error);
       toast.error("Error while joining the room, try again later...", { id: "errorId" });
@@ -49,6 +50,7 @@ export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
       await quitRoom(room?.id || "", session?.data?.user.id || "");
       toast.success("You left the room successfully.", { id: "successId" });
       verifyUserInRoom(); // refresh state
+      router.refresh();
     } catch (error) {
       console.log(error);
       toast.error("Error while leaving the room, try again later...", { id: "errorId" });
