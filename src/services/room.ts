@@ -53,3 +53,12 @@ export const insertUserInRoom = async (roomId: string, userId: string) => {
     },
   });
 };
+
+export const deleteRoom = async (roomId: string) => {
+  await prisma.room.delete({
+    where: {
+      id: roomId,
+    },
+  });
+};
+

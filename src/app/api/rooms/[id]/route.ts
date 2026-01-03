@@ -42,3 +42,22 @@ export const GET = async (
     );
   }
 };
+
+export const DELETE = async (
+  _req: NextRequest,
+  context: RouteContext<"/api/rooms/[id]">,
+) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return NextResponse.json(
+      {
+        message: "Unauthorized",
+      },
+      {
+        status: 401,
+      },
+    );
+  }

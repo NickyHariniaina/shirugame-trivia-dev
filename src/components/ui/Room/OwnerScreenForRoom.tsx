@@ -1,4 +1,3 @@
-"use client";
 import { Room } from "@/types/db";
 import { CircleX, RefreshCw } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -11,6 +10,9 @@ type OwnerScreenForRoomProps = {
 
 export const OwnerScreenForRoom = ({ room }: OwnerScreenForRoomProps) => {
   const router = useRouter();
+  const handleDeleteRoom = async () => {
+
+  }
 
   return (
     <div className="flex flex-col gap-4 p-4 md:p-6 mx-2 md:mx-1 w-full rounded-lg shadow-md">
@@ -52,7 +54,7 @@ export const OwnerScreenForRoom = ({ room }: OwnerScreenForRoomProps) => {
 
       <div className="flex flex-col md:flex-row gap-2 mt-2">
         <Button className="flex-1">Start</Button>
-        <Button className="flex-1" variant="destructive">
+        <Button className="flex-1" variant="destructive" onClick={handleDeleteRoom}>
           Delete room
         </Button>
       </div>

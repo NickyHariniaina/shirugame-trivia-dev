@@ -1,4 +1,3 @@
-"use client";
 import { Room, User } from "@/types/db";
 import { useRouter } from "next/navigation";
 import { Button } from "../button";
