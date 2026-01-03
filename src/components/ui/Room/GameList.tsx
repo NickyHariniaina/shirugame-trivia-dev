@@ -14,14 +14,6 @@ import { useRouter } from "next/navigation";
 export const GameList = () => {
   const router = useRouter();
 
-  const handleCopyLink = async () => {
-    try {
-      toast.success("Link copied to clipboard successfully.", { id: "copyId" });
-    } catch (error) {
-      console.log(error);
-      toast.error("Error while copying the link, try again later...", { id: "errorCopyId" });
-    }
-  };
 
   const [rooms, setRooms] = useState<Room[]>([]);
   const [searchedRooms, setSearchedRooms] = useState<string>("");
@@ -75,9 +67,6 @@ export const GameList = () => {
                 {/* Buttons */}
                 <div className="flex gap-2 flex-wrap sm:flex-nowrap mt-2 sm:mt-0">
                   <Button onClick={() => router.push(`/room/${room.id}`)}>Join</Button>
-                  <Button onClick={handleCopyLink} variant="secondary">
-                    <Link2 />
-                  </Button>
                 </div>
               </li>
             ))
