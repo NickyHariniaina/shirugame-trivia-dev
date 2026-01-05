@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { insertRoomPlayer } from "@/utils/func";
 import { authClient } from "@/lib/auth-client";
 import { CircleX, RefreshCw } from "lucide-react";
-import { quitRoom } from "@/services/room";
+import { quitRoom } from "@/utils/func";
 
 type PlayerScreenForRoomProps = {
   room: Room | undefined;

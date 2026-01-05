@@ -184,5 +184,16 @@ export const deleteRoomById = async (roomId: string) => {
   }
 }
 
-
+export const quitRoom = async (roomId: string, userId: string) => {
+  try {
+    const url = `/api/rooms/${roomId}/players/${userId}`;
+    const res = await fetch(url, {
+      method: "PUT",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
