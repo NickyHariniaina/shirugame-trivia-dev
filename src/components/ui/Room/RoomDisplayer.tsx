@@ -1,5 +1,4 @@
 "use client";
-
 import { authClient } from "@/lib/auth-client";
 import { Room } from "@/types/db";
 import { fetchRoomById } from "@/utils/func";
@@ -7,61 +6,43 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PlayerScreenForRoom } from "./PlayerScreenForRoom";
 import { OwnerScreenForRoom } from "./OwnerScreenForRoom";
+import { useUser } from "@/stores/useUser";
+import { useRouter } from "next/navigation";
 import { useLogged } from "@/stores/useLogged";
 import { YouNeedAnAccount } from "../ChoreComponent/YouNeedAnAccount";
 
 export const RoomDisplayer = () => {
-  const { isLogged, setIsLogged } = useLogged();
-  const [room, setRoom] = useState<Room | null>(null);
-  const [isOwner, setIsOwner] = useState(false);
-
+  const {isLogged, setIsLogged} = useLogged();
+  const [room, setRoom] = useState<Room>();
   const params = useParams();
   const roomId = params.roomId as string;
   const { data: session } = authClient.useSession();
+  const [isOwner, setIsOwner] = useState<boolean>();
+  const { userData } = useUser();
+  const router = useRouter();
 
-  /**
-   * 1️⃣ Fetch room ONCE (or when roomId changes)
-   */
+
   useEffect(() => {
-    if (!roomId) return;
+  const fetchRoom = async () => {
+    const fetchedRoom: Room = await fetchRoomById(roomId);
+    setRoom(fetchedRoom);
+  };
 
-    const fetchRoom = async () => {
-      const fetchedRoom = await fetchRoomById(roomId);
-      setRoom(fetchedRoom);
-    };
-
-    fetchRoom();
-  }, [roomId]);
-
-  /**
-   * 2️⃣ Handle auth + ownership logic
-   */
-  useEffect(() => {
     if (!session) {
-      setIsLogged(false);
-      setIsOwner(false);
-      return;
+      setIsLogged(false)
     }
-
-    setIsLogged(true);
-
-    if (room && session.user.id === room.openedBy.id) {
+    if (session?.user.id === room?.openedBy.id) {
+      console.log("isOwner");
       setIsOwner(true);
+      setIsLogged(true);
     } else {
       setIsOwner(false);
+      setIsLogged(true);
     }
-  }, [session, room, setIsLogged]);
+    fetchRoom();
+  }, [router, roomId, session, userData, room?.openedBy.id, setIsLogged]);
 
-  /**
-   * 3️⃣ Render guards
-   */
-  if (isLogged === false) {
-    return <YouNeedAnAccount />;
-  }
-
-  if (!room) {
-    return null; // or a loader
-  }
+  if (!isLogged) return <YouNeedAnAccount />;
 
   return (
     <div className="flex flex-col gap-2 m-1 w-full p-4">
