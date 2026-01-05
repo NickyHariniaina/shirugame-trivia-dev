@@ -84,7 +84,7 @@ export const ProfilSettings = () => {
             <Input
               type="text"
               {...register("username")}
-              placeholder={userData?.username}
+              placeholder={userData?.username || "Your username here"}
             />
           </div>
           <Button
@@ -103,7 +103,7 @@ export const ProfilSettings = () => {
               {...register("email")}
             />
           </div>
-          <Button disabled={loading} onClick={handleSubmit(handleChangeEmail)}>
+          <Button disabled={true}>
             Change
           </Button>
         </div>

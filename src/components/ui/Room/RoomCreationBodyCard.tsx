@@ -1,5 +1,5 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { Input } from "../input";
 import { User } from "@/types/db";
 import { AddAndRemoveButton } from "../Button/AddAndRemoveButton";
@@ -9,17 +9,24 @@ import { QuestionDisplayer } from "../QA/QuestionDisplayer";
 import { Question } from "@/types/db";
 import toast from "react-hot-toast";
 import { createRoom, getQuestions } from "@/utils/func";
+import { useRouter } from "next/navigation";
+import { ChronoTimingSelector } from "./ChronoTimingSelector";
 
 type FormValues = {
   title: string;
   players: User[];
   numberOfQuestion: number;
+  chronoTiming: number;
 };
 
 export const RoomCreationBodyCard = () => {
   const [generatedQuestion, setGeneratedQuestion] = useState<Question[]>([]);
   const [loading, setLoading] = useState(false);
   const [numberOfQuestion, setNumberOfQuestion] = useState(1);
+  const [chronoTiming, setChronoTiming] = useState(10);
+  const [currentAnswer, setCurrentAnswer] = useState<FormValues>();
+  const router = useRouter();
+
   const generateQuestionsHandler = async () => {
     try {
       setLoading(true);
@@ -36,15 +43,26 @@ export const RoomCreationBodyCard = () => {
     }
   };
 
-  const { handleSubmit, register } = useForm<FormValues>();
+  const { handleSubmit, register, formState: { errors } } = useForm<FormValues>();
+
+  const onInvalidSubmit = () => {
+    const firstError = Object.values(errors)[0] as FieldErrors;
+    if (firstError?.message) {
+      toast.error("You must add a title", { id: "create-room-title-missing" });
+    }
+  }
 
   const createRoomHandler = async (data: FormValues) => {
     try {
       setLoading(true);
-      const newData = { questions: generatedQuestion, ...data };
-      const res = await createRoom(newData);
-      console.log(res);
-      toast.success("Room created successfully", { id: "create-room" });
+      if (generatedQuestion.length === 0) {
+        toast.error("Please generate questions first", { id: "create-room" });
+        setLoading(false);
+        return;
+      }
+      const newData = { questions: generatedQuestion, ...data, chronoTiming: chronoTiming };
+      await createRoom(newData);
+      router.push("/room/" + newData.title);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -62,10 +80,11 @@ export const RoomCreationBodyCard = () => {
           <Input
             placeholder="Choose a title"
             type="text"
-            {...register("title")}
+            {...register("title" ,{required: "You must enter a title"})}
           />
+          <ChronoTimingSelector setChronoTiming={setChronoTiming} chronoTiming={chronoTiming} />
           <div className="flex flex-col items-center justify-center gap-4">
-            <p>Limit number of players</p>
+            <p>Number of questions</p>
             <div className="flex flex-row items-center gap-4">
               <div>{numberOfQuestion}</div>
               <AddAndRemoveButton setNumberOfQuestion={setNumberOfQuestion} />
@@ -85,7 +104,7 @@ export const RoomCreationBodyCard = () => {
         </div>
         <Button
           disabled={loading}
-          onClick={handleSubmit(createRoomHandler)}
+          onClick={handleSubmit(createRoomHandler, onInvalidSubmit)}
           variant="default"
         >
           Create

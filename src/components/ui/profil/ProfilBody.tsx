@@ -7,18 +7,27 @@ import { Button } from "../button";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useReloadUserData } from "@/hooks/useReloadUserData";
+import { YouNeedAnAccount } from "../ChoreComponent/YouNeedAnAccount";
+import { useLogged } from "@/stores/useLogged";
 
 export const ProfilBody = () => {
   const {data: session} = authClient.useSession();
   const { userData, setUserData } = useUser();
   const router = useRouter();
+  const {isLogged, setIsLogged} = useLogged();
 
   const formattedRanking = formatRank(userData?.rank || 1);
   const [loading, setLoading] = useState(false);
+  const { reloadUserData } = useReloadUserData();
 
-  if (!session) {
-    router.push("/auth/sign-in");
-  }
+  useEffect(() => {
+    if (session?.user == null) {
+      setIsLogged(false);
+    } else {
+      setIsLogged(true);
+    }
+  }, [router, session, setIsLogged]);
 
   const image = userData?.image || "";
   const userId = session?.user?.id || "";
@@ -30,25 +39,16 @@ export const ProfilBody = () => {
       setLoading(false);
     } else {
       setLoading(true);
-      setUserData(session?.user);
+      if (session?.user) {
+        setUserData(session?.user);
+      }
     }
-  }, [userData]);
+  }, [userData, session]);
 
   console.log(userData);
 
 
-  const reloadUserData = async () => {
-    if (!userData) {
-      return;
-    }
-    const { data: session } = authClient.useSession();
-    setUserData(session?.user);
-    toast.success("User data reloaded successfully", { id: "reload-user-data" });
-    if (!userData.rank) {
-      await initializeRank(userId);
-      toast.success("Rank initialized successfully", { id: "initialize-rank" });
-    }
-  }
+  if (!isLogged) return <YouNeedAnAccount />;
 
   const regeneratePicture = async () => {
     try {

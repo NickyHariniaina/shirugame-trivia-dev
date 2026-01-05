@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { getRoomById } from "@/services/room";
+import { deleteRoom, getRoomById } from "@/services/room";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -42,3 +42,43 @@ export const GET = async (
     );
   }
 };
+
+export const DELETE = async (
+  _req: NextRequest,
+  context: RouteContext<"/api/rooms/[id]">,
+) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return NextResponse.json(
+      {
+        message: "Unauthorized",
+      },
+      {
+        status: 401,
+      },
+    );
+  }
+
+  try {
+    const { id: roomId } = await context.params;
+    await deleteRoom(roomId);
+    return NextResponse.json(
+      {
+        message: "Room deleted successfully",
+      },
+      { status: 200 },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Internal Server Error" + error,
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+}

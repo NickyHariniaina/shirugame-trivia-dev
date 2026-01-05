@@ -1,12 +1,12 @@
-'use client'
+"use client";
 import { Header } from "@/components/ui/Header";
-import { SettingBodyContent } from "@/components/ui/setting/SettingBodyContent";
+import { ContactBodyContent } from "@/components/ui/contact/ContactBodyContent";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 
 const Page = () => {
-  const { data: session } = authClient.useSession();
   const [logged, setLogged] = useState<boolean>(false);
+  const { data: session } = authClient.useSession();
 
   useEffect(() => {
     if (session?.user) {
@@ -15,13 +15,10 @@ const Page = () => {
       setLogged(false);
     }
   }, [session]);
-
-  console.log(session?.user);
-
-  return <div>
+  return <div className="flex flex-col gap-5">
     <Header logged={logged}/>
-    <SettingBodyContent user={session?.user}/>
-  </div>
+    <ContactBodyContent />
+  </div>;
 }
 
-export default Page
+export default Page;

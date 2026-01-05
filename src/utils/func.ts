@@ -171,6 +171,18 @@ export const fetchMissingField = async (userId: string) => {
   }
 }
 
+export const deleteRoomById = async (roomId: string) => {
+  try {
+    const url = `/api/rooms/${roomId}`;
+    const res = await fetch(url, {
+      method: "DELETE",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 

@@ -1,5 +1,6 @@
 import "@/app/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "react-hot-toast";
 import { BsBrightnessHigh } from "react-icons/bs";
 import { RiErrorWarningLine } from "react-icons/ri";

@@ -10,13 +10,20 @@ import {
   TableCell,
   Table,
 } from "../table";
+import { useEffect } from "react";
 
 type UserTablePropsType = {
   users: User[];
+  handleRefresh: () => void;
 };
 
-export const UserTable = ({ users }: UserTablePropsType) => {
+export const UserTable = ({ users, handleRefresh  }: UserTablePropsType) => {
   const router = useRouter();
+
+  useEffect(() => {
+    console.log("UserTable rendered");
+  }, [handleRefresh]);
+
   return (
     <div className="shadow-2xl dark:shadow-blue-700 max-w-full overflow-x-hidden border rounded-lg">
       <Table className="min-w-[400px] md:min-w-[600px] lg:min-w-[800px]">

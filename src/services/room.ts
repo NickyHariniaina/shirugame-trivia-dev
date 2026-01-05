@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { v4 } from "uuid";
 import { Question } from "@/types/db";
 import { RoomDto } from "@/types/dto";
 
@@ -9,10 +10,11 @@ export const createRoom = async (data: RoomDto, userId: string) => {
     },
   );
 
-  // FIXME: Replace the data.title as the id later. It should be something more secure
+  const roomId = v4();
+
   await prisma.room.create({
     data: {
-      id: data.title,
+      id: roomId,
       title: data.title,
       questions: {
         connect: questionsId,
@@ -53,3 +55,25 @@ export const insertUserInRoom = async (roomId: string, userId: string) => {
     },
   });
 };
+
+export const quitRoom = async (roomId: string, userId: string) => {
+  await prisma.room.update({
+    where: {
+      id: roomId,
+    },
+    data: {
+      players: {
+        disconnect: [{ id: userId }],
+      },
+    },
+  });
+};
+
+export const deleteRoom = async (roomId: string) => {
+  await prisma.room.delete({
+    where: {
+      id: roomId,
+    },
+  });
+};
+
