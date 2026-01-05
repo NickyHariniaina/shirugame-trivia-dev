@@ -35,11 +35,6 @@ model User {
   joinedRooms Room[] @relation("RoomPlayers")
 }
 
-model Answer {
-    id String @id
-}
-
-
 model Room {
   id         String     @id
   title      String     @unique
