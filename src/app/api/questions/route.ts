@@ -17,7 +17,7 @@ export const GET = async (req: NextRequest) => {
     const numberOfQuestion = parseInt(numberOfQuestionQueryNotFormatted);
 
     const questions = await prisma.$queryRaw`
-      SELECT * FROM "Question"
+      SELECT * FROM "public"."Question"
       ORDER BY RANDOM()
       LIMIT ${numberOfQuestion}
     `
