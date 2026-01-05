@@ -4,10 +4,9 @@ import { Button } from "../button";
 import { PlayerList } from "./PlayerList";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { insertRoomPlayer } from "@/utils/func";
+import { insertRoomPlayer, quitRoom } from "@/utils/func";
 import { authClient } from "@/lib/auth-client";
 import { CircleX, RefreshCw } from "lucide-react";
-import { quitRoom } from "@/services/room";
 
 type PlayerScreenForRoomProps = {
   room: Room | undefined;
@@ -37,7 +36,7 @@ export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
       }
       await insertRoomPlayer(room?.id || "", session?.data?.user.id || "");
       toast.success("You joined the room successfully.", { id: "successId" });
-      verifyUserInRoom(); // refresh state
+      verifyUserInRoom();
       router.push("/room/" + room?.id + "/game");
     } catch (error) {
       console.log(error);
@@ -49,8 +48,8 @@ export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
     try {
       await quitRoom(room?.id || "", session?.data?.user.id || "");
       toast.success("You left the room successfully.", { id: "successId" });
-      verifyUserInRoom(); // refresh state
-      router.refresh();
+      verifyUserInRoom();
+      router.push("/room");
     } catch (error) {
       console.log(error);
       toast.error("Error while leaving the room, try again later...", { id: "errorId" });
