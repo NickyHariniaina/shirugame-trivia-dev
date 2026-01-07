@@ -62,7 +62,7 @@ export const RoomCreationBodyCard = () => {
       }
       const newData = { questions: generatedQuestion, ...data, chronoTiming: chronoTiming };
       await createRoom(newData);
-      router.push("/room/" + newData.title);
+      router.push("/room");
       setLoading(false);
     } catch (error) {
       console.log(error);

@@ -9,17 +9,17 @@ type QAPropsType = {
 export const QA = (props: QAPropsType) => {
   return (
     <form
-      className="flex flex-col gap-4 
-                     max-w-lg w-full 
+      className="flex flex-col gap-4
+                     max-w-lg w-full
                      mx-auto px-4 sm:px-6 lg:px-0"
     >
       <p className="text-lg text-center font-medium">{props.question}</p>
       <ul className="flex flex-col gap-3">
-        {props.answers.map((answer: string) => (
-          <CustomCheckbox key={answer} answer={answer} />
+        {props.answers.map((answer: string, id) => (
+          <CustomCheckbox key={id} answer={answer} />
         ))}
       </ul>
-      <Button type="button" className="self-center" disabled>
+      <Button type="button" className="self-center">
         Submit
       </Button>
     </form>
