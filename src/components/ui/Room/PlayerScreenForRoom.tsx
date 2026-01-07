@@ -8,6 +8,7 @@ import { insertRoomPlayer } from "@/utils/func";
 import { authClient } from "@/lib/auth-client";
 import { CircleX, RefreshCw } from "lucide-react";
 import { quitRoom } from "@/utils/func";
+import { GameSection } from "./GameSection";
 
 type PlayerScreenForRoomProps = {
   room: Room | undefined;
@@ -37,8 +38,8 @@ export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
       }
       await insertRoomPlayer(room?.id || "", session?.data?.user.id || "");
       toast.success("You joined the room successfully.", { id: "successId" });
-      verifyUserInRoom(); // refresh state
-      router.push("/room/" + room?.id + "/game");
+      setGameStarted(true);
+      verifyUserInRoom();
     } catch (error) {
       console.log(error);
       toast.error("Error while joining the room, try again later...", { id: "errorId" });
@@ -59,13 +60,13 @@ export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
 
   return (
     <div className="flex flex-col gap-4 p-4 md:p-6 mx-2 md:mx-1 w-full rounded-lg shadow-md">
-      <h2 className="text-xl md:text-2xl font-bold">About this session</h2>
+      <h2 className="text-xl md:text-2xl font-bold" hidden={isUserInRoom}>About this session</h2>
 
-      <p className="text-sm md:text-base">
+      <p className="text-sm md:text-base" hidden={isUserInRoom}>
         <span className="font-semibold">Title:</span> {room?.title}
       </p>
 
-      <p className="text-sm md:text-base">
+      <p className="text-sm md:text-base" hidden={isUserInRoom}>
         <span className="font-semibold">Owner:</span>{" "}
         <span
           className="underline cursor-pointer text-blue-600 dark:text-blue-400"
@@ -75,11 +76,11 @@ export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
         </span>
       </p>
 
-      <p className="text-sm md:text-base">
+      <p className="text-sm md:text-base" hidden={isUserInRoom}>
         <span className="font-semibold">Questions:</span> {room?.questions.length}
       </p>
 
-      <p className="flex flex-row items-center gap-2 text-sm md:text-base">
+      <p className="flex flex-row items-center gap-2 text-sm md:text-base" hidden={isUserInRoom}>
         <span className="font-semibold">Status:</span>{" "}
         {room?.winner ? (
           <CircleX className="text-red-500" />
@@ -88,22 +89,22 @@ export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
         )}
       </p>
 
-      <p className="text-sm md:text-base">
+      <p className="text-sm md:text-base" hidden={isUserInRoom}>
         <span className="font-semibold">Winner:</span> {room?.winner?.email || "No winner yet"}
       </p>
 
-      <div className="flex flex-col gap-2 max-h-60 overflow-auto">
+      <div className="flex flex-col gap-2 max-h-60 overflow-auto" hidden={isUserInRoom}>
         <span className="font-semibold">List of players:</span>
         <PlayerList players={room?.players} />
       </div>
 
-      <div className="flex flex-col md:flex-row gap-2 mt-2">
+      <div className="flex flex-col md:flex-row gap-2 mt-2" hidden={isUserInRoom}>
         <Button
           className="flex-1"
           onClick={handleJoinRoom}
           disabled={isUserInRoom}
         >
-          Join
+          Let's start
         </Button>
         <Button
           className="flex-1"
@@ -113,6 +114,10 @@ export const PlayerScreenForRoom = ({ room }: PlayerScreenForRoomProps) => {
         >
           Leave
         </Button>
+      </div>
+
+      <div id="game-section" hidden={!isUserInRoom}>
+        <GameSection room={room} />
       </div>
     </div>
   );

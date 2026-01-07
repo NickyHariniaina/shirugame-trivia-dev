@@ -20,6 +20,7 @@ export type User = {
 export type Room = {
   id: string;
   title: string;
+  chronoTiming: number;
   winnerId?: string;
   winner?: User;
   questions: Question[];

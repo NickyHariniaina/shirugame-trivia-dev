@@ -197,3 +197,42 @@ export const quitRoom = async (roomId: string, userId: string) => {
   }
 }
 
+export const getRandomAnswer = async () => {
+  try {
+    const url = `/api/questions/randomAnswer`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
+export const updateUserScore = async (score: number, userId: string) => {
+  try {
+    // CHANGE THIS LATER
+    const url = `/api/users/${userId}/`;
+    const res = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        score,
+      }),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
