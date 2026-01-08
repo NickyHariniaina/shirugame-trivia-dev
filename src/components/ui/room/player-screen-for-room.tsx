@@ -5,6 +5,7 @@ import { PlayerList } from "./player-list";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { insertRoomPlayer } from "@/utils/func";
+import { ChatSection } from "./chat-section";
 import { authClient } from "@/lib/auth-client";
 import { CircleX, RefreshCw } from "lucide-react";
 import { quitRoom } from "@/utils/func";
@@ -123,6 +124,10 @@ export const PlayerScreenForRoom = ({ room, session }: PlayerScreenForRoomProps)
         >
           Leave
         </Button>
+      </div>
+
+      <div className="flex flex-col items-center justify-center">
+        <ChatSection room={room} session={session}/>
       </div>
 
       <div id="game-section" hidden={!userInRoom}>

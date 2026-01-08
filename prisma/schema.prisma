@@ -29,6 +29,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   displayUsername String?
+  messages      Message[]
 
   openedRooms Room[] @relation("OpenedRooms")
   wonRooms    Room[] @relation("Winner")
@@ -46,6 +47,20 @@ model Room {
   chronoTiming Int @default(10)
   openedById String
   openedBy   User       @relation("OpenedRooms", fields: [openedById], references: [id])
+  messages   Message[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  roomId    String
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([roomId])
+  @@index([senderId])
 }
 
 model Question {
