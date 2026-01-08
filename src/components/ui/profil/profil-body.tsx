@@ -21,7 +21,6 @@ type ProfilBodyProps = {
   session: Session;
 };
 export const ProfilBody = (props: ProfilBodyProps) => {
-  const session = props.session;
   const { userData, setUserData } = useUser();
   const router = useRouter();
   const { isLogged, setIsLogged } = useLogged();
@@ -29,25 +28,25 @@ export const ProfilBody = (props: ProfilBodyProps) => {
   const [loading, setLoading] = useState(false);
   const { reloadUserData } = useReloadUserData();
   useEffect(() => {
-    if (session?.user == null) {
+    if (props.session?.user == null) {
       setIsLogged(false);
     } else {
       setIsLogged(true);
     }
-  }, [router, session, setIsLogged]);
+  }, [router, props.session, setIsLogged]);
 
   const image = userData?.image || "";
-  const userId = session?.user?.id || "";
+  const userId = props.session?.user?.id || "";
   useEffect(() => {
     if (userData) {
       setLoading(false);
     } else {
       setLoading(true);
-      if (session?.user) {
-        setUserData(session?.user);
+      if (props.session?.user) {
+        setUserData(props.session?.user);
       }
     }
-  }, [userData, session]);
+  }, [userData, props.session]);
 
   if (!isLogged) return <YouNeedAnAccount />;
 
@@ -80,14 +79,14 @@ export const ProfilBody = (props: ProfilBodyProps) => {
       <Avatar
         loading={loading}
         src={image}
-        alt={session?.user?.username || ""}
+        alt={props.session?.user?.username || ""}
         size={200}
       />
       <Button variant="outline" onClick={regeneratePicture}>
         Re-generate profil pics
       </Button>
       <div className="flex flex-row gap-2 items-center">
-        <h2 className="text-2xl font-bold">@{session?.user?.username}</h2>
+        <h2 className="text-2xl font-bold">@{props.session?.user?.username}</h2>
       </div>
       <div>
         <p className="text-sm">Rank: {formattedRanking}</p>

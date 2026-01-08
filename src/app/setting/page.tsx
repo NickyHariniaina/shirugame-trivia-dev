@@ -1,4 +1,5 @@
 'use client'
+import { YouNeedAnAccount } from "@/components/ui/chore-component/you-need-an-account";
 import { Header } from "@/components/ui/header";
 import { SettingBodyContent } from "@/components/ui/setting/setting-body-content";
 import { authClient } from "@/lib/auth-client";
@@ -18,9 +19,11 @@ const Page = () => {
 
   console.log(session?.user);
 
+  if (!session) return <YouNeedAnAccount />
+
   return <div>
-    <Header logged={logged}/>
-    <SettingBodyContent user={session?.user}/>
+    <Header logged={logged} session={session}/>
+    <SettingBodyContent user={session?.user} session={session}/>
   </div>
 }
 

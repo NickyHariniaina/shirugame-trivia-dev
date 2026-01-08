@@ -1,4 +1,5 @@
 "use client";
+import { FilterSelector } from "./filter-selector";
 import { FieldErrors, useForm } from "react-hook-form";
 import { Input } from "../shadcn-component/input";
 import { User } from "@/types/db";
@@ -24,13 +25,13 @@ export const RoomCreationBodyCard = () => {
   const [loading, setLoading] = useState(false);
   const [numberOfQuestion, setNumberOfQuestion] = useState(1);
   const [chronoTiming, setChronoTiming] = useState(10);
-  const [currentAnswer, setCurrentAnswer] = useState<FormValues>();
+  const [typeId, setTypeId] = useState<string>("null");
   const router = useRouter();
 
   const generateQuestionsHandler = async () => {
     try {
       setLoading(true);
-      const questions: Question[] = await getQuestions(numberOfQuestion);
+      const questions: Question[] = await getQuestions(numberOfQuestion, typeId);
       setGeneratedQuestion(questions);
     } catch (error) {
       console.log(error);
@@ -83,6 +84,7 @@ export const RoomCreationBodyCard = () => {
             {...register("title" ,{required: "You must enter a title"})}
           />
           <ChronoTimingSelector setChronoTiming={setChronoTiming} chronoTiming={chronoTiming} />
+          <FilterSelector setTypeId={setTypeId} typeId={typeId} />
           <div className="flex flex-col items-center justify-center gap-4">
             <p>Number of questions</p>
             <div className="flex flex-row items-center gap-4">

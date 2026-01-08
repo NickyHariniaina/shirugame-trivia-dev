@@ -19,15 +19,16 @@ type GameSectionProps = {
   session: Session
 };
 
-type MyAnswersVSTheAnswers = { myAnswers: string[], theAnswers: string[] };
+type MyAnswersVSTheAnswers = { myAnswers: string[], theAnswers: string[], questions: string[] };
 
 export const GameSection = ({ room, session }: GameSectionProps) => {
   const [isGameFinished, setIsGameFinished] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState<string[]>();
   const [currentQuestionCount, setCurrentQuestionCount] = useState(0);
   const [checkedAnswer, setCheckedAnswer] = useState<string[]>([]);
   const [randomAnswer, setRandomAnswer] = useState<string[]>([]);
   const [currentScore, setCurrentScore] = useState(0);
-  const [myAnswers, setMyAnswers] = useState<MyAnswersVSTheAnswers>({ myAnswers: [], theAnswers: [] });
+  const [myAnswers, setMyAnswers] = useState<MyAnswersVSTheAnswers>({ myAnswers: [], theAnswers: [], questions: [] });
 
   useEffect(() => {
     if (!room) return;
@@ -73,13 +74,13 @@ export const GameSection = ({ room, session }: GameSectionProps) => {
 
     setMyAnswers((prev) =>
       ({ myAnswers: [...prev.myAnswers, myCurrentAnswers],
-        theAnswers: [...prev.theAnswers, question.Answer] })
+        theAnswers: [...prev.theAnswers, question.Answer], questions: [...prev.questions, question.question] })
     );
 
     if (currentQuestionCount < room.questions.length - 1) {
       setCurrentQuestionCount((prev) => prev + 1);
     } else {
-      toast.success("Thanks for playing! Your score is {currentScore}pts... we will update your ranking soon.");
+      toast.success(`Thanks for playing! Your score is ${currentScore}pts... we will update your ranking soon.`);
       await updateUserScore(currentScore, session?.user.id || "");
       setIsGameFinished(true);
     }
@@ -138,7 +139,7 @@ export const GameSection = ({ room, session }: GameSectionProps) => {
         </Button>
       </form>
 
-      { isGameFinished ? <Resume myAnswers={myAnswers.myAnswers} theAnswers={myAnswers.theAnswers} /> : null }
+      { isGameFinished ? <Resume myAnswers={myAnswers.myAnswers} theAnswers={myAnswers.theAnswers} questions={myAnswers.questions}/> : null }
     </div>
   );
 };

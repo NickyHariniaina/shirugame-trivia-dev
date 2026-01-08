@@ -32,6 +32,10 @@ export const PlayerScreenForRoom = ({ room, session }: PlayerScreenForRoomProps)
     verifyUserInRoom();
   }, [room, session?.user.id]);
 
+  const handleReplay = async () => {
+    setGameStarted(true);
+  }
+
   const handleJoinRoom = async () => {
     try {
       if (isUserInRoom) {
@@ -106,7 +110,10 @@ export const PlayerScreenForRoom = ({ room, session }: PlayerScreenForRoomProps)
           onClick={handleJoinRoom}
           disabled={isUserInRoom}
         >
-          Let's start
+          Join
+        </Button>
+        <Button disabled={!isUserInRoom} onClick={handleReplay}>
+          Replay
         </Button>
         <Button
           className="flex-1"
