@@ -92,7 +92,7 @@ export const ChatSection = ({ room, session }: { room?: Room; session: Session }
 
             <div className="flex flex-col max-w-full">
               <strong className="leading-tight">
-                {msg.sender.username ?? msg.sender.email}
+                {msg.sender.username ?? msg.sender.email} -- {msg.sender.rank}
               </strong>
 
               <p className="break-words whitespace-pre-wrap">
