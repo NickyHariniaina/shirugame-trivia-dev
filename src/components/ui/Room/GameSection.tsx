@@ -1,7 +1,9 @@
 "use client";
+import { Resume } from "./Resume";
 import { updateUserScore } from "@/utils/func";
 import { Badge } from "../badge";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "react-hot-toast";
 
 import { Room } from "@/types/db";
 import { Checkbox } from "../checkbox"; // shadcn
@@ -15,13 +17,16 @@ type GameSectionProps = {
   room: Room | undefined;
 };
 
+type MyAnswersVSTheAnswers = { myAnswers: string[], theAnswers: string[] };
+
 export const GameSection = ({ room }: GameSectionProps) => {
   const { data: session } = authClient.useSession();
-  const [showScore, setShowScore] = useState(false);
+  const [isGameFinished, setIsGameFinished] = useState(false);
   const [currentQuestionCount, setCurrentQuestionCount] = useState(0);
   const [checkedAnswer, setCheckedAnswer] = useState<string[]>([]);
   const [randomAnswer, setRandomAnswer] = useState<string[]>([]);
   const [currentScore, setCurrentScore] = useState(0);
+  const [myAnswers, setMyAnswers] = useState<MyAnswersVSTheAnswers>({ myAnswers: [], theAnswers: [] });
 
   useEffect(() => {
     if (!room) return;
@@ -30,12 +35,12 @@ export const GameSection = ({ room }: GameSectionProps) => {
 
     const fetchRandomAnswer = async () => {
       setRandomAnswer([]);
-      setCheckedAnswer([]); // reset checked answers for new question
+      setCheckedAnswer([]);
       const wrongAnswers = await getRandomAnswerApi();
 
       const answers: string[] = shuffleArray([
         question.Answer,
-        ...wrongAnswers.map((a) => a.Answer),
+        ...wrongAnswers.map((a: { Answer: string }) => a.Answer),
       ]);
 
       setRandomAnswer(answers);
@@ -54,13 +59,28 @@ export const GameSection = ({ room }: GameSectionProps) => {
   const handleSubmit = async () => {
     if (checkedAnswer.length === 1 && checkedAnswer[0] === question.Answer) {
       setCurrentScore((prev) => prev + question.Score);
+      toast.success("Correct answer!");
+    } else {
+      toast.error("Wrong answer!");
     }
+
+    let myCurrentAnswers: string = "NO ANSWER";
+
+    if (checkedAnswer.length !== 0) {
+      myCurrentAnswers = checkedAnswer[0];
+    }
+
+    setMyAnswers((prev) =>
+      ({ myAnswers: [...prev.myAnswers, myCurrentAnswers],
+        theAnswers: [...prev.theAnswers, question.Answer] })
+    );
 
     if (currentQuestionCount < room.questions.length - 1) {
       setCurrentQuestionCount((prev) => prev + 1);
     } else {
-      await updateUserScore(currentScore, session?.data?.user.id || "");
-      setShowScore(true);
+      toast.success("Thanks for playing! Your score is {currentScore}pts... we will update your ranking soon.");
+      await updateUserScore(currentScore, session?.user.id || "");
+      setIsGameFinished(true);
     }
   };
 
@@ -76,6 +96,7 @@ export const GameSection = ({ room }: GameSectionProps) => {
           e.preventDefault();
           handleSubmit();
         }}
+        hidden={isGameFinished}
       >
         <div className="flex flex-col gap-2">
           <Badge variant="outline" className="self-center">
@@ -116,12 +137,7 @@ export const GameSection = ({ room }: GameSectionProps) => {
         </Button>
       </form>
 
-      <p className="text-center mt-2" hidden={!showScore}>
-        Thanks for playing! Your score is {currentScore}pts... we will update your ranking soon.
-        <br />
-        Go to your profile to see update your ranking.
-      </p>
-
+      { isGameFinished ? <Resume myAnswers={myAnswers.myAnswers} theAnswers={myAnswers.theAnswers} /> : null }
     </div>
   );
 };

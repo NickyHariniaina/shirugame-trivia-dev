@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 const Page = () => {
   const [logged, setLogged] = useState<boolean>(false);
   const { data: session } = authClient.useSession();
-  const {setUserData } = useUser();
+  const { setUserData } = useUser();
 
   useEffect(() => {
     if (!session) {
