@@ -1,4 +1,4 @@
-import { FirstRoom } from "@/components/ui/FirstRoom";
+import { FirstRoom } from "@/components/ui/first-room";
 const Page = () => {
   return <FirstRoom />
 }

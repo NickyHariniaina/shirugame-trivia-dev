@@ -1,5 +1,5 @@
-import { RoomCreationBody } from "@/components/ui/Room/RoomCreationBody";
-import { RoomHeader } from "@/components/ui/Room/RoomHeader";
+import { RoomCreationBody } from "@/components/ui/room/room-creation-body";
+import { RoomHeader } from "@/components/ui/room/room-header";
 
 const Page = () => {
   return <div>

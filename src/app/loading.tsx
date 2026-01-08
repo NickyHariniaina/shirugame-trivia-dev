@@ -1,4 +1,4 @@
-import { Spinner } from "@/components/ui/spinner";
+import { Spinner } from "@/components/ui/shadcn-component/spinner";
 
 const Page = () => {
   return (

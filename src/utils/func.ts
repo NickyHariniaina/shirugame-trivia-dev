@@ -90,9 +90,21 @@ export const getUsersWithCriteria = async (criteria: string) => {
   }
 }
 
-export const getQuestions = async (numberOfQuestion: number) => {
+export const getType = async () => {
   try {
-    const url = `/api/questions?numberOfQuestion=${numberOfQuestion}`;
+    const url = `/api/types`;
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(data);
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getQuestions = async (numberOfQuestion: number, type: string) => {
+  try {
+    const url = `/api/questions/${type}?numberOfQuestion=${numberOfQuestion}`;
     const res = await fetch(url);
     const data = await res.json();
     console.log(data)
