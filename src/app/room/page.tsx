@@ -1,5 +1,5 @@
-import { RoomHeader } from "@/components/ui/Room/RoomHeader";
-import { Room } from "@/components/ui/Room/Room";
+import { RoomHeader } from "@/components/ui/room/room-header";
+import { Room } from "@/components/ui/room/room";
 
 const Page = () => {
   return (

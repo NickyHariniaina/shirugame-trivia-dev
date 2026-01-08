@@ -1,6 +1,6 @@
 'use client'
-import { Header } from "@/components/ui/Header";
-import { SettingBodyContent } from "@/components/ui/setting/SettingBodyContent";
+import { Header } from "@/components/ui/header";
+import { SettingBodyContent } from "@/components/ui/setting/setting-body-content";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { YouNeedAnAccount } from "@/components/ui/ChoreComponent/YouNeedAnAccount";
-import { WhoAmICard } from "@/components/ui/starter-section/WhoAmICard";
+import { YouNeedAnAccount } from "@/components/ui/chore-component/you-need-an-account";
+import { WhoAmICard } from "@/components/ui/starter-section/who-i-am-card";
 import { authClient } from "@/lib/auth-client";
 import { useLogged } from "@/stores/useLogged";
 import { useRouter } from "next/navigation";

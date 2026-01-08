@@ -1,7 +1,7 @@
-import { OAuth } from "@/components/ui/Auth/OAuth";
-import { SignIn } from "@/components/ui/Auth/SignIn";
-import { ModeToggle } from "@/components/ui/Button/DarkModeToogle";
-import { Separator } from "@/components/ui/separator";
+import { OAuth } from "@/components/ui/auth/oauth";
+import { SignIn } from "@/components/ui/auth/sign-in";
+import { ModeToggle } from "@/components/ui/button/dark-mode-toggle";
+import { Separator } from "@/components/ui/shadcn-component/separator";
 import * as motion from "motion/react-client";
 
 const Page = () => {

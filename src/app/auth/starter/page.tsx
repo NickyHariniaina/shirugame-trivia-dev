@@ -1,4 +1,4 @@
-import { StarterPage } from "@/components/ui/StarterPage";
+import { StarterPage } from "@/components/ui/starter-page";
 
 const Page = () => {
   return <StarterPage />
