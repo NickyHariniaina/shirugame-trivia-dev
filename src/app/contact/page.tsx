@@ -16,7 +16,7 @@ const Page = () => {
     }
   }, [session]);
   return <div className="flex flex-col gap-5">
-    <Header logged={logged}/>
+    <Header logged={logged} session={session} />
     <ContactBodyContent />
   </div>;
 }

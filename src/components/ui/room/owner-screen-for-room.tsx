@@ -12,7 +12,6 @@ import { PlayerList } from "./player-list";
 import { Button } from "../shadcn-component/button";
 import { deleteRoomById } from "@/utils/func";
 import toast from "react-hot-toast";
-import { LeaderBoard } from "./LeaderBoard";
 import { PartUnderConstruction } from "../chore-component/part-under-construction";
 
 type OwnerScreenForRoomProps = {
