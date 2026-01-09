@@ -20,6 +20,7 @@ import { Session } from "@/types/better-auth";
 type HeaderPropsType = {
   logged: boolean | undefined;
   session: Session | null;
+  isPending?: boolean;
 };
 
 export const Header = (props: HeaderPropsType) => {
