@@ -19,6 +19,10 @@ export const Body = (props: BodyPropsType) => {
     }
   }
 
+  const handlePlaySingleMode = () => {
+    router.push("/single-player");
+  }
+
   return (
     <div className="w-[100%] flex flex-col gap-4 justify-center items-center">
       <motion.h1
@@ -31,7 +35,7 @@ export const Body = (props: BodyPropsType) => {
         Ready to use your brain with Shirugame ? Create a room, share the link,
         and outsmart everyone else !
       </p>
-      <Button variant="secondary">
+      <Button variant="secondary" onClick={handlePlaySingleMode}>
         Play ( Single player mode )
       </Button>
       <Button onClick={handleStart} variant="default">

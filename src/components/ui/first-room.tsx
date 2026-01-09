@@ -48,7 +48,6 @@ export const FirstRoom = () => {
           <Button onClick={handleSubmit(
             (data: FormValues) => {
               setLoading(true);
-              console.log({numberOfQuestion, ...data});
               setTimeout(() => {
                 console.log("timeout");
                 setLoading(false);

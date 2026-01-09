@@ -102,7 +102,7 @@ export const getType = async () => {
   }
 }
 
-export const getQuestions = async (numberOfQuestion: number, type: string) => {
+export const getQuestions = async (numberOfQuestion: number, type: string | null) => {
   try {
     const url = `/api/questions/${type}?numberOfQuestion=${numberOfQuestion}`;
     const res = await fetch(url);

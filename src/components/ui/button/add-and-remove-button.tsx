@@ -14,7 +14,7 @@ export const AddAndRemoveButton = (props: AddAndRemoveButtonProps) => {
       className="h-fit"
     >
       <Button onClick={() => props.setNumberOfQuestion((e: number) => {
-        return e != 10? e + 1 : e;
+        return e != 20? e + 1 : e;
       })} variant="outline" size="icon" type="button">
         <PlusIcon />
       </Button>

@@ -6,7 +6,6 @@ import { useParams } from "next/navigation";
 const Page = () => {
   const params = useParams();
   const userId = params.username;
-  console.log(userId);
   return <div>
 
   </div>
