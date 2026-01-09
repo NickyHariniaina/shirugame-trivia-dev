@@ -4,7 +4,7 @@ import { Room } from "@/components/ui/room/room";
 const Page = () => {
   return (
     <div className="flex flex-col gap-3">
-      <RoomHeader />
+      <RoomHeader targetedRedirect="/room" />
       <Room />
     </div>
   );

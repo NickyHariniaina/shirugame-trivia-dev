@@ -5,13 +5,18 @@ import { Button } from "../shadcn-component/button";
 import { useRouter } from "next/navigation";
 import { Separator } from "../shadcn-component/separator";
 
-export const RoomHeader = () => {
+
+type RoomHeaderProps = {
+  targetedRedirect: string;
+};
+
+export const RoomHeader = (props: RoomHeaderProps) => {
   const router = useRouter();
-  
+
   return (
     <div className="flex flex-col w-full">
       <div className="m-5 flex gap-3">
-        <Button variant="ghost" size="icon" onClick={() => router.push("/")}>
+        <Button variant="ghost" size="icon" onClick={() => router.push(props.targetedRedirect)}>
           <ArrowLeft />
         </Button>
         <ModeToggle />

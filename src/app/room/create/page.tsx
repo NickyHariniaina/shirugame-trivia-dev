@@ -3,8 +3,7 @@ import { RoomHeader } from "@/components/ui/room/room-header";
 
 const Page = () => {
   return <div>
-    {/* <PartUnderConstruction /> */}
-    <RoomHeader />
+    <RoomHeader targetedRedirect="/room" />
     <RoomCreationBody />
   </div>;
 }
