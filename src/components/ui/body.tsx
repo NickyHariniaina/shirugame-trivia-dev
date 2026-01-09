@@ -31,6 +31,9 @@ export const Body = (props: BodyPropsType) => {
         Ready to use your brain with Shirugame ? Create a room, share the link,
         and outsmart everyone else !
       </p>
+      <Button variant="secondary">
+        Play ( Single player mode )
+      </Button>
       <Button onClick={handleStart} variant="default">
         {props.logged ? "Create room" : "Get started"}
       </Button>
