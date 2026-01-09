@@ -20,14 +20,17 @@ export const RoomDisplayer = () => {
   const { data: session, isPending } = authClient.useSession();
   const [isOwner, setIsOwner] = useState<boolean>();
   const { userData } = useUser();
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
 
   useEffect(() => {
-  const fetchRoom = async () => {
-    const fetchedRoom: Room = await fetchRoomById(roomId);
-    setRoom(fetchedRoom);
-  };
+    const fetchRoom = async () => {
+      setLoading(true);
+      const fetchedRoom: Room = await fetchRoomById(roomId);
+      setRoom(fetchedRoom);
+      setLoading(false);
+    };
 
     if (!session) {
       setIsLogged(false)
@@ -44,6 +47,7 @@ export const RoomDisplayer = () => {
   }, [router, roomId, session, userData, room?.openedBy.id, setIsLogged]);
 
   if (isPending) return <FullScreenLoader />;
+  if (loading) return <FullScreenLoader />;
 
   if (!isLogged || !session) return <YouNeedAnAccount />;
 
