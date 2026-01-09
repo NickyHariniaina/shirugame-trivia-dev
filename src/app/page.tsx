@@ -1,4 +1,5 @@
 "use client";
+import FullScreenLoader from "@/components/ui/loading/fullscreen";
 import { Body } from "@/components/ui/body";
 import { Footer } from "@/components/ui/footer";
 import { Header } from "@/components/ui/header";
@@ -8,7 +9,7 @@ import { useState, useEffect } from "react";
 
 const Page = () => {
   const [logged, setLogged] = useState<boolean>(false);
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const { setUserData } = useUser();
 
   useEffect(() => {
@@ -19,6 +20,8 @@ const Page = () => {
       setUserData(session?.user);
     }
   }, [session, setUserData]);
+
+  if (isPending) return <FullScreenLoader />;
 
   return (
     <div className="flex flex-col m-2 gap-3">

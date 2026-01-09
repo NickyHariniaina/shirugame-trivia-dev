@@ -1,5 +1,6 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
+import FullScreenLoader from "../loading/fullscreen";
 import { Room } from "@/types/db";
 import { fetchRoomById } from "@/utils/func";
 import { useParams } from "next/navigation";
@@ -16,7 +17,7 @@ export const RoomDisplayer = () => {
   const [room, setRoom] = useState<Room>();
   const params = useParams();
   const roomId = params.roomId as string;
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const [isOwner, setIsOwner] = useState<boolean>();
   const { userData } = useUser();
   const router = useRouter();
@@ -41,6 +42,8 @@ export const RoomDisplayer = () => {
     }
     fetchRoom();
   }, [router, roomId, session, userData, room?.openedBy.id, setIsLogged]);
+
+  if (isPending) return <FullScreenLoader />;
 
   if (!isLogged || !session) return <YouNeedAnAccount />;
 

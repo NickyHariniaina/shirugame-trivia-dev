@@ -1,12 +1,13 @@
 'use client'
 import { YouNeedAnAccount } from "@/components/ui/chore-component/you-need-an-account";
 import { Header } from "@/components/ui/header";
+import FullScreenLoader from "@/components/ui/loading/fullscreen";
 import { SettingBodyContent } from "@/components/ui/setting/setting-body-content";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 
 const Page = () => {
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const [logged, setLogged] = useState<boolean>(false);
 
   useEffect(() => {
@@ -16,11 +17,8 @@ const Page = () => {
       setLogged(false);
     }
   }, [session]);
-
-  console.log(session?.user);
-
+  if (isPending) return <FullScreenLoader />
   if (!session) return <YouNeedAnAccount />
-
   return <div>
     <Header logged={logged} session={session}/>
     <SettingBodyContent user={session?.user} session={session}/>
