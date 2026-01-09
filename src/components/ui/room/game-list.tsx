@@ -54,7 +54,8 @@ export const GameList = () => {
               <li
                 key={room.id}
                 className="border-b p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 hover:cursor-pointer"
-              >
+                onClick={() => router.push(`/room/${room.id}`)}
+                >
                 {/* Room info */}
                 <div
                   className="flex flex-col sm:flex-row sm:items-center sm:gap-4 w-full sm:w-auto"
