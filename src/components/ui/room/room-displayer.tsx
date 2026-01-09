@@ -36,7 +36,6 @@ export const RoomDisplayer = () => {
       setIsLogged(false)
     }
     if (session?.user.id === room?.openedBy.id) {
-      console.log("isOwner");
       setIsOwner(true);
       setIsLogged(true);
     } else {

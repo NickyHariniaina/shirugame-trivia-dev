@@ -1,38 +1,37 @@
-"use client";
-import { Resume } from "./resume";
-import { updateUserScore } from "@/utils/func";
-import { Badge } from "../shadcn-component/badge";
-import { authClient } from "@/lib/auth-client";
-import { toast } from "react-hot-toast";
-
-import { Room } from "@/types/db";
-import { Checkbox } from "../shadcn-component/checkbox"; // shadcn
-import { Label } from "../shadcn-component/label";
-import { Separator } from "../shadcn-component/separator";
-import { Button } from "../shadcn-component/button";
-import { useEffect, useState } from "react";
+"use client"
 import { getRandomAnswer as getRandomAnswerApi, shuffleArray } from "@/utils/func";
-import { Session } from "@/types/better-auth";
-
-type GameSectionProps = {
-  room: Room | undefined;
-  session: Session
-};
+import { useEffect } from "react";
+import { Badge } from "../shadcn-component/badge";
+import { Label } from "../shadcn-component/label";
+import { Resume } from "./resume";
+import { FilterSelector } from "./filter-selector";
+import { Checkbox } from "../shadcn-component/checkbox";
+import { Button } from "../shadcn-component/button";
+import { toast } from "react-hot-toast";
+import { QuestionDisplayer } from "../question-answer/question-displayer";
+import { Question } from "@/types/db";
+import { useState } from "react";
+import { AddAndRemoveButton } from "../button/add-and-remove-button";
+import { getQuestions  } from "@/utils/func";
 
 type MyAnswersVSTheAnswers = { myAnswers: string[], theAnswers: string[], questions: string[] };
 
-export const GameSection = ({ room, session }: GameSectionProps) => {
+export const SinglePlayerMode = () => {
+  const [startGame, setStartGame] = useState(false);
+  const [typeId, setTypeId] = useState<string>("null");
+  const [generatedQuestion, setGeneratedQuestion] = useState<Question[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [numberOfQuestion, setNumberOfQuestion] = useState(1);
   const [isGameFinished, setIsGameFinished] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState<string[]>();
   const [currentQuestionCount, setCurrentQuestionCount] = useState(0);
   const [checkedAnswer, setCheckedAnswer] = useState<string[]>([]);
   const [randomAnswer, setRandomAnswer] = useState<string[]>([]);
   const [currentScore, setCurrentScore] = useState(0);
   const [myAnswers, setMyAnswers] = useState<MyAnswersVSTheAnswers>({ myAnswers: [], theAnswers: [], questions: [] });
 
+
   useEffect(() => {
-    if (!room) return;
-    const question = room.questions[currentQuestionCount];
+    const question = generatedQuestion[currentQuestionCount];
     if (!question) return;
 
     const fetchRandomAnswer = async () => {
@@ -49,13 +48,27 @@ export const GameSection = ({ room, session }: GameSectionProps) => {
     };
 
     fetchRandomAnswer();
-  }, [currentQuestionCount, room]);
+  }, [currentQuestionCount, startGame]);
 
-  if (!room || !room.questions[currentQuestionCount]) {
-    return null;
-  }
 
-  const question = room.questions[currentQuestionCount];
+  const generateQuestionsHandler = async () => {
+    try {
+      setLoading(true);
+      const questions: Question[] = await getQuestions(numberOfQuestion, typeId);
+      setGeneratedQuestion(questions);
+      setMyAnswers({ myAnswers: [], theAnswers: [], questions: questions.map((q: Question) => q.question) });
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        "Something went wrong while generating questions, please try again later",
+        { id: "generate-questions" },
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const question = generatedQuestion[currentQuestionCount];
 
   const handleSubmit = async () => {
     if (checkedAnswer.length === 1 && checkedAnswer[0] === question.Answer) {
@@ -73,25 +86,45 @@ export const GameSection = ({ room, session }: GameSectionProps) => {
 
     setMyAnswers((prev) =>
       ({ myAnswers: [...prev.myAnswers, myCurrentAnswers],
-        theAnswers: [...prev.theAnswers, question.Answer], questions: [...prev.questions, question.question] })
+        theAnswers: [...prev.theAnswers, question.Answer], questions: prev.questions })
     );
 
-    if (currentQuestionCount < room.questions.length - 1) {
+    if (currentQuestionCount < generatedQuestion.length - 1) {
       setCurrentQuestionCount((prev) => prev + 1);
     } else {
       toast.success(`Thanks for playing! Your score is ${currentScore}pts... we will update your ranking soon.`);
-      await updateUserScore(currentScore, session?.user.id || "");
       setIsGameFinished(true);
     }
   };
 
-  return (
-    <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold text-center">{room.title}</h2>
+  return <div className="flex flex-col gap-4 items-center p-3">
+    <h2 className="text-2xl font-bold text-center">Single player mode</h2>
 
-      <Separator />
+    { !startGame ? <FilterSelector setTypeId={setTypeId} typeId={typeId}  />: null}
+    <div className="flex flex-col items-center justify-center gap-4" hidden={startGame}>
+      <p>Number of questions</p>
+      <div className="flex flex-row items-center gap-4">
+        <div>{numberOfQuestion}</div>
+        <AddAndRemoveButton setNumberOfQuestion={setNumberOfQuestion} />
+      </div>
+      <Button
+        variant="secondary"
+        disabled={loading}
+        onClick={generateQuestionsHandler}
+      >
+        Generate questions
+      </Button>
+      <QuestionDisplayer
+        loading={loading}
+        questions={generatedQuestion}
+      />
+    </div>
 
-      <form
+    <Button onClick={() => setStartGame(true)} variant="default" hidden={startGame} disabled={generatedQuestion.length === 0}>
+      Start
+    </Button>
+
+    {startGame ? <form
         className="flex flex-col gap-4 justify-center items-center"
         onSubmit={(e) => {
           e.preventDefault();
@@ -132,13 +165,12 @@ export const GameSection = ({ room, session }: GameSectionProps) => {
         </Button>
         <Button
           onClick={() => setCurrentQuestionCount((p) => p + 1)}
-          disabled={currentQuestionCount === room.questions.length - 1}
+          disabled={currentQuestionCount === generatedQuestion.length - 1}
         >
           Next question
         </Button>
-      </form>
+      </form>: null}
 
       { isGameFinished ? <Resume myAnswers={myAnswers.myAnswers} theAnswers={myAnswers.theAnswers} questions={myAnswers.questions}/> : null }
-    </div>
-  );
-};
+  </div>
+}
