@@ -4,9 +4,9 @@ import { Button } from "../shadcn-component/button";
 import { ProfilBody } from "../profil/profil-body";
 import { Separator } from "../shadcn-component/separator";
 import { ProfilSettings } from "../profil/profil-setting";
-import { ScrollArea } from "../shadcn-component/scroll-area";
 import { PartUnderConstruction } from "../chore-component/part-under-construction";
 import { Session } from "@/types/better-auth";
+import { AccountSetting } from "./account-setting";
 
 interface UserSession {
   id: string;
@@ -92,7 +92,7 @@ export const SettingBodyContent = ({ user, session }: SettingBodyContentProps) =
 
         {accountShowed && (
           <div className="flex-1 flex flex-col gap-4 min-h-0">
-            <PartUnderConstruction />
+            <AccountSetting />
           </div>
         )}
 
