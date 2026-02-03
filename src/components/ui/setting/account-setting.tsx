@@ -15,7 +15,7 @@ type Account = {
 }
 
 export const AccountSetting = () => {
-  const [account, setAccount] = useState<Account[]>({});
+  const [account, setAccount] = useState<Account[]>([]);
   const [isLoadingAccount, setIsLoadingAccount] = useState(true);
   useEffect(() => {
     const fetchAccountWithBetterAuth = async () => {
@@ -24,8 +24,12 @@ export const AccountSetting = () => {
         if (account.error) {
           toast.error(account.error.message || "");
         }
-        setAccount(account.data);
-        console.log(account.data)
+        const normalized = (account.data ?? []).map((a: Account) => ({
+          ...a,
+          createdAt: new Date(a.createdAt),
+          updatedAt: new Date(a.updatedAt),
+        })) as Account[];
+        setAccount(normalized);
       } catch (error) {
         console.error(error);
       } finally {
