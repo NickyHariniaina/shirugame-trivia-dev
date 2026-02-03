@@ -5,8 +5,17 @@ import { useState, useEffect } from "react";
 import { Separator } from "../shadcn-component/separator";
 import { Button } from "../shadcn-component/button";
 
+type Account = {
+  accountId: string,
+  createdAt: Date,
+  id: string,
+  providerId: string,
+  scopes: string[],
+  updatedAt: Date,
+}
+
 export const AccountSetting = () => {
-  const [account, setAccount] = useState<unknown>({});
+  const [account, setAccount] = useState<Account[]>({});
   const [isLoadingAccount, setIsLoadingAccount] = useState(true);
   useEffect(() => {
     const fetchAccountWithBetterAuth = async () => {
@@ -16,6 +25,7 @@ export const AccountSetting = () => {
           toast.error(account.error.message || "");
         }
         setAccount(account.data);
+        console.log(account.data)
       } catch (error) {
         console.error(error);
       } finally {
@@ -48,13 +58,13 @@ export const AccountSetting = () => {
   };
 
   const extractProviderId = () => {
-    return account.map((a: unknown) => a.providerId);
+    return account.map((a: Account) => a.providerId);
   };
 
   return (
     <div className="flex flex-col gap-2 justify-center items-center p-4">
       <h2 className="text-xl font-bold">List of linked account</h2>
-      {account.map((a: unknown, id: number) => {
+      {account.map((a: Account, id: number) => {
         return (
           <div
             key={id}
