@@ -7,6 +7,7 @@ import { ProfilSettings } from "../profil/profil-setting";
 import { PartUnderConstruction } from "../chore-component/part-under-construction";
 import { Session } from "@/types/better-auth";
 import { AccountSetting } from "./account-setting";
+import { SessionSetting } from "./session-setting";
 
 interface UserSession {
   id: string;
@@ -104,7 +105,7 @@ export const SettingBodyContent = ({ user, session }: SettingBodyContentProps) =
 
         {sessionShowed && (
           <div className="flex-1 flex flex-col gap-4 min-h-0">
-            <PartUnderConstruction />
+            <SessionSetting />
           </div>
         )}
 
