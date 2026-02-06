@@ -97,7 +97,7 @@ export const AccountSetting = () => {
       {!extractProviderId().includes("google") ? (
         <div className="flex flex-col gap-2 justify-center items-center mx-4">
           <Button variant="secondary" onClick={async () => {
-            await authClient.linkSocial({provider: "google", callbackURL: "/settings"})
+            await authClient.linkSocial({provider: "google", callbackURL: "/setting"})
           }}>
             Link Google
           </Button>
