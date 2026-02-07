@@ -8,6 +8,7 @@ import { PartUnderConstruction } from "../chore-component/part-under-constructio
 import { Session } from "@/types/better-auth";
 import { AccountSetting } from "./account-setting";
 import { SessionSetting } from "./session-setting";
+import { AdminDashBoard } from "./admin-dashboard";
 
 interface UserSession {
   id: string;
@@ -35,6 +36,7 @@ export const SettingBodyContent = ({
   const [accessibilityShowed, setAccessibilityShowed] = useState(false);
   const [sessionShowed, setSessionShowed] = useState(false);
   const [appearanceShowed, setAppearanceShowed] = useState(false);
+  const [adminDashboardShowed, setAdminDashboardShowed] = useState(false);
 
   const handleShow = (section: string) => {
     setProfilShowed(section === "profil");
@@ -42,6 +44,7 @@ export const SettingBodyContent = ({
     setAccessibilityShowed(section === "accessibility");
     setSessionShowed(section === "session");
     setAppearanceShowed(section === "appearance");
+    setAdminDashboardShowed(section === "Admin setting");
   };
 
   return (
@@ -83,6 +86,13 @@ export const SettingBodyContent = ({
         >
           Appearance
         </Button>
+        <Button
+          variant={adminDashboardShowed ? "outline" : "ghost"}
+          onClick={() => handleShow("Admin setting")}
+          className="justify-start"
+        >
+          Admin Dashboard
+        </Button>
       </aside>
 
       <div className="flex-1 flex flex-col min-h-0">
@@ -118,9 +128,9 @@ export const SettingBodyContent = ({
           </div>
         )}
 
-        {session.user.role === "admin" && (
+        {session.user.role === "admin" && adminDashboardShowed && (
           <div className="flex-1 flex flex-col gap-4 min-h-0">
-            <PartUnderConstruction />
+            <AdminDashBoard />
           </div>
         )}
       </div>
