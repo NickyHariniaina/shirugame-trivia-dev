@@ -14,19 +14,23 @@ import { Question } from "@/types/db";
 import { ArrowLeft, ArrowRight, StepBack } from "lucide-react";
 import { Button } from "../shadcn-component/button";
 import { ModeToggle } from "../button/dark-mode-toggle";
+import { Spinner } from "../shadcn-component/spinner";
 
 export const QuestionsTable = () => {
   const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(false)
   const [maxPage, setMaxPage] = useState(1);
   const [page, setPage] = useState(1);
   const router = useRouter();
 
   useEffect(() => {
     const fetchQuestions = async () => {
+        setLoading(true)
       const questions = await getAllQuestions(page, 10);
       setQuestions(questions);
       const maxPage = await getMaxPage(page, 10)
       setMaxPage(maxPage);
+      setLoading(false)
     };
     fetchQuestions();
     
@@ -54,7 +58,7 @@ export const QuestionsTable = () => {
         </Button>
         <ModeToggle />
       </div>
-      <Table className="min-w-[400px] md:min-w-[600px] lg:min-w-[800px]">
+      {loading? <div className="flex flex-row justify-center items-center p-5"><Spinner /></div> : <Table className="min-w-[400px] md:min-w-[600px] lg:min-w-[800px]">
         <TableHeader>
           <TableRow>
             <TableHead className="w-[5%] text-left">Type</TableHead>
@@ -73,13 +77,13 @@ export const QuestionsTable = () => {
             </TableRow>
           ))}
         </TableBody>
-      </Table>
+      </Table>}
       <div className="flex flex-row justify-end gap-2 p-3 items-center">
         <p>{page}/{maxPage}</p>
         <Button onClick={handlePreviousPage} disabled={page === 1}>
             <ArrowLeft />
         </Button>
-        <Button onClick={handleNextPage}>
+        <Button onClick={handleNextPage} disabled={page === maxPage}>
             <ArrowRight />
         </Button>
       </div>

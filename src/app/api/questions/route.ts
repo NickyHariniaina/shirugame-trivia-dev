@@ -21,6 +21,7 @@ export const GET = async (req: NextRequest) => {
       }
 
       const offset = (parseInt(page) - 1) * parseInt(limit);
+      console.log(offset)
       questions = await prisma.$queryRaw`
         SELECT * FROM "public"."Question"
         ORDER BY "typeId"
