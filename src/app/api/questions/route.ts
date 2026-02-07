@@ -3,10 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   try {
+
+    // TODO: Add randomized parameters later
     const numberOfQuestionQueryNotFormatted=  req?.nextUrl?.searchParams?.get("numberOfQuestion") || "null";
     
     let questions;
-    
+
     if (numberOfQuestionQueryNotFormatted === "null" ) {
       const limit = req?.nextUrl?.searchParams?.get("limit") || "10";
       const page = req?.nextUrl?.searchParams?.get("page") || "1";
