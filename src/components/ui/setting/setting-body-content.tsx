@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { Button } from "../shadcn-component/button";
 import { ProfilBody } from "../profil/profil-body";
@@ -8,6 +8,7 @@ import { PartUnderConstruction } from "../chore-component/part-under-constructio
 import { Session } from "@/types/better-auth";
 import { AccountSetting } from "./account-setting";
 import { SessionSetting } from "./session-setting";
+import { AdminDashBoard } from "./admin-dashboard";
 
 interface UserSession {
   id: string;
@@ -23,15 +24,19 @@ interface UserSession {
 
 type SettingBodyContentProps = {
   user: UserSession | undefined;
-  session: Session
+  session: Session;
 };
 
-export const SettingBodyContent = ({ user, session }: SettingBodyContentProps) => {
+export const SettingBodyContent = ({
+  user,
+  session,
+}: SettingBodyContentProps) => {
   const [profilShowed, setProfilShowed] = useState(true);
   const [accountShowed, setAccountShowed] = useState(false);
   const [accessibilityShowed, setAccessibilityShowed] = useState(false);
   const [sessionShowed, setSessionShowed] = useState(false);
   const [appearanceShowed, setAppearanceShowed] = useState(false);
+  const [adminDashboardShowed, setAdminDashboardShowed] = useState(false);
 
   const handleShow = (section: string) => {
     setProfilShowed(section === "profil");
@@ -39,6 +44,7 @@ export const SettingBodyContent = ({ user, session }: SettingBodyContentProps) =
     setAccessibilityShowed(section === "accessibility");
     setSessionShowed(section === "session");
     setAppearanceShowed(section === "appearance");
+    setAdminDashboardShowed(section === "Admin setting");
   };
 
   return (
@@ -80,12 +86,19 @@ export const SettingBodyContent = ({ user, session }: SettingBodyContentProps) =
         >
           Appearance
         </Button>
+        <Button
+          variant={adminDashboardShowed ? "outline" : "ghost"}
+          onClick={() => handleShow("Admin setting")}
+          className="justify-start"
+        >
+          Admin Dashboard
+        </Button>
       </aside>
 
       <div className="flex-1 flex flex-col min-h-0">
         {profilShowed && (
           <div className="flex flex-col h-[75%]">
-            <ProfilBody session={session}/>
+            <ProfilBody session={session} />
             <Separator className="my-4" />
             <ProfilSettings />
           </div>
@@ -112,6 +125,12 @@ export const SettingBodyContent = ({ user, session }: SettingBodyContentProps) =
         {appearanceShowed && (
           <div className="flex-1 flex flex-col gap-4 min-h-0">
             <PartUnderConstruction />
+          </div>
+        )}
+
+        {session.user.role === "admin" && adminDashboardShowed && (
+          <div className="flex-1 flex flex-col gap-4 min-h-0">
+            <AdminDashBoard />
           </div>
         )}
       </div>
