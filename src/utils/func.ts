@@ -114,6 +114,18 @@ export const getQuestions = async (numberOfQuestion: number, type: string | null
   }
 }
 
+export const getAllQuestions = async (page: number, limit: number) => {
+  try {
+    const url = `/api/questions?page=${page}&limit=${limit}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(data)
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export const createRoom = async (data: RoomDto) => {
   try {
