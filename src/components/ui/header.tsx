@@ -62,6 +62,7 @@ export const Header = (props: HeaderPropsType) => {
         <Button variant="ghost" onClick={handleGoToLeaderboard}>
           Leaderboard
         </Button>
+        <Button variant="ghost" onClick={() => router.push("/questions")}>Questions</Button>
         <Button variant="ghost" onClick={() => router.push("/setting")}>
           Settings
         </Button>
@@ -89,6 +90,7 @@ export const Header = (props: HeaderPropsType) => {
               <Button variant="ghost" onClick={handleGoToLeaderboard}>
                 Leaderboard
               </Button>
+              <Button variant="ghost" onClick={() => router.push("/questions")}>Questions</Button>
               <Button variant="ghost" onClick={() => router.push("/setting")}>
                 Settings
               </Button>
