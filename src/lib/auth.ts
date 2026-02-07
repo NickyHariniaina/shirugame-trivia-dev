@@ -3,6 +3,7 @@ import { username } from "better-auth/plugins";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { sendEmail } from "@/utils/extern";
+import { admin } from "better-auth/plugins"
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: "postgresql" }),
@@ -27,6 +28,7 @@ export const auth = betterAuth({
         return username.toLowerCase().trim().replaceAll(" ", "_");
       },
     }),
+    admin()
   ],
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
