@@ -29,6 +29,10 @@ model User {
   sessions      Session[]
   accounts      Account[]
   displayUsername String?
+  role          string? @default("user")
+  banned        boolean?
+  banReason     string?
+  banExpires    string?
 
   openedRooms Room[] @relation("OpenedRooms")
   wonRooms    Room[] @relation("Winner")
@@ -76,6 +80,7 @@ model Session {
   userAgent String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  impersonatedBy string?
 
   @@unique([token])
   @@map("session")
