@@ -128,10 +128,11 @@ export const getAllQuestions = async (page: number, limit: number) => {
 
 export const getMaxPage = async (page: number, limit: number) =>{
   try {
-    const url =  `/api/questions?countPage=true?page=${page}&limit=${limit}`;
+    const url =  `/api/questions?countPage=true&page=${page}&limit=${limit}`;
     const res = await fetch(url);
     const data = await res.json();
-    return data.maxPageNumber;
+    console.log(data)
+    return data.data;
   } catch (error) {
     console.log(error);
   }
