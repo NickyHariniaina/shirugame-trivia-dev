@@ -126,6 +126,17 @@ export const getAllQuestions = async (page: number, limit: number) => {
   }
 }
 
+export const getQuestionsPageLeft = async (page: number, limit: number) =>{
+  try {
+    const url =  `/api/questions?countLeft=true`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.data.countLeft;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export const createRoom = async (data: RoomDto) => {
   try {

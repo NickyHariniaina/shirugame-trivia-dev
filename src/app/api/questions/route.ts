@@ -27,8 +27,7 @@ export const GET = async (req: NextRequest) => {
         LIMIT ${numberOfQuestion}
       `
     }
-    
-    return NextResponse.json({ data: questions }, { status: 200});
+    return NextResponse.json({ data: questions }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       {
