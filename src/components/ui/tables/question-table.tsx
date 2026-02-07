@@ -9,7 +9,7 @@ import {
   TableCell,
 } from "../shadcn-component/table";
 import { useEffect, useState } from "react";
-import { getAllQuestions, getQuestionsPageLeft } from "@/utils/func";
+import { getAllQuestions, getMaxPage } from "@/utils/func";
 import { Question } from "@/types/db";
 import { ArrowLeft, ArrowRight, StepBack } from "lucide-react";
 import { Button } from "../shadcn-component/button";
@@ -17,7 +17,7 @@ import { ModeToggle } from "../button/dark-mode-toggle";
 
 export const QuestionsTable = () => {
   const [questions, setQuestions] = useState([]);
-  const [pageLeft, setPageLeft] = useState(0);
+  const [maxPage, setMaxPage] = useState(1);
   const [page, setPage] = useState(1);
   const router = useRouter();
 
@@ -25,8 +25,8 @@ export const QuestionsTable = () => {
     const fetchQuestions = async () => {
       const questions = await getAllQuestions(page, 10);
       setQuestions(questions);
-      const pageLeft = await getQuestionsPageLeft(page, 10)
-      setPageLeft(pageLeft);
+      const maxPage = await getMaxPage(page, 10)
+      setMaxPage(maxPage);
     };
     fetchQuestions();
     
@@ -74,8 +74,8 @@ export const QuestionsTable = () => {
           ))}
         </TableBody>
       </Table>
-      <div className="flex flex-row justify-end gap-2 p-3">
-        <p>Page {page}</p>
+      <div className="flex flex-row justify-end gap-2 p-3 items-center">
+        <p>{page}/{maxPage}</p>
         <Button onClick={handlePreviousPage} disabled={page === 1}>
             <ArrowLeft />
         </Button>

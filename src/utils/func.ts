@@ -131,7 +131,7 @@ export const getMaxPage = async (page: number, limit: number) =>{
     const url =  `/api/questions?countPage=true?page=${page}&limit=${limit}`;
     const res = await fetch(url);
     const data = await res.json();
-    return data.data.countLeft;
+    return data.maxPageNumber;
   } catch (error) {
     console.log(error);
   }
