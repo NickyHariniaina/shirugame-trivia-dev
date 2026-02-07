@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { Button } from "../shadcn-component/button";
 import { ProfilBody } from "../profil/profil-body";
@@ -23,10 +23,13 @@ interface UserSession {
 
 type SettingBodyContentProps = {
   user: UserSession | undefined;
-  session: Session
+  session: Session;
 };
 
-export const SettingBodyContent = ({ user, session }: SettingBodyContentProps) => {
+export const SettingBodyContent = ({
+  user,
+  session,
+}: SettingBodyContentProps) => {
   const [profilShowed, setProfilShowed] = useState(true);
   const [accountShowed, setAccountShowed] = useState(false);
   const [accessibilityShowed, setAccessibilityShowed] = useState(false);
@@ -85,7 +88,7 @@ export const SettingBodyContent = ({ user, session }: SettingBodyContentProps) =
       <div className="flex-1 flex flex-col min-h-0">
         {profilShowed && (
           <div className="flex flex-col h-[75%]">
-            <ProfilBody session={session}/>
+            <ProfilBody session={session} />
             <Separator className="my-4" />
             <ProfilSettings />
           </div>
@@ -110,6 +113,12 @@ export const SettingBodyContent = ({ user, session }: SettingBodyContentProps) =
         )}
 
         {appearanceShowed && (
+          <div className="flex-1 flex flex-col gap-4 min-h-0">
+            <PartUnderConstruction />
+          </div>
+        )}
+
+        {session.user.role === "admin" && (
           <div className="flex-1 flex flex-col gap-4 min-h-0">
             <PartUnderConstruction />
           </div>
