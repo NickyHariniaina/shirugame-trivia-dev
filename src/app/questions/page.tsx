@@ -43,6 +43,7 @@ const Page = () => {
         setShowSubmitQuestion(prev => !prev);
     }
 
+
     const handleSearch = async () => {
         try {
             setLoading(true);
@@ -59,12 +60,16 @@ const Page = () => {
         }
     }
 
+    const handleClearValue = () => {
+        setSearchValue("");
+    }
+
     if (isPending) return <FullScreenLoader />
 
     return <div className="flex flex-col gap-4 m-4 p-3 justify-center items-center">
         <h2 className="text-2xl font-bold">Shirugame&apos;s questions</h2>
         <Button variant="outline" onClick={handleGoSubmitButton} disabled>Go submit your own question</Button>
-        <QuestionSearchBar searchValue={searchValue} setSearchValue={setSearchValue} handleSearch={handleSearch} />
+        <QuestionSearchBar searchValue={searchValue} setSearchValue={setSearchValue} handleSearch={handleSearch} handleClearValue={handleClearValue} />
         {
             showSubmitQuestion && <div className="flex flex-col gap-2 p-5 border rounded-lg  w-full md:w-[600px]">
                 <h3 className="text-xl font-semibold">Submit your question</h3>
