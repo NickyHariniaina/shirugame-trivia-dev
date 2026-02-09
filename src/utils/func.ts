@@ -120,7 +120,7 @@ export const getAllQuestions = async (page: number, limit: number, search: strin
     if (search) {
       url += `&search=${search}`;
     }
-    if (typeId) {
+    if (typeId != "null" && typeId) {
       url += `&typeId=${typeId}`;
     }
     const res = await fetch(url);
@@ -138,7 +138,7 @@ export const getMaxPage = async (page: number, limit: number, search: string | n
     if (search) {
       url += `&search=${search}`;
     }
-    if (typeId) {
+    if (typeId != "null" && typeId) {
       url += `&typeId=${typeId}`;
     }
     const res = await fetch(url);
