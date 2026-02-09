@@ -19,7 +19,7 @@ import { Spinner } from "../shadcn-component/spinner";
 export const QuestionsTable = () => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false)
-  const [maxPage, setMaxPage] = useState(1);
+  const [maxPage, setMaxPage] = useState<number>(1);
   const [page, setPage] = useState(1);
   const router = useRouter();
 
@@ -29,11 +29,11 @@ export const QuestionsTable = () => {
       const questions = await getAllQuestions(page, 10);
       setQuestions(questions);
       const maxPage = await getMaxPage(page, 10)
-      setMaxPage(maxPage);
+      setMaxPage(Math.round(maxPage));
       setLoading(false)
     };
     fetchQuestions();
-    
+
   }, [page]);
 
   const handleNextPage = () => {
