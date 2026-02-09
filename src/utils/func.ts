@@ -126,9 +126,9 @@ export const getAllQuestions = async (page: number, limit: number, search: strin
   }
 }
 
-export const getMaxPage = async (page: number, limit: number) =>{
+export const getMaxPage = async (page: number, limit: number, search: string | null) =>{
   try {
-    const url =  `/api/questions?countPage=true&page=${page}&limit=${limit}`;
+    const url =  search? `/api/questions?countPage=true&page=${page}&limit=${limit}&search=${search}`: `/api/questions?countPage=true&page=${page}&limit=${limit}`;
     const res = await fetch(url);
     const data = await res.json();
     console.log(data)
