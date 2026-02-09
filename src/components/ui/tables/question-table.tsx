@@ -66,7 +66,7 @@ export const QuestionsTable = (props: QuestionsTableProps) => {
             <TableRow
               key={question.id}
             >
-              <TableCell>{question.typeId}</TableCell>
+              <TableCell>{question.typeId.slice(2).toUpperCase()}</TableCell>
               <TableCell>{question.question}</TableCell>
               <TableCell>{question.Answer}</TableCell>
             </TableRow>
