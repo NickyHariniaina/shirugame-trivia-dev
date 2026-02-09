@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/shadcn-component/textarea";
 import { QuestionsTable } from "@/components/ui/tables/question-table";
 import { authClient } from "@/lib/auth-client";
 import { Question } from "@/types/db";
+import { searchQuestions } from "@/utils/func";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -30,7 +31,6 @@ const Page = () => {
     const handleSearch = async () => {
         try {
             setLoading(true);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const questions = await searchQuestions(searchValue);
             setDispayledQuestions(questions);
             setLoading(false);
