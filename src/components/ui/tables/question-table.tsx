@@ -21,33 +21,35 @@ type QuestionsTableProps = {
     setQuestions: React.Dispatch<React.SetStateAction<Question[]>>
     loading: boolean
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    maxPage: number
+    setMaxPage: React.Dispatch<React.SetStateAction<number>>
+    page: number
+    setPage: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const QuestionsTable = (props: QuestionsTableProps) => {
-  const [maxPage, setMaxPage] = useState<number>(1);
-  const [page, setPage] = useState(1);
   const router = useRouter();
 
   useEffect(() => {
     const fetchQuestions = async () => {
         props.setLoading(true)
-      const questions = await getAllQuestions(page, 10);
+      const questions = await getAllQuestions(props.page, 10, null);
       props.setQuestions(questions);
-      const maxPage = await getMaxPage(page, 10)
-      setMaxPage(Math.round(maxPage));
+      const maxPage = await getMaxPage(props.page, 10)
+      props.setMaxPage(Math.round(maxPage));
       props.setLoading(false)
     };
     fetchQuestions();
 
-  }, [page]);
+  }, [props.page]);
 
   const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
+    props.setPage((prevPage) => prevPage + 1);
   };
 
   const handlePreviousPage = () => {
-    if (page > 1) {
-      setPage((prevPage) => prevPage - 1);
+    if (props.page > 1) {
+      props.setPage((prevPage) => prevPage - 1);
     }
   };
 
@@ -84,11 +86,11 @@ export const QuestionsTable = (props: QuestionsTableProps) => {
         </TableBody>
       </Table>}
       <div className="flex flex-row justify-end gap-2 p-3 items-center">
-        <p>{page}/{maxPage}</p>
-        <Button onClick={handlePreviousPage} disabled={page === 1}>
+        <p>{props.page}/{props.maxPage}</p>
+        <Button onClick={handlePreviousPage} disabled={props.page === 1}>
             <ArrowLeft />
         </Button>
-        <Button onClick={handleNextPage} disabled={page === maxPage}>
+        <Button onClick={handleNextPage} disabled={props.page === props.maxPage}>
             <ArrowRight />
         </Button>
       </div>

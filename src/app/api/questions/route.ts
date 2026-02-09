@@ -12,18 +12,6 @@ export const GET = async (req: NextRequest) => {
       const limit = req?.nextUrl?.searchParams?.get("limit") || "10";
       const page = req?.nextUrl?.searchParams?.get("page") || "1";
 
-        if (req?.nextUrl?.searchParams?.get("search") != null) {
-            const search = req?.nextUrl?.searchParams?.get("search") || "null";
-            questions = await prisma.question.findMany({
-                where: {
-                    question: {
-                        contains: search,
-                        mode: "insensitive",
-                    },
-                }
-            });
-            return NextResponse.json({ data: questions }, { status: 200 });
-        }
 
       if (req?.nextUrl?.searchParams?.get("countPage") == "true") {
         const totalQuestions = await prisma.question.count();
@@ -32,7 +20,17 @@ export const GET = async (req: NextRequest) => {
       }
 
       const offset = (parseInt(page) - 1) * parseInt(limit);
-      console.log(offset)
+        if (req?.nextUrl?.searchParams?.get("search") != null) {
+            const search = req?.nextUrl?.searchParams?.get("search") || "null";
+            questions = await prisma.$queryRaw`
+                SELECT * FROM "public"."Question"
+                WHERE "question" ILIKE '%${search}%'
+                ORDER BY "typeId"
+                LIMIT ${parseInt(limit)}
+                OFFSET ${offset}
+            `;
+            return NextResponse.json({ data: questions }, { status: 200 });
+        }
       questions = await prisma.$queryRaw`
         SELECT * FROM "public"."Question"
         ORDER BY "typeId"

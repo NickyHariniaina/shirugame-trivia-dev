@@ -114,9 +114,9 @@ export const getQuestions = async (numberOfQuestion: number, type: string | null
   }
 }
 
-export const getAllQuestions = async (page: number, limit: number) => {
+export const getAllQuestions = async (page: number, limit: number, search: string | null) => {
   try {
-    const url = `/api/questions?page=${page}&limit=${limit}`;
+    const url = search? `/api/questions?page=${page}&limit=${limit}&searh=${search}`: `/api/questions?page=${page}&limit=${limit}`;
     const res = await fetch(url);
     const data = await res.json();
     console.log(data)
@@ -273,13 +273,3 @@ export const updateUserScore = async (score: number, userId: string) => {
   }
 }
 
-export const searchQuestions = async (searchValue: string) => {
-    try {
-        const url = `/api/questions?search=${searchValue}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        return data.data;
-    } catch (error) {
-        console.log(error);
-    }
-}

@@ -6,13 +6,15 @@ import { Textarea } from "@/components/ui/shadcn-component/textarea";
 import { QuestionsTable } from "@/components/ui/tables/question-table";
 import { authClient } from "@/lib/auth-client";
 import { Question } from "@/types/db";
-import { searchQuestions } from "@/utils/func";
+import { getAllQuestions } from "@/utils/func";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 const Page = () => {
     const { data: session, isPending } = authClient.useSession();
     const [showSubmitQuestion, setShowSubmitQuestion] = useState(false);
+    const [maxPage, setMaxPage] = useState<number>(1);
+    const [page, setPage] = useState(1);
     const [question, setQuestion] = useState("");
     const [loading, setLoading] = useState<boolean>(false);
     const [dispayledQuestions, setDispayledQuestions] = useState<Question[]>([]);
@@ -31,7 +33,7 @@ const Page = () => {
     const handleSearch = async () => {
         try {
             setLoading(true);
-            const questions = await searchQuestions(searchValue);
+            const questions = await getAllQuestions(page, 10, searchValue);
             setDispayledQuestions(questions);
             setLoading(false);
             toast.success("Questions searched successfully!");
@@ -57,7 +59,7 @@ const Page = () => {
                 <Button variant="ghost" onClick={handleGoSubmitButton}>Cancel</Button>
             </div>
         }
-        <QuestionsTable questions={dispayledQuestions} setQuestions={setDispayledQuestions} loading={loading} setLoading={setLoading} />
+        <QuestionsTable questions={dispayledQuestions} setQuestions={setDispayledQuestions} loading={loading} setLoading={setLoading} maxPage={maxPage} setMaxPage={setMaxPage}  page={page} setPage={setPage} />
     </div>
 }
 
