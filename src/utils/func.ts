@@ -116,7 +116,7 @@ export const getQuestions = async (numberOfQuestion: number, type: string | null
 
 export const getAllQuestions = async (page: number, limit: number, search: string | null) => {
   try {
-    const url = search? `/api/questions?page=${page}&limit=${limit}&searh=${search}`: `/api/questions?page=${page}&limit=${limit}`;
+    const url = search? `/api/questions?page=${page}&limit=${limit}&search=${search}`: `/api/questions?page=${page}&limit=${limit}`;
     const res = await fetch(url);
     const data = await res.json();
     console.log(data)
