@@ -1,5 +1,6 @@
 "use client"
 import FullScreenLoader from "@/components/ui/loading/fullscreen";
+import { FilterSelector } from "@/components/ui/room/filter-selector";
 import { QuestionSearchBar } from "@/components/ui/search-bar/question-search-bar";
 import { Button } from "@/components/ui/shadcn-component/button";
 import { Textarea } from "@/components/ui/shadcn-component/textarea";
@@ -19,6 +20,7 @@ const Page = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [dispayledQuestions, setDispayledQuestions] = useState<Question[]>([]);
     const [answer, setAnswer] = useState("");
+    const [typeId, setTypeId] = useState<string>("null");
     const [searchValue, setSearchValue] = useState<string>("");
 
       useEffect(() => {
@@ -69,6 +71,7 @@ const Page = () => {
     return <div className="flex flex-col gap-4 m-4 p-3 justify-center items-center">
         <h2 className="text-2xl font-bold">Shirugame&apos;s questions</h2>
         <Button variant="outline" onClick={handleGoSubmitButton} disabled>Go submit your own question</Button>
+        <FilterSelector setTypeId={setTypeId} typeId={typeId} />
         <QuestionSearchBar searchValue={searchValue} setSearchValue={setSearchValue} handleSearch={handleSearch} handleClearValue={handleClearValue} />
         {
             showSubmitQuestion && <div className="flex flex-col gap-2 p-5 border rounded-lg  w-full md:w-[600px]">
