@@ -21,22 +21,24 @@ export const GET = async (req: NextRequest) => {
 
       const offset = (parseInt(page) - 1) * parseInt(limit);
         if (req?.nextUrl?.searchParams?.get("search") != null) {
-            const search = req?.nextUrl?.searchParams?.get("search") || "null";
-            questions = await prisma.$queryRaw`
-                SELECT * FROM "public"."Question"
-                WHERE "question" ILIKE '%${search}%'
-                ORDER BY "typeId"
-                LIMIT ${parseInt(limit)}
-                OFFSET ${offset}
-            `;
+            const search = req?.nextUrl?.searchParams?.get("search");
+                questions = await prisma.question.findMany({
+                  where: search
+                    ? { question: { contains: search, mode: "insensitive" } }
+                    : undefined,
+                  orderBy: { typeId: "asc" },
+                  take: parseInt(limit),
+                  skip: offset,
+                });
+                console.log(questions);
             return NextResponse.json({ data: questions }, { status: 200 });
         }
-      questions = await prisma.$queryRaw`
-        SELECT * FROM "public"."Question"
-        ORDER BY "typeId"
-        LIMIT ${parseInt(limit)}
-        OFFSET ${offset}
-      `;
+
+        questions = await prisma.question.findMany({
+          orderBy: { typeId: "asc" },
+          take: parseInt(limit),
+          skip: offset,
+        });
     } else {
       const numberOfQuestion = parseInt(numberOfQuestionQueryNotFormatted);
       questions = await prisma.$queryRaw`
