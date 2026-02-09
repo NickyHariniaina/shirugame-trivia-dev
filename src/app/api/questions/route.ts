@@ -14,6 +14,16 @@ export const GET = async (req: NextRequest) => {
 
 
       if (req?.nextUrl?.searchParams?.get("countPage") == "true") {
+        if (req?.nextUrl?.searchParams?.get("search") != null) {
+            const search = req?.nextUrl?.searchParams?.get("search");
+            const totalQuestions = await prisma.question.count({
+              where: search
+                ? { question: { contains: search, mode: "insensitive" } }
+                : undefined,
+            });
+            const maxPageNumber = totalQuestions / parseInt(limit)
+            return NextResponse.json({ data: maxPageNumber }, { status: 200 });
+        }
         const totalQuestions = await prisma.question.count();
         const maxPageNumber = totalQuestions / parseInt(limit)
         return NextResponse.json({ data: maxPageNumber }, { status: 200 });
