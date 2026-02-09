@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   try {
+        // TODO: refactor this file later
     const numberOfQuestionQueryNotFormatted =
       req?.nextUrl?.searchParams?.get("numberOfQuestion") || "null";
 

@@ -6,8 +6,8 @@ import { Textarea } from "@/components/ui/shadcn-component/textarea";
 import { QuestionsTable } from "@/components/ui/tables/question-table";
 import { authClient } from "@/lib/auth-client";
 import { Question } from "@/types/db";
-import { getAllQuestions } from "@/utils/func";
-import { useState } from "react";
+import { getAllQuestions, getMaxPage } from "@/utils/func";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const Page = () => {
@@ -21,6 +21,18 @@ const Page = () => {
     const [answer, setAnswer] = useState("");
     const [searchValue, setSearchValue] = useState<string>("");
 
+      useEffect(() => {
+        const fetchQuestions = async () => {
+            setLoading(true)
+          const questions = await getAllQuestions(page, 10, searchValue);
+          setQuestion(questions);
+          const maxPage = await getMaxPage(page, 10, searchValue)
+          setMaxPage(Math.round(maxPage));
+          setLoading(false)
+        };
+        fetchQuestions();
+
+      }, [page]);
 
     const handleGoSubmitButton = () => {
         if (!session) {
