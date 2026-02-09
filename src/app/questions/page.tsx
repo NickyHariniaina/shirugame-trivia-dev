@@ -27,9 +27,9 @@ const Page = () => {
         const fetchQuestions = async () => {
             setLoading(true)
             console.log(searchValue);
-          const questions = await getAllQuestions(page, 10, searchValue);
+          const questions = await getAllQuestions(page, 10, searchValue, typeId);
           setQuestion(questions);
-          const maxPage = await getMaxPage(page, 10, searchValue)
+          const maxPage = await getMaxPage(page, 10, searchValue, typeId);
           setMaxPage(Math.round(maxPage));
           setLoading(false)
         };
@@ -50,9 +50,9 @@ const Page = () => {
         try {
             setLoading(true);
             setPage(1);
-            const questions = await getAllQuestions(page, 10, searchValue);
+            const questions = await getAllQuestions(page, 10, searchValue, typeId);
             setDispayledQuestions(questions);
-              const maxPage = await getMaxPage(page, 10, searchValue)
+              const maxPage = await getMaxPage(page, 10, searchValue, typeId)
               setMaxPage(Math.round(maxPage));
             setLoading(false);
             toast.success("Questions searched successfully!");

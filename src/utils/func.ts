@@ -114,9 +114,15 @@ export const getQuestions = async (numberOfQuestion: number, type: string | null
   }
 }
 
-export const getAllQuestions = async (page: number, limit: number, search: string | null) => {
+export const getAllQuestions = async (page: number, limit: number, search: string | null, typeId: string | null) => {
   try {
-    const url = search? `/api/questions?page=${page}&limit=${limit}&search=${search}`: `/api/questions?page=${page}&limit=${limit}`;
+    let url = `/api/questions?page=${page}&limit=${limit}`;
+    if (search) {
+      url += `&search=${search}`;
+    }
+    if (typeId) {
+      url += `&typeId=${typeId}`;
+    }
     const res = await fetch(url);
     const data = await res.json();
     console.log(data)
@@ -126,9 +132,15 @@ export const getAllQuestions = async (page: number, limit: number, search: strin
   }
 }
 
-export const getMaxPage = async (page: number, limit: number, search: string | null) =>{
+export const getMaxPage = async (page: number, limit: number, search: string | null, typeId: string | null) =>{
   try {
-    const url =  search? `/api/questions?countPage=true&page=${page}&limit=${limit}&search=${search}`: `/api/questions?countPage=true&page=${page}&limit=${limit}`;
+    let url = `/api/questions?countPage=true&page=${page}&limit=${limit}`;
+    if (search) {
+      url += `&search=${search}`;
+    }
+    if (typeId) {
+      url += `&typeId=${typeId}`;
+    }
     const res = await fetch(url);
     const data = await res.json();
     console.log(data)
