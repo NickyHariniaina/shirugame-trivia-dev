@@ -30,18 +30,6 @@ type QuestionsTableProps = {
 export const QuestionsTable = (props: QuestionsTableProps) => {
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-        props.setLoading(true)
-      const questions = await getAllQuestions(props.page, 10, null);
-      props.setQuestions(questions);
-      const maxPage = await getMaxPage(props.page, 10)
-      props.setMaxPage(Math.round(maxPage));
-      props.setLoading(false)
-    };
-    fetchQuestions();
-
-  }, [props.page]);
 
   const handleNextPage = () => {
     props.setPage((prevPage) => prevPage + 1);

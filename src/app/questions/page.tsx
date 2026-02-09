@@ -24,6 +24,7 @@ const Page = () => {
       useEffect(() => {
         const fetchQuestions = async () => {
             setLoading(true)
+            console.log(searchValue);
           const questions = await getAllQuestions(page, 10, searchValue);
           setQuestion(questions);
           const maxPage = await getMaxPage(page, 10, searchValue)
@@ -45,8 +46,11 @@ const Page = () => {
     const handleSearch = async () => {
         try {
             setLoading(true);
+            setPage(1);
             const questions = await getAllQuestions(page, 10, searchValue);
             setDispayledQuestions(questions);
+              const maxPage = await getMaxPage(page, 10, searchValue)
+              setMaxPage(Math.round(maxPage));
             setLoading(false);
             toast.success("Questions searched successfully!");
         } catch (error) {
