@@ -16,21 +16,26 @@ import { Button } from "../shadcn-component/button";
 import { ModeToggle } from "../button/dark-mode-toggle";
 import { Spinner } from "../shadcn-component/spinner";
 
-export const QuestionsTable = () => {
-  const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(false)
+type QuestionsTableProps = {
+    questions: Question[]
+    setQuestions: React.Dispatch<React.SetStateAction<Question[]>>
+    loading: boolean
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const QuestionsTable = (props: QuestionsTableProps) => {
   const [maxPage, setMaxPage] = useState<number>(1);
   const [page, setPage] = useState(1);
   const router = useRouter();
 
   useEffect(() => {
     const fetchQuestions = async () => {
-        setLoading(true)
+        props.setLoading(true)
       const questions = await getAllQuestions(page, 10);
-      setQuestions(questions);
+      props.setQuestions(questions);
       const maxPage = await getMaxPage(page, 10)
       setMaxPage(Math.round(maxPage));
-      setLoading(false)
+      props.setLoading(false)
     };
     fetchQuestions();
 
@@ -58,7 +63,7 @@ export const QuestionsTable = () => {
         </Button>
         <ModeToggle />
       </div>
-      {loading? <div className="flex flex-row justify-center items-center p-5"><Spinner /></div> : <Table className="min-w-[400px] md:min-w-[600px] lg:min-w-[800px]">
+      {props.loading? <div className="flex flex-row justify-center items-center p-5"><Spinner /></div> : <Table className="min-w-[400px] md:min-w-[600px] lg:min-w-[800px]">
         <TableHeader>
           <TableRow>
             <TableHead className="w-[5%] text-left">Type</TableHead>
@@ -67,7 +72,7 @@ export const QuestionsTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {questions.map((question: Question) => (
+          {props.questions.map((question: Question) => (
             <TableRow
               key={question.id}
             >

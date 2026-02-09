@@ -272,3 +272,14 @@ export const updateUserScore = async (score: number, userId: string) => {
     console.log(error);
   }
 }
+
+export const searchQuestions = async (searchValue: string) => {
+    try {
+        const url = `/api/questions?search=${searchValue}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        return data.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
