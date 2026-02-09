@@ -16,33 +16,28 @@ import { Button } from "../shadcn-component/button";
 import { ModeToggle } from "../button/dark-mode-toggle";
 import { Spinner } from "../shadcn-component/spinner";
 
-export const QuestionsTable = () => {
-  const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(false)
-  const [maxPage, setMaxPage] = useState(1);
-  const [page, setPage] = useState(1);
+type QuestionsTableProps = {
+    questions: Question[]
+    setQuestions: React.Dispatch<React.SetStateAction<Question[]>>
+    loading: boolean
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    maxPage: number
+    setMaxPage: React.Dispatch<React.SetStateAction<number>>
+    page: number
+    setPage: React.Dispatch<React.SetStateAction<number>>
+}
+
+export const QuestionsTable = (props: QuestionsTableProps) => {
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-        setLoading(true)
-      const questions = await getAllQuestions(page, 10);
-      setQuestions(questions);
-      const maxPage = await getMaxPage(page, 10)
-      setMaxPage(maxPage);
-      setLoading(false)
-    };
-    fetchQuestions();
-    
-  }, [page]);
 
   const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
+    props.setPage((prevPage) => prevPage + 1);
   };
 
   const handlePreviousPage = () => {
-    if (page > 1) {
-      setPage((prevPage) => prevPage - 1);
+    if (props.page > 1) {
+      props.setPage((prevPage) => prevPage - 1);
     }
   };
 
@@ -58,7 +53,7 @@ export const QuestionsTable = () => {
         </Button>
         <ModeToggle />
       </div>
-      {loading? <div className="flex flex-row justify-center items-center p-5"><Spinner /></div> : <Table className="min-w-[400px] md:min-w-[600px] lg:min-w-[800px]">
+      {props.loading? <div className="flex flex-row justify-center items-center p-5"><Spinner /></div> : <Table className="min-w-[400px] md:min-w-[600px] lg:min-w-[800px]">
         <TableHeader>
           <TableRow>
             <TableHead className="w-[5%] text-left">Type</TableHead>
@@ -67,11 +62,11 @@ export const QuestionsTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {questions.map((question: Question) => (
+          {props.questions.map((question: Question) => (
             <TableRow
               key={question.id}
             >
-              <TableCell>{question.typeId}</TableCell>
+              <TableCell>{question.typeId.slice(2).toUpperCase()}</TableCell>
               <TableCell>{question.question}</TableCell>
               <TableCell>{question.Answer}</TableCell>
             </TableRow>
@@ -79,11 +74,11 @@ export const QuestionsTable = () => {
         </TableBody>
       </Table>}
       <div className="flex flex-row justify-end gap-2 p-3 items-center">
-        <p>{page}/{maxPage}</p>
-        <Button onClick={handlePreviousPage} disabled={page === 1}>
+        <p>{props.page}/{props.maxPage}</p>
+        <Button onClick={handlePreviousPage} disabled={props.page === 1}>
             <ArrowLeft />
         </Button>
-        <Button onClick={handleNextPage} disabled={page === maxPage}>
+        <Button onClick={handleNextPage} disabled={props.page === props.maxPage}>
             <ArrowRight />
         </Button>
       </div>

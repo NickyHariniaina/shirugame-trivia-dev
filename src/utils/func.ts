@@ -114,9 +114,15 @@ export const getQuestions = async (numberOfQuestion: number, type: string | null
   }
 }
 
-export const getAllQuestions = async (page: number, limit: number) => {
+export const getAllQuestions = async (page: number, limit: number, search: string | null, typeId: string | null) => {
   try {
-    const url = `/api/questions?page=${page}&limit=${limit}`;
+    let url = `/api/questions?page=${page}&limit=${limit}`;
+    if (search) {
+      url += `&search=${search}`;
+    }
+    if (typeId != "null" && typeId) {
+      url += `&typeId=${typeId}`;
+    }
     const res = await fetch(url);
     const data = await res.json();
     console.log(data)
@@ -126,9 +132,15 @@ export const getAllQuestions = async (page: number, limit: number) => {
   }
 }
 
-export const getMaxPage = async (page: number, limit: number) =>{
+export const getMaxPage = async (page: number, limit: number, search: string | null, typeId: string | null) =>{
   try {
-    const url =  `/api/questions?countPage=true&page=${page}&limit=${limit}`;
+    let url = `/api/questions?countPage=true&page=${page}&limit=${limit}`;
+    if (search) {
+      url += `&search=${search}`;
+    }
+    if (typeId != "null" && typeId) {
+      url += `&typeId=${typeId}`;
+    }
     const res = await fetch(url);
     const data = await res.json();
     console.log(data)
@@ -272,3 +284,4 @@ export const updateUserScore = async (score: number, userId: string) => {
     console.log(error);
   }
 }
+
