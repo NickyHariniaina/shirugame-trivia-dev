@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/shadcn-component/textarea";
 import { QuestionsTable } from "@/components/ui/tables/question-table";
 import { authClient } from "@/lib/auth-client";
 import { Question } from "@/types/db";
-import { getAllQuestions, getMaxPage } from "@/utils/func";
+import { getAllQuestions, getMaxPage, paginate } from "@/utils/func";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -19,11 +19,12 @@ type QuestionForm = {
 
 const Page = () => {
     const { data: session, isPending } = authClient.useSession();
+    const [paginateQuestions, setPaginateQuestions] = useState<Question[]>([]);
     const [showSubmitQuestion, setShowSubmitQuestion] = useState(false);
     const [maxPage, setMaxPage] = useState<number>(1);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState<boolean>(false);
-    const [dispayledQuestions, setDispayledQuestions] = useState<Question[]>(
+    const [fetchedQuestions, setFetchedQuestions] = useState<Question[]>(
         [],
     );
     const [typeId, setTypeId] = useState<string>("null");
@@ -54,17 +55,14 @@ const Page = () => {
     };
     useEffect(() => {
         const fetchQuestions = async () => {
-            setLoading(true);
-            console.log(searchValue);
             const questions = await getAllQuestions(
                 searchValue,
                 typeId,
             );
-            console.log(questions);
-            setDispayledQuestions(questions);
+            setFetchedQuestions(questions);
             const maxPage = await getMaxPage(page, 10, searchValue, typeId);
             setMaxPage(Math.round(maxPage));
-            setLoading(false);
+            setPaginateQuestions(paginate(questions, page, 10));
         };
         fetchQuestions();
     }, [page, typeId]);
@@ -85,10 +83,11 @@ const Page = () => {
                 searchValue,
                 typeId,
             );
-            setDispayledQuestions(questions);
+            setFetchedQuestions(questions);
             const maxPage = await getMaxPage(page, 10, searchValue, typeId);
             setMaxPage(Math.round(maxPage));
             setLoading(false);
+            setPaginateQuestions(paginate(questions, page, 10));
             toast.success("Questions searched successfully!");
         } catch (error) {
             console.error(error);
@@ -162,8 +161,8 @@ const Page = () => {
                 handleClearValue={handleClearValue}
             />
             <QuestionsTable
-                questions={dispayledQuestions}
-                setQuestions={setDispayledQuestions}
+                questions={paginateQuestions}
+                setQuestions={setFetchedQuestions}
                 loading={loading}
                 setLoading={setLoading}
                 maxPage={maxPage}
