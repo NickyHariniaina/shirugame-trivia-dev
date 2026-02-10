@@ -59,6 +59,7 @@ model Question {
   type     Type    @relation(fields: [typeId], references: [id])
   Score    Int
   Answer   String
+  isValidated Boolean @default(true)
 
   rooms    Room[]
 }
