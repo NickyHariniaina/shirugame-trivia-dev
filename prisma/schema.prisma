@@ -28,7 +28,9 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  notifications Notification[]
   displayUsername String?
+  createdQuestions Question[]
   role          String? @default("user")
   banned        Boolean?
   banReason     String?
@@ -55,8 +57,10 @@ model Room {
 model Question {
   id       String  @id
   question String  @unique
-  typeId   String
-  type     Type    @relation(fields: [typeId], references: [id])
+  typeId   String?
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  type     Type?    @relation(fields: [typeId], references: [id])
   Score    Int
   Answer   String
   isValidated Boolean @default(true)
@@ -64,6 +68,16 @@ model Question {
   rooms    Room[]
 }
 
+model Notification {
+    id        String   @id
+    seen      Boolean  @default(false)
+    createdAt DateTime @default(now())
+    userId    String
+    header    String
+    isDeleted Boolean  @default(false)
+    body      String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
 model Type {
   id        String     @id

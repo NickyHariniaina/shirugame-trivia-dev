@@ -35,6 +35,7 @@ const Page = () => {
         reset,
         formState: { isSubmitting },
     } = useForm<QuestionForm>();
+
     const onSubmitQuestion = async (data: QuestionForm) => {
         if (!session) {
             toast.error("You need to log in to submit a question.");
@@ -42,6 +43,18 @@ const Page = () => {
         }
         try {
             setLoading(true);
+            await fetch("/api/questions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...data,
+                    score: 0,
+                    isValidated: false,
+                    userId: session.user.id,
+                }),
+            });
             toast.success(
                 "Question sent to the admin!, check your notifications for updates!",
             );
@@ -53,6 +66,7 @@ const Page = () => {
             setLoading(false);
         }
     };
+
     useEffect(() => {
         const fetchQuestions = async () => {
             const questions = await getAllQuestions(
