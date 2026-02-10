@@ -114,9 +114,9 @@ export const getQuestions = async (numberOfQuestion: number, type: string | null
   }
 }
 
-export const getAllQuestions = async (page: number, limit: number, search: string | null, typeId: string | null) => {
+export const getAllQuestions = async (search: string | null, typeId: string | null) => {
   try {
-    let url = `/api/questions?page=${page}&limit=${limit}`;
+    let url = `/api/question?nofilter=true`;
     if (search) {
       url += `&search=${search}`;
     }

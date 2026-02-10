@@ -57,8 +57,6 @@ const Page = () => {
             setLoading(true);
             console.log(searchValue);
             const questions = await getAllQuestions(
-                page,
-                10,
                 searchValue,
                 typeId,
             );
@@ -84,8 +82,6 @@ const Page = () => {
             setLoading(true);
             setPage(1);
             const questions = await getAllQuestions(
-                page,
-                10,
                 searchValue,
                 typeId,
             );
