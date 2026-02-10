@@ -110,3 +110,43 @@ export const GET = async (req: NextRequest) => {
     );
   }
 };
+
+export const POST = async (req: NextRequest) => {
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    if (!session) {
+        return NextResponse.json(
+            {
+                message: "Unauthorized",
+            },
+            {
+                status: 401,
+            },
+        );
+    }
+
+    try {
+        const data = await req.json();
+        const question = data.question;
+        const answer = data.answer;
+        const userId = data.userId;
+        return NextResponse.json(
+            {
+                message: "Question created successfully",
+            },
+            { status: 200 },
+        );
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json(
+            {
+                message: "Internal Server Error" + error,
+            },
+            {
+                status: 500,
+            },
+        );
+    }
+};
