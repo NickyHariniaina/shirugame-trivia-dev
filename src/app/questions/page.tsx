@@ -60,7 +60,7 @@ const Page = () => {
                 typeId,
             );
             setFetchedQuestions(questions);
-            const maxPage = await getMaxPage(page, 10, searchValue, typeId);
+            const maxPage = await getMaxPage(questions ,page, 10);
             setMaxPage(Math.round(maxPage));
             setPaginateQuestions(paginate(questions, page, 10));
         };
@@ -84,7 +84,7 @@ const Page = () => {
                 typeId,
             );
             setFetchedQuestions(questions);
-            const maxPage = await getMaxPage(page, 10, searchValue, typeId);
+            const maxPage = await getMaxPage(questions, page, 10);
             setMaxPage(Math.round(maxPage));
             setLoading(false);
             setPaginateQuestions(paginate(questions, page, 10));

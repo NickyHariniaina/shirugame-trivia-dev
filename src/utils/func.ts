@@ -132,22 +132,9 @@ export const getAllQuestions = async (search: string | null, typeId: string | nu
   }
 }
 
-export const getMaxPage = async (page: number, limit: number, search: string | null, typeId: string | null) =>{
-  try {
-    let url = `/api/questions?countPage=true&page=${page}&limit=${limit}`;
-    if (search) {
-      url += `&search=${search}`;
-    }
-    if (typeId != "null" && typeId) {
-      url += `&typeId=${typeId}`;
-    }
-    const res = await fetch(url);
-    const data = await res.json();
-    console.log(data)
-    return data.data;
-  } catch (error) {
-    console.log(error);
-  }
+export const getMaxPage = async function<t>(data: t[],page: number, limit: number) {
+    const maxPage = Math.round(data.length / limit);
+    return maxPage;
 }
 
 
