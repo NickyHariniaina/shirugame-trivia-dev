@@ -116,7 +116,7 @@ export const getQuestions = async (numberOfQuestion: number, type: string | null
 
 export const getAllQuestions = async (search: string | null, typeId: string | null) => {
   try {
-    let url = `/api/question?nofilter=true`;
+    let url = `/api/questions?nofilter=true`;
     if (search) {
       url += `&search=${search}`;
     }
