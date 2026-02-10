@@ -285,3 +285,8 @@ export const updateUserScore = async (score: number, userId: string) => {
   }
 }
 
+export const paginate= function<T>(data: T[], page: number, limit: number) {
+    const offset = (page - 1) * limit;
+    return data.slice(offset, offset + limit);
+}
+
