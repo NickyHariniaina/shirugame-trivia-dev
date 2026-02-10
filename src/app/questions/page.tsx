@@ -79,7 +79,11 @@ const Page = () => {
             setPaginateQuestions(paginate(questions, page, 10));
         };
         fetchQuestions();
-    }, [page, typeId]);
+    }, [typeId]);
+
+    useEffect(() => {
+        setPaginateQuestions(paginate(fetchedQuestions, page, 10));
+    }, [page]);
 
     const handleGoSubmitButton = () => {
         if (!session) {
