@@ -28,6 +28,7 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  notifications Notification[]
   displayUsername String?
   role          String? @default("user")
   banned        Boolean?
@@ -64,6 +65,16 @@ model Question {
   rooms    Room[]
 }
 
+model Notification {
+    id        String   @id
+    seen      Boolean  @default(false)
+    createdAt DateTime @default(now())
+    userId    String
+    header    String
+    isDeleted Boolean  @default(false)
+    body      String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
 model Type {
   id        String     @id
