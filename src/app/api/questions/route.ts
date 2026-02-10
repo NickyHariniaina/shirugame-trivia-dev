@@ -1,4 +1,6 @@
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
@@ -79,6 +81,7 @@ export const GET = async (req: NextRequest) => {
         }
         return NextResponse.json({ data: questions }, { status: 200 });
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             {
                 error:
@@ -109,8 +112,23 @@ export const POST = async (req: NextRequest) => {
     try {
         const data = await req.json();
         const question = data.question;
+        const score = data.score;
+        const isValidated = data.isValidated;
         const answer = data.answer;
         const userId = data.userId;
+
+        await prisma.question.create(
+            {
+                data: {
+                    id: question + answer,
+                    question,
+                    Score: score,
+                    Answer: answer,
+                    isValidated: isValidated,
+                    userId: userId,
+                },
+            },
+        )
         return NextResponse.json(
             {
                 message: "Question created successfully",
