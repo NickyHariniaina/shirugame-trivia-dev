@@ -16,18 +16,14 @@ import { Spinner } from "../shadcn-component/spinner";
 
 type QuestionsTableProps = {
     questions: Question[]
-    setQuestionsAction: React.Dispatch<React.SetStateAction<Question[]>>
     loading: boolean
-    setLoadingAction: React.Dispatch<React.SetStateAction<boolean>>
     maxPage: number
-    setMaxPageAction: React.Dispatch<React.SetStateAction<number>>
     page: number
     setPageAction: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const QuestionsTable = (props: QuestionsTableProps) => {
   const router = useRouter();
-
 
   const handleNextPage = () => {
     props.setPageAction((prevPage) => prevPage + 1);
