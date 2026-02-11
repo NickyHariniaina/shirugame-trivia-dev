@@ -49,6 +49,10 @@ export const Header = (props: HeaderPropsType) => {
         router.push("/leaderboard");
     };
 
+    const handleGoTonotification = () => {
+        router.push("/notification");
+    };
+
     return (
         <div className="flex flex-row justify-between items-center md:m-4 rounded-3xl hover:shadow-2xl dark:hover:shadow-blue-900 transition-all duration-200 ease-in-out">
             <div className="m-5 sm:flex hidden">
@@ -139,8 +143,10 @@ export const Header = (props: HeaderPropsType) => {
             </div>
 
             {props.logged ? (
-                <div className="flex flex-row items-center p-2 gap-2">
-                    <Bell />
+                <div className="flex flex-row items-center p-2 gap-3">
+                    <Button variant="ghost" onClick={handleGoTonotification}>
+                        <Bell />
+                    </Button>
                     <Avatar
                         src={props.session?.user?.image || ""}
                         alt={props.session?.user?.username || ""}

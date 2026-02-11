@@ -85,3 +85,14 @@ export type Verification = {
     createdAt: Date;
     updatedAt: Date;
 };
+
+export type Notification = {
+    id: string;
+    seen: boolean;
+    createdAt: Date;
+    userId: string;
+    header: string;
+    isDeleted: boolean;
+    body: string;
+    user: User;
+};
