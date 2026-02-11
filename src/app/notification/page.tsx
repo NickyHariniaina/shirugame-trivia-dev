@@ -16,7 +16,7 @@ const Page = () => {
     }, [session, setLogged]);
 
     if (isPending) return <FullScreenLoader />;
-    return <div>
+    return <div className="flex flex-col m-2 gap-3">
         <Header logged={logged} session={session} />
     </div>
 }
