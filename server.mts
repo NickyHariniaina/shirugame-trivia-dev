@@ -1,4 +1,5 @@
 import next from "next"
+
 import { Server } from "socket.io";
 import { createServer } from "node:http";
 
@@ -18,9 +19,9 @@ app.prepare().then(() => {
   });
 
   io.on("connection", (socket) => {
-    console.log("a user connected");
+    console.log("a user connected", socket.id);
     socket.on("disconnect", () => {
-      console.log("user disconnected");
+      console.log("user disconnected", socket.id);
     });
   });
 

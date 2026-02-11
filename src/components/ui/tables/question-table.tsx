@@ -8,8 +8,6 @@ import {
   TableBody,
   TableCell,
 } from "../shadcn-component/table";
-import { useEffect, useState } from "react";
-import { getAllQuestions, getMaxPage } from "@/utils/func";
 import { Question } from "@/types/db";
 import { ArrowLeft, ArrowRight, StepBack } from "lucide-react";
 import { Button } from "../shadcn-component/button";
@@ -18,26 +16,22 @@ import { Spinner } from "../shadcn-component/spinner";
 
 type QuestionsTableProps = {
     questions: Question[]
-    setQuestions: React.Dispatch<React.SetStateAction<Question[]>>
     loading: boolean
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>
     maxPage: number
-    setMaxPage: React.Dispatch<React.SetStateAction<number>>
     page: number
-    setPage: React.Dispatch<React.SetStateAction<number>>
+    setPageAction: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const QuestionsTable = (props: QuestionsTableProps) => {
   const router = useRouter();
 
-
   const handleNextPage = () => {
-    props.setPage((prevPage) => prevPage + 1);
+    props.setPageAction((prevPage) => prevPage + 1);
   };
 
   const handlePreviousPage = () => {
     if (props.page > 1) {
-      props.setPage((prevPage) => prevPage - 1);
+      props.setPageAction((prevPage) => prevPage - 1);
     }
   };
 
