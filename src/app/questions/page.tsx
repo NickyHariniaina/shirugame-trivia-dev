@@ -182,11 +182,8 @@ const Page = () => {
             />
             <QuestionsTable
                 questions={paginateQuestions}
-                setQuestionsAction={setFetchedQuestions}
                 loading={loading}
-                setLoadingAction={setLoading}
                 maxPage={maxPage}
-                setMaxPageAction={setMaxPage}
                 page={page}
                 setPageAction={setPage}
             />
