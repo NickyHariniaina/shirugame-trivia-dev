@@ -2,6 +2,7 @@ import { authClient } from "@/lib/auth-client";
 import { Avatar } from "./profil/avatar";
 import { Button } from "./shadcn-component/button";
 import { ModeToggle } from "./button/dark-mode-toggle";
+import { useUser } from "@/stores/useUser";
 import {
     Sheet,
     SheetContent,
@@ -16,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/stores/useUser";
 import { Spinner } from "./shadcn-component/spinner";
 import { Session } from "@/types/better-auth";
+import { useEffect, useState } from "react";
 
 type HeaderPropsType = {
     logged: boolean | undefined;
@@ -25,8 +27,20 @@ type HeaderPropsType = {
 
 export const Header = (props: HeaderPropsType) => {
     const loading = useUser((state) => state.loading);
+    const [containsNotificationUnseen, setContainsNotificationUnseen] = useState<boolean>(true);
+    const [unseenNotificationsNumber, setUnseenNotificationsNumber] = useState<number>(0);
+    const { userData } = useUser();
     const setLoading = useUser((state) => state.setLoading);
     const router = useRouter();
+
+    useEffect(() => {
+        if (userData) {
+            const notifications = userData.notifications;
+            const unseenNotifications = notifications.filter((notification) => !notification.seen);
+            setContainsNotificationUnseen(unseenNotifications.length > 0);
+            setUnseenNotificationsNumber(unseenNotifications.length);
+        }
+    }, [userData])
 
     const handleLogOut = async () => {
         try {

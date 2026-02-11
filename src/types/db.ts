@@ -11,6 +11,7 @@ export type User = {
     createdAt: Date;
     updatedAt: Date;
     sessions: Session[];
+    notifications: Notification[];
     accounts: Account[];
     openedRooms: Room[];
     wonRooms: Room[];
@@ -94,5 +95,4 @@ export type Notification = {
     header: string;
     isDeleted: boolean;
     body: string;
-    user: User;
 };
