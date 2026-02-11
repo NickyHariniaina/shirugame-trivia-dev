@@ -132,7 +132,7 @@ export const getAllQuestions = async (search: string | null, typeId: string | nu
   }
 }
 
-export const getMaxPage = async function<t>(data: t[],page: number, limit: number) {
+export const getMaxPage = async function<t>(data: t[], _page: number, limit: number) {
     const maxPage = Math.round(data.length / limit);
     return maxPage;
 }

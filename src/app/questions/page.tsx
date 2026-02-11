@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import FullScreenLoader from "@/components/ui/loading/fullscreen";
 import { FilterSelector } from "@/components/ui/room/filter-selector";
@@ -180,13 +182,13 @@ const Page = () => {
             />
             <QuestionsTable
                 questions={paginateQuestions}
-                setQuestions={setFetchedQuestions}
+                setQuestionsAction={setFetchedQuestions}
                 loading={loading}
-                setLoading={setLoading}
+                setLoadingAction={setLoading}
                 maxPage={maxPage}
-                setMaxPage={setMaxPage}
+                setMaxPageAction={setMaxPage}
                 page={page}
-                setPage={setPage}
+                setPageAction={setPage}
             />
         </div>
     );
