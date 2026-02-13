@@ -4,6 +4,7 @@ import { Notification } from "@/types/db";
 import { Button } from "./shadcn-component/button";
 import { EllipsisVertical } from "lucide-react";
 import { Session } from "@/types/better-auth";
+import { formatDate } from "@/utils/func";
 
 type NotificationDisplayerProps = {
     session: Session | null;
@@ -40,6 +41,9 @@ export const NotificationDisplayer = (props: NotificationDisplayerProps) => {
                                 {notification.header}
                             </h4>
                             <p className="text-sm">{notification.body}</p>
+                            <div className="self-end">
+                                {formatDate(new Date(notification.createdAt))}
+                            </div>
                         </div>
                         <EllipsisVertical size={30} />
                     </div>
