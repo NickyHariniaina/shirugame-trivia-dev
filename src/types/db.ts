@@ -11,6 +11,7 @@ export type User = {
     createdAt: Date;
     updatedAt: Date;
     sessions: Session[];
+    notifications: Notification[];
     accounts: Account[];
     openedRooms: Room[];
     wonRooms: Room[];
@@ -84,4 +85,14 @@ export type Verification = {
     expiresAt: Date;
     createdAt: Date;
     updatedAt: Date;
+};
+
+export type Notification = {
+    id: string;
+    seen: boolean;
+    createdAt: Date;
+    userId: string;
+    header: string;
+    isDeleted: boolean;
+    body: string;
 };

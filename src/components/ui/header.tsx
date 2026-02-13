@@ -2,6 +2,7 @@ import { authClient } from "@/lib/auth-client";
 import { Avatar } from "./profil/avatar";
 import { Button } from "./shadcn-component/button";
 import { ModeToggle } from "./button/dark-mode-toggle";
+import { useUser } from "@/stores/useUser";
 import {
     Sheet,
     SheetContent,
@@ -13,9 +14,10 @@ import {
 } from "@/components/ui/shadcn-component/sheet";
 import { Bell, Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/stores/useUser";
 import { Spinner } from "./shadcn-component/spinner";
+import { Badge } from "@/components/ui/shadcn-component/badge";
 import { Session } from "@/types/better-auth";
+import { useEffect, useState } from "react";
 
 type HeaderPropsType = {
     logged: boolean | undefined;
@@ -25,8 +27,22 @@ type HeaderPropsType = {
 
 export const Header = (props: HeaderPropsType) => {
     const loading = useUser((state) => state.loading);
+    const [containsNotificationUnseen, setContainsNotificationUnseen] = useState<boolean>(false);
+    const [unseenNotificationsNumber, setUnseenNotificationsNumber] = useState<number>(0);
+    const { userData } = useUser();
     const setLoading = useUser((state) => state.setLoading);
     const router = useRouter();
+
+    useEffect(() => {
+        if (userData) {
+            const notifications = userData.notifications;
+            const unseenNotifications = notifications.filter((notification) => !notification.seen);
+            setContainsNotificationUnseen(unseenNotifications.length > 0);
+            setUnseenNotificationsNumber(unseenNotifications.length);
+        }
+    }, [userData])
+    console.log(containsNotificationUnseen);
+    console.log(unseenNotificationsNumber);
 
     const handleLogOut = async () => {
         try {
@@ -47,6 +63,10 @@ export const Header = (props: HeaderPropsType) => {
 
     const handleGoToLeaderboard = () => {
         router.push("/leaderboard");
+    };
+
+    const handleGoTonotification = () => {
+        router.push("/notification");
     };
 
     return (
@@ -139,8 +159,20 @@ export const Header = (props: HeaderPropsType) => {
             </div>
 
             {props.logged ? (
-                <div className="flex flex-row items-center p-2 gap-2">
-                    <Bell />
+                <div className="flex flex-row items-center p-2 gap-3">
+                    <Button variant="ghost" onClick={handleGoTonotification}>
+                        <Bell />
+                        {
+                            containsNotificationUnseen ? (
+                                <Badge
+                                    variant="destructive"
+                                    className=""
+                                >
+                                    {unseenNotificationsNumber > 99 ? "99+" : unseenNotificationsNumber}
+                                </Badge>
+                            ) : null
+                        }
+                    </Button>
                     <Avatar
                         src={props.session?.user?.image || ""}
                         alt={props.session?.user?.username || ""}

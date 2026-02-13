@@ -27,6 +27,7 @@ export const GET = async (
         openedRooms: true,
         wonRooms: true,
         joinedRooms: true,
+        notifications: true,
       },
     });
 
