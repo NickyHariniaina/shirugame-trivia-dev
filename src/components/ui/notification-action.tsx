@@ -1,5 +1,11 @@
-import { Button } from "./shadcn-component/button";
 import { Notification } from "@/types/db";
+import { EllipsisVertical } from "lucide-react";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "./shadcn-component/popover";
+import { Button } from "./shadcn-component/button";
 
 type NotificationActionProps = {
     handleMarkAsRead: () => void;
@@ -9,15 +15,25 @@ type NotificationActionProps = {
 
 export const NotificationAction = (props: NotificationActionProps) => {
     return (
-        <div className="flex flex-row gap-2 items-center">
-            {!props.notification.seen && (
-                <Button variant="outline" onClick={props.handleMarkAsRead}>
-                    Mark as read
-                </Button>
-            )}
-            <Button variant="destructive" onClick={props.handleDelete}>
-                Delete
-            </Button>
-        </div>
+        <Popover>
+            <PopoverTrigger>
+                <EllipsisVertical size={30} />
+            </PopoverTrigger>
+            <PopoverContent align="end">
+                <div className="flex flex-col gap-2 justify-center">
+                    {!props.notification.seen && (
+                        <Button
+                            onClick={props.handleMarkAsRead}
+                            variant="outline"
+                        >
+                            Mark as read
+                        </Button>
+                    )}
+                    <Button onClick={props.handleDelete} variant="outline">
+                        Delete
+                    </Button>
+                </div>
+            </PopoverContent>
+        </Popover>
     );
 };
