@@ -22,14 +22,14 @@ export const PATCH = async (
         // TODO: Update in case you need to add other field later
         const allowedFields = ["seen"];
 
-        if (!allowedFields.includes(dataReceived.field)) {
+        const filteredData = Object.fromEntries(
+            Object.entries(dataReceived).filter(([key]) => allowedFields.includes(key)),
+        );
+
+        if (Object.keys(filteredData).length === 0) {
             return NextResponse.json(
-                {
-                    message: "Invalid field",
-                },
-                {
-                    status: 400,
-                },
+                { message: "Invalid field" },
+                { status: 400 },
             );
         }
 
@@ -39,6 +39,15 @@ export const PATCH = async (
             },
             data: dataReceived,
         });
+
+        return NextResponse.json(
+            {
+                message: "Notification updated successfully",
+            },
+            {
+                status: 200,
+            },
+        );
     } catch (error) {
         console.log(error);
         return NextResponse.json(
@@ -72,6 +81,14 @@ export const DELETE = async (
             },
             data: { isDeleted: true },
         });
+        return NextResponse.json(
+            {
+                message: "Notification deleted successfully",
+            },
+            {
+                status: 200,
+            },
+        );
     } catch (error) {
         console.log(error);
         return NextResponse.json(

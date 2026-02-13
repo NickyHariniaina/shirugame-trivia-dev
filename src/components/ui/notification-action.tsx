@@ -8,8 +8,8 @@ import {
 import { Button } from "./shadcn-component/button";
 
 type NotificationActionProps = {
-    handleMarkAsRead: () => void;
-    handleDelete: () => void;
+    handleMarkAsRead: (id: string) => void;
+    handleDelete: (id: string) => void;
     notification: Notification;
 };
 
@@ -23,13 +23,13 @@ export const NotificationAction = (props: NotificationActionProps) => {
                 <div className="flex flex-col gap-2 justify-center">
                     {!props.notification.seen && (
                         <Button
-                            onClick={props.handleMarkAsRead}
+                            onClick={() => props.handleMarkAsRead(props.notification.id)}
                             variant="outline"
                         >
                             Mark as read
                         </Button>
                     )}
-                    <Button onClick={props.handleDelete} variant="outline">
+                    <Button onClick={() => props.handleDelete(props.notification.id)} variant="outline">
                         Delete
                     </Button>
                 </div>

@@ -2,8 +2,13 @@ import { useUser } from "@/stores/useUser";
 import { useEffect, useState } from "react";
 import { Notification } from "@/types/db";
 import { Session } from "@/types/better-auth";
-import { deleteNotification, formatDate, markNotificationAsRead } from "@/utils/func";
+import {
+    deleteNotification,
+    formatDate,
+    markNotificationAsRead,
+} from "@/utils/func";
 import { NotificationAction } from "./notification-action";
+import toast from "react-hot-toast";
 
 type NotificationDisplayerProps = {
     session: Session | null;
@@ -27,7 +32,7 @@ export const NotificationDisplayer = (props: NotificationDisplayerProps) => {
 
     const handleMarkAsRead = async (notificationId: string) => {
         try {
-            await markNotificationAsRead(notificationId);
+            markNotificationAsRead(notificationId);
             const updatedNotifications = notifications.map(
                 (notification: Notification) => {
                     if (notification.id == notificationId) {
@@ -40,25 +45,27 @@ export const NotificationDisplayer = (props: NotificationDisplayerProps) => {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     const handleDelete = async (notificationId: string) => {
         try {
-            await deleteNotification(notificationId);
-            const updatedNotifications = notifications.map(
-                (notification: Notification) => {
+            deleteNotification(notificationId);
+            const updatedNotifications = notifications
+                .map((notification: Notification) => {
                     if (notification.id == notificationId) {
                         notification.isDeleted = true;
                     }
                     return notification;
-                },
-            );
+                })
+                .filter(
+                    (notification: Notification) => !notification.isDeleted,
+                );
             setNotifications(updatedNotifications);
             toast.success("Notification deleted successfully");
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     return (
         <div className="flex flex-col gap-2 m-2">
@@ -75,11 +82,15 @@ export const NotificationDisplayer = (props: NotificationDisplayerProps) => {
                                 {notification.header}
                             </h4>
                             <p className="text-sm">{notification.body}</p>
-                            <div className="self-end">
+                            <div className="">
                                 {formatDate(new Date(notification.createdAt))}
                             </div>
                         </div>
-                        <NotificationAction handleMarkAsRead={handleMarkAsRead} handleDelete={handleDelete} notification={notification} />
+                            <NotificationAction
+                                handleMarkAsRead={handleMarkAsRead}
+                                handleDelete={handleDelete}
+                                notification={notification}
+                            />
                     </div>
                 );
             })}
