@@ -54,6 +54,7 @@ export const NotificationDisplayer = (props: NotificationDisplayerProps) => {
                 },
             );
             setNotifications(updatedNotifications);
+            toast.success("Notification deleted successfully");
         } catch (error) {
             console.log(error);
         }
