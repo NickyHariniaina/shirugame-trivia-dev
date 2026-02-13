@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/shadcn-component/sheet";
 import { Bell, Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/stores/useUser";
 import { Spinner } from "./shadcn-component/spinner";
 import { Session } from "@/types/better-auth";
 import { useEffect, useState } from "react";
@@ -38,7 +37,6 @@ export const Header = (props: HeaderPropsType) => {
             const notifications = userData.notifications;
             const unseenNotifications = notifications.filter((notification) => !notification.seen);
             setContainsNotificationUnseen(unseenNotifications.length > 0);
-            setUnseenNotificationsNumber(unseenNotifications.length);
         }
     }, [userData])
 
