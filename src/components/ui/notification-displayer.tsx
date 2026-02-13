@@ -25,7 +25,6 @@ export const NotificationDisplayer = (props: NotificationDisplayerProps) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userData]);
-    console.log(notifications);
     return (
         <div className="flex flex-col gap-2 m-2">
             {notifications.map((notification: Notification, index: number) => {
