@@ -1,10 +1,9 @@
 import { useUser } from "@/stores/useUser";
 import { useEffect, useState } from "react";
 import { Notification } from "@/types/db";
-import { Button } from "./shadcn-component/button";
-import { EllipsisVertical } from "lucide-react";
 import { Session } from "@/types/better-auth";
-import { formatDate } from "@/utils/func";
+import { deleteNotification, formatDate, markNotificationAsRead } from "@/utils/func";
+import { NotificationAction } from "./notification-action";
 
 type NotificationDisplayerProps = {
     session: Session | null;
@@ -25,6 +24,41 @@ export const NotificationDisplayer = (props: NotificationDisplayerProps) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userData]);
+
+    const handleMarkAsRead = async (notificationId: string) => {
+        try {
+            await markNotificationAsRead(notificationId);
+            const updatedNotifications = notifications.map(
+                (notification: Notification) => {
+                    if (notification.id == notificationId) {
+                        notification.seen = true;
+                    }
+                    return notification;
+                },
+            );
+            setNotifications(updatedNotifications);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleDelete = async (notificationId: string) => {
+        try {
+            await deleteNotification(notificationId);
+            const updatedNotifications = notifications.map(
+                (notification: Notification) => {
+                    if (notification.id == notificationId) {
+                        notification.isDeleted = true;
+                    }
+                    return notification;
+                },
+            );
+            setNotifications(updatedNotifications);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div className="flex flex-col gap-2 m-2">
             {notifications.map((notification: Notification, index: number) => {
@@ -44,7 +78,7 @@ export const NotificationDisplayer = (props: NotificationDisplayerProps) => {
                                 {formatDate(new Date(notification.createdAt))}
                             </div>
                         </div>
-                        <EllipsisVertical size={30} />
+                        <NotificationAction handleMarkAsRead={handleMarkAsRead} handleDelete={handleDelete} notification={notification} />
                     </div>
                 );
             })}
