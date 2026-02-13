@@ -51,3 +51,36 @@ export const PATCH = async (
         );
     }
 };
+
+export const DELETE = async (
+    req: NextRequest,
+    context: RouteContext<"/api/notifications/[id]">,
+) => {
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    if (!session) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+        const { id: notificationId } = await context.params;
+        await prisma.notification.update({
+            where: {
+                id: notificationId,
+            },
+            data: { isDeleted: true },
+        });
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json(
+            {
+                message: "Internal Server Error",
+            },
+            {
+                status: 500,
+            },
+        );
+    }
+};
