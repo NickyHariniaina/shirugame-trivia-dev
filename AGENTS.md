@@ -5,51 +5,41 @@ This file provides guidelines for AI agents working on the Shirugame codebase.
 ## Build/Run Commands
 
 ```bash
-# Development server (with Socket.io)
-npm run dev
+npm run dev          # Development server (with Socket.io)
+npm run build        # Build for production
+npm run build:socket # Build with Socket.io server
+npm start            # Start production server
+npm run start:socket # Start Socket.io server
+npm run lint         # Lint code
 
-# Build for production
-npm run build
-
-# Build with Socket.io server
-npm run build:socket
-
-# Start production server
-npm start
-
-# Start Socket.io server
-npm run start:socket
-
-# Lint code
-npm run lint
-
-# Generate Prisma client
-npx prisma generate
+# Database
+npx prisma generate            # Generate Prisma client
+npx prisma migrate dev --name # Create migration
 ```
 
-**Note:** No test runner is configured. To add tests, use Jest or Vitest.
+**Note:** No test runner is configured. To add tests, use Vitest (recommended).
 
 ## Tech Stack
 
 - **Framework:** Next.js 15+ with App Router
 - **Language:** TypeScript (strict mode)
 - **Styling:** Tailwind CSS v4
-- **UI Components:** shadcn/ui (New York style)
+- **UI:** shadcn/ui (New York style)
 - **Database:** Prisma ORM
 - **Auth:** Better Auth
 - **State:** Zustand
 - **Real-time:** Socket.io
-- **Icons:** Lucide React
+- **Toast:** react-hot-toast
 
-## Code Style Guidelines
+## Code Style
 
-### Imports
+### Imports (order: React/Next → libs → aliases → relative)
 
 ```typescript
-// Order: React/Next → External libs → Internal aliases → Relative
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { create } from "zustand";
+import toast from "react-hot-toast";
 import { Button } from "@/components/ui/shadcn-component/button";
 import { useUser } from "@/stores/useUser";
 import { cn } from "@/lib/utils";
@@ -57,23 +47,15 @@ import { cn } from "@/lib/utils";
 
 ### Path Aliases
 
-Always use path aliases from `tsconfig.json`:
 - `@/*` → `./src/*`
-- `@/components/*` → `./src/components/*`
-- `@/lib/*` → `./src/lib/*`
-- `@/stores/*` → `./src/stores/*`
-- `@/hooks/*` → `./src/hooks/*`
-- `@/types/*` → `./src/types/*`
-- `@/utils/*` → `./src/utils/*`
+- `@/components/*`, `@/lib/*`, `@/stores/*`, `@/hooks/*`, `@/types/*`, `@/utils/*`
 
-### Naming Conventions
+### Naming
 
-- **Components:** PascalCase (e.g., `Button.tsx`, `UserProfile.tsx`)
-- **Hooks:** camelCase with `use` prefix (e.g., `useUser.ts`, `useReloadUserData.ts`)
-- **Stores:** camelCase with `use` prefix (e.g., `useUser.ts`, `useSocketStore.ts`)
-- **Utilities:** camelCase (e.g., `utils.ts`, `func.ts`)
-- **Types:** PascalCase (e.g., `User.ts`, `RoomDto.ts`)
-- **API Routes:** lowercase (e.g., `route.ts`)
+- **Components:** PascalCase (`Button.tsx`)
+- **Hooks/Stores:** camelCase with `use` prefix (`useUser.ts`)
+- **Types:** PascalCase (`User.ts`)
+- **API Routes:** lowercase (`route.ts`)
 
 ### TypeScript
 
@@ -81,19 +63,6 @@ Always use path aliases from `tsconfig.json`:
 - Define explicit return types for functions
 - Use `type` for object shapes, `interface` for extensible contracts
 - Prefer `undefined` over `null` for optional values
-
-```typescript
-// Good
-type UserProps = {
-  id: string;
-  name: string;
-  email?: string;
-};
-
-export const getUser = async (id: string): Promise<User> => {
-  // ...
-};
-```
 
 ### Component Structure
 
@@ -107,17 +76,14 @@ type MyComponentProps = {
 };
 
 export const MyComponent = ({ className, children }: MyComponentProps) => {
-  return (
-    <div className={cn("base-classes", className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn("base-classes", className)}>{children}</div>;
 };
 ```
 
-### API Routes Pattern
+### API Routes
 
 ```typescript
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextResponse, NextRequest } from "next/server";
 
@@ -127,47 +93,38 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { message: "Internal Server Error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 };
 ```
 
 ### Error Handling
 
-- Use try-catch blocks in async functions
+- Use try-catch in async functions
 - Log errors with `console.error()`
 - Return appropriate HTTP status codes
-- Use toast notifications for user feedback (react-hot-toast or sonner)
-
-### Styling (Tailwind)
-
-- Use `cn()` utility from `@/lib/utils` for conditional classes
-- Follow shadcn/ui conventions
-- Support dark mode with `dark:` prefix
-- Use CSS variables from `globals.css` for theming
+- Use `react-hot-toast` for user feedback
 
 ```typescript
-import { cn } from "@/lib/utils";
-
-className={cn(
-  "base-classes",
-  isActive && "active-classes",
-  className
-)}
+toast.success("Operation completed");
+const loadId = toast.loading("Loading...");
+toast.success("Done", { id: loadId });
+toast.error("Failed", { id: loadId });
 ```
 
-### Zustand Store Pattern
+### Styling
+
+- Use `cn()` from `@/lib/utils` for conditional classes
+- Follow shadcn/ui conventions
+- Support dark mode with `dark:` prefix
+- Use CSS variables from `globals.css`
+
+### Zustand Store
 
 ```typescript
 import { create } from "zustand";
 
-type Store = {
-  data: Type | null;
-  setData: (data: Type) => void;
-};
+type Store = { data: Type | null; setData: (data: Type) => void };
 
 export const useStore = create<Store>((set) => ({
   data: null,
@@ -177,33 +134,25 @@ export const useStore = create<Store>((set) => ({
 
 ### Prisma
 
-- Import from `@/generated/prisma` (not `@prisma/client`)
-- Use singleton pattern from `src/lib/prisma.ts`
+- Import from `@/lib/prisma` (singleton pattern)
 - Run `prisma generate` after schema changes
 
 ## File Organization
 
 ```
 src/
-├── app/              # Next.js App Router
-│   ├── api/          # API routes
-│   ├── page.tsx      # Pages
-│   └── layout.tsx    # Layouts
-├── components/
-│   ├── ui/
-│   │   └── shadcn-component/  # shadcn/ui components
-│   └── *.tsx         # Custom components
-├── hooks/            # Custom React hooks
-├── lib/              # Core utilities (prisma, auth, etc.)
-├── services/         # Business logic
-├── stores/           # Zustand stores
-├── types/            # TypeScript types
-└── utils/            # Helper functions
+├── app/           # Next.js App Router (api/, page.tsx, layout.tsx)
+├── components/    # UI components (ui/shadcn-component/, custom *.tsx)
+├── hooks/         # Custom React hooks
+├── lib/          # Core utilities (prisma, auth, etc.)
+├── services/     # Business logic
+├── stores/      # Zustand stores
+├── types/        # TypeScript types
+└── utils/        # Helper functions
 ```
 
 ## Environment Variables
 
-Required in `.env`:
 - `DATABASE_URL` - Prisma database connection
 - `NEXT_PUBLIC_APP_URL` - App URL
 - Auth credentials (Better Auth)
@@ -211,17 +160,8 @@ Required in `.env`:
 
 ## Common Tasks
 
-### Add shadcn Component
 ```bash
-npx shadcn add button
-```
-
-### Database Migration
-```bash
-npx prisma migrate dev --name migration_name
-```
-
-### Generate Prisma Client
-```bash
-npx prisma generate
+npx shadcn add button      # Add shadcn component
+npx prisma migrate dev    # Database migration
+npx prisma generate       # Generate Prisma client
 ```

@@ -1,5 +1,4 @@
 "use client";
-import FullScreenLoader from "@/components/ui/loading/fullscreen";
 import { Body } from "@/components/ui/body";
 import { Footer } from "@/components/ui/footer";
 import { Header } from "@/components/ui/header";
@@ -7,6 +6,7 @@ import { authClient } from "@/lib/auth-client";
 import { useUser } from "@/stores/useUser";
 import { useState, useEffect } from "react";
 import { useSocketStore } from "@/stores/useSocketStore";
+import { Skeleton } from "@/components/ui/shadcn-component/skeleton";
 
 const Page = () => {
     const [logged, setLogged] = useState<boolean>(false);
@@ -24,7 +24,18 @@ const Page = () => {
         }
     }, [session, setUserData, connect]);
 
-    if (isPending) return <FullScreenLoader />;
+    if (isPending) {
+        return (
+            <div className="flex flex-col m-2 gap-3">
+                <Skeleton className="h-16 w-full" />
+                <div className="flex flex-col gap-4 p-4">
+                    <Skeleton className="h-48 w-full" />
+                    <Skeleton className="h-32 w-full" />
+                </div>
+                <Skeleton className="h-12 w-full" />
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-col m-2 gap-3">

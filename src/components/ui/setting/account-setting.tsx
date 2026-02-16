@@ -1,9 +1,9 @@
-import FullScreenLoader from "../loading/fullscreen";
 import { toast } from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { useState, useEffect } from "react";
 import { Separator } from "../shadcn-component/separator";
 import { Button } from "../shadcn-component/button";
+import { Skeleton } from "../shadcn-component/skeleton";
 
 type Account = {
   accountId: string,
@@ -40,8 +40,21 @@ export const AccountSetting = () => {
     fetchAccountWithBetterAuth();
   }, []);
 
-  console.log(isLoadingAccount);
-  if (isLoadingAccount) return <FullScreenLoader />;
+  if (isLoadingAccount) {
+    return (
+      <div className="flex flex-col gap-2 justify-center items-center p-4">
+        <h2 className="text-xl font-bold">List of linked account</h2>
+        <Separator />
+        {Array.from({ length: 2 }).map((_, i) => (
+          <div key={i} className="flex flex-col gap-2 justify-center items-center w-full">
+            <Skeleton className="h-4 w-48" />
+            <Skeleton className="h-4 w-64" />
+            <Skeleton className="h-10 w-24" />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   const handleUnlink = async (providerId: string) => {
     if (providerId === "credentials") {

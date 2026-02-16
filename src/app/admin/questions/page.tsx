@@ -14,7 +14,7 @@ import {
     SelectValue,
 } from "@/components/ui/shadcn-component/select";
 import toast from "react-hot-toast";
-import FullScreenLoader from "@/components/ui/loading/fullscreen";
+import { Skeleton } from "@/components/ui/shadcn-component/skeleton";
 import { YouNeedAnAccount } from "@/components/ui/chore-component/you-need-an-account";
 import Link from "next/link";
 
@@ -130,7 +130,27 @@ const Page = () => {
         }
     };
 
-    if (sessionPending) return <FullScreenLoader />;
+    if (sessionPending) {
+        return (
+            <div className="min-h-screen bg-background">
+                <div className="container mx-auto p-4 max-w-4xl">
+                    <Skeleton className="h-10 w-64 mb-6" />
+                    <div className="space-y-4">
+                        {Array.from({ length: 3 }).map((_, i) => (
+                            <div key={i} className="border rounded-lg p-4">
+                                <Skeleton className="h-6 w-3/4 mb-2" />
+                                <Skeleton className="h-4 w-1/2 mb-4" />
+                                <div className="flex gap-3">
+                                    <Skeleton className="h-8 w-24" />
+                                    <Skeleton className="h-8 w-24" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
     if (!session) return <YouNeedAnAccount />;
     if (session.user.role !== "admin") {
         return (
