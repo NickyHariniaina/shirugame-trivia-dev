@@ -21,52 +21,19 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/shadcn-component/select";
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/shadcn-component/sheet";
 import { Avatar } from "@/components/ui/profil/avatar";
-import { Loader2, Search, Ban, Shield, MoreHorizontal } from "lucide-react";
+import { UserSheet } from "@/components/admin/UserSheet";
+import { Loader2, Search, MoreHorizontal } from "lucide-react";
 import toast from "react-hot-toast";
 import FullScreenLoader from "@/components/ui/loading/fullscreen";
 import { YouNeedAnAccount } from "@/components/ui/chore-component/you-need-an-account";
 import Link from "next/link";
-
-interface User {
-    id: string;
-    name: string;
-    username: string | null;
-    email: string;
-    image: string | null;
-    role: string;
-    banned: boolean | null;
-    banReason: string | null;
-    banExpires: string | null;
-    highestScore: number | null;
-    rank: number | null;
-    createdAt: Date;
-    _count: {
-        notifications: number;
-        openedRooms: number;
-        joinedRooms: number;
-    };
-}
-
-interface Pagination {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-}
+import { AdminUser, Pagination } from "@/types/admin";
 
 const Page = () => {
     const { data: session, isPending: sessionPending } =
         authClient.useSession();
-    const [users, setUsers] = useState<User[]>([]);
+    const [users, setUsers] = useState<AdminUser[]>([]);
     const [loading, setLoading] = useState(true);
     const [pagination, setPagination] = useState<Pagination>({
         page: 1,
@@ -78,7 +45,7 @@ const Page = () => {
     const [roleFilter, setRoleFilter] = useState("");
     const [bannedFilter, setBannedFilter] = useState("");
     const [processingId, setProcessingId] = useState<string | null>(null);
-    const [selectedUser, setSelectedUser] = useState<User | null>(null);
+    const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null);
     const [sheetOpen, setSheetOpen] = useState(false);
 
     useEffect(() => {
@@ -179,7 +146,7 @@ const Page = () => {
         }
     };
 
-    const openUserSheet = (user: User) => {
+    const openUserSheet = (user: AdminUser) => {
         setSelectedUser(user);
         setSheetOpen(true);
     };
@@ -232,7 +199,7 @@ const Page = () => {
                     <Select
                         value={roleFilter}
                         onValueChange={(v) => {
-                            setRoleFilter(v != "all" ? v : "");
+                            setRoleFilter(v !== "all" ? v : "");
                             setPagination((p) => ({ ...p, page: 1 }));
                         }}
                     >
@@ -248,7 +215,7 @@ const Page = () => {
                     <Select
                         value={bannedFilter}
                         onValueChange={(v) => {
-                            setBannedFilter(v != "all" ? v : "");
+                            setBannedFilter(v !== "all" ? v : "");
                             setPagination((p) => ({ ...p, page: 1 }));
                         }}
                     >
@@ -414,174 +381,15 @@ const Page = () => {
                 )}
             </div>
 
-            <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-                <SheetContent className="px-4 sm:px-6">
-                    <SheetHeader>
-                        <SheetTitle>User Details</SheetTitle>
-                        <SheetDescription>
-                            Manage user role and ban status
-                        </SheetDescription>
-                    </SheetHeader>
-                    {selectedUser && (
-                        <div className="flex flex-col gap-6 mt-6">
-                            <div className="flex items-center gap-4 min-w-0">
-                                <Avatar
-                                    key={selectedUser.id}
-                                    src={selectedUser.image || ""}
-                                    alt={selectedUser.username || ""}
-                                    size={20}
-                                />
-                                <div className="min-w-0">
-                                    <div className="font-semibold text-lg break-words">
-                                        {selectedUser.name}
-                                    </div>
-                                    <div className="text-sm text-muted-foreground break-all">
-                                        {selectedUser.email}
-                                    </div>
-                                    {selectedUser.username && (
-                                        <div className="text-sm text-muted-foreground break-words">
-                                            @{selectedUser.username}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4 text-sm">
-                                <div>
-                                    <div className="text-muted-foreground">
-                                        Highest Score
-                                    </div>
-                                    <div className="font-medium">
-                                        {selectedUser.highestScore || 0}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="text-muted-foreground">
-                                        Rank
-                                    </div>
-                                    <div className="font-medium">
-                                        {selectedUser.rank || "N/A"}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="text-muted-foreground">
-                                        Rooms Created
-                                    </div>
-                                    <div className="font-medium">
-                                        {selectedUser._count.openedRooms}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="text-muted-foreground">
-                                        Rooms Joined
-                                    </div>
-                                    <div className="font-medium">
-                                        {selectedUser._count.joinedRooms}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="text-muted-foreground">
-                                        Joined
-                                    </div>
-                                    <div className="font-medium">
-                                        {new Date(
-                                            selectedUser.createdAt,
-                                        ).toLocaleDateString()}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="space-y-3">
-                                <div>
-                                    <label className="text-sm font-medium">
-                                        Role
-                                    </label>
-                                    <Select
-                                        value={selectedUser.role}
-                                        onValueChange={(v) =>
-                                            handleRoleChange(selectedUser.id, v)
-                                        }
-                                        disabled={
-                                            processingId === selectedUser.id ||
-                                            selectedUser.id === session.user.id
-                                        }
-                                    >
-                                        <SelectTrigger className="mt-1">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="user">
-                                                User
-                                            </SelectItem>
-                                            <SelectItem value="admin">
-                                                Admin
-                                            </SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                    {selectedUser.id === session.user.id && (
-                                        <p className="text-xs text-muted-foreground mt-1">
-                                            You cannot change your own role
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div className="pt-2">
-                                    {selectedUser.banned ? (
-                                        <Button
-                                            variant="default"
-                                            className="w-full"
-                                            onClick={() =>
-                                                handleBan(
-                                                    selectedUser.id,
-                                                    false,
-                                                )
-                                            }
-                                            disabled={
-                                                processingId === selectedUser.id
-                                            }
-                                        >
-                                            {processingId ===
-                                            selectedUser.id ? (
-                                                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                            ) : (
-                                                <Ban className="h-4 w-4 mr-2" />
-                                            )}
-                                            Unban User
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            variant="destructive"
-                                            className="w-full"
-                                            onClick={() =>
-                                                handleBan(selectedUser.id, true)
-                                            }
-                                            disabled={
-                                                processingId ===
-                                                    selectedUser.id ||
-                                                selectedUser.id ===
-                                                    session.user.id
-                                            }
-                                        >
-                                            {processingId ===
-                                            selectedUser.id ? (
-                                                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                            ) : (
-                                                <Ban className="h-4 w-4 mr-2" />
-                                            )}
-                                            Ban User
-                                        </Button>
-                                    )}
-                                    {selectedUser.id === session.user.id && (
-                                        <p className="text-xs text-muted-foreground mt-1 text-center">
-                                            You cannot ban yourself
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </SheetContent>
-            </Sheet>
+            <UserSheet
+                user={selectedUser}
+                open={sheetOpen}
+                onOpenChange={setSheetOpen}
+                session={session}
+                processingId={processingId}
+                onRoleChange={handleRoleChange}
+                onBan={handleBan}
+            />
         </div>
     );
 };
