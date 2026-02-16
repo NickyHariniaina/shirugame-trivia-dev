@@ -17,6 +17,7 @@ type NotificationDisplayerProps = {
 export const NotificationDisplayer = (props: NotificationDisplayerProps) => {
     const { userData, setUserData } = useUser();
     const [notifications, setNotifications] = useState<Notification[]>([]);
+
     useEffect(() => {
         if (userData) {
             const notifications = userData.notifications.filter(
@@ -27,7 +28,7 @@ export const NotificationDisplayer = (props: NotificationDisplayerProps) => {
         } else {
             setUserData(props.session?.user);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userData]);
 
     const handleMarkAsRead = async (notificationId: string) => {
