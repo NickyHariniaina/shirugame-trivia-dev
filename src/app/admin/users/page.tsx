@@ -415,7 +415,7 @@ const Page = () => {
             </div>
 
             <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-                <SheetContent>
+                <SheetContent className="px-4 sm:px-6">
                     <SheetHeader>
                         <SheetTitle>User Details</SheetTitle>
                         <SheetDescription>
@@ -424,22 +424,22 @@ const Page = () => {
                     </SheetHeader>
                     {selectedUser && (
                         <div className="flex flex-col gap-6 mt-6">
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-4 min-w-0">
                                 <Avatar
                                     key={selectedUser.id}
                                     src={selectedUser.image || ""}
                                     alt={selectedUser.username || ""}
                                     size={20}
                                 />
-                                <div>
-                                    <div className="font-semibold text-lg">
+                                <div className="min-w-0">
+                                    <div className="font-semibold text-lg break-words">
                                         {selectedUser.name}
                                     </div>
-                                    <div className="text-sm text-muted-foreground">
+                                    <div className="text-sm text-muted-foreground break-all">
                                         {selectedUser.email}
                                     </div>
                                     {selectedUser.username && (
-                                        <div className="text-sm text-muted-foreground">
+                                        <div className="text-sm text-muted-foreground break-words">
                                             @{selectedUser.username}
                                         </div>
                                     )}
