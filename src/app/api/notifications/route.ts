@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { v4 } from "uuid";
 
 export const POST = async (req: NextRequest) => {
     const session = await auth.api.getSession({
@@ -24,6 +25,7 @@ export const POST = async (req: NextRequest) => {
 
         const notification = await prisma.notification.create({
             data: {
+                id: v4(),
                 userId,
                 header,
                 body,
