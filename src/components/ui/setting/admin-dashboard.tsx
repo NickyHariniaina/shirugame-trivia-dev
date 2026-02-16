@@ -7,7 +7,9 @@ export const AdminDashBoard = () => {
         <Link href="/admin/questions">
             <Button variant="secondary" className="w-full">Manage request (questions)</Button>
         </Link>
-        <Button variant="secondary" disabled>Manage users</Button>
+        <Link href="/admin/users">
+            <Button variant="secondary" className="w-full">Manage users</Button>
+        </Link>
         <Button variant="secondary" disabled>Manage rooms</Button>
         <Button variant="outline" disabled>Manage reports</Button>
     </div>
