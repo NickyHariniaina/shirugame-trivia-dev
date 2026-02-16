@@ -17,7 +17,7 @@ import {
 import { RoomSheet } from "@/components/admin/RoomSheet";
 import { Loader2, Search, MoreHorizontal, Users, HelpCircle } from "lucide-react";
 import toast from "react-hot-toast";
-import FullScreenLoader from "@/components/ui/loading/fullscreen";
+import { Skeleton } from "@/components/ui/shadcn-component/skeleton";
 import { YouNeedAnAccount } from "@/components/ui/chore-component/you-need-an-account";
 import Link from "next/link";
 import { AdminRoom, Pagination } from "@/types/admin";
@@ -105,7 +105,42 @@ const Page = () => {
         setSheetOpen(true);
     };
 
-    if (sessionPending) return <FullScreenLoader />;
+    if (sessionPending) {
+        return (
+            <div className="min-h-screen bg-background">
+                <div className="container mx-auto p-4 max-w-6xl">
+                    <Skeleton className="h-10 w-64 mb-6" />
+                    <Skeleton className="h-10 w-full mb-4" />
+                    <div className="border rounded-lg">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Title</TableHead>
+                                    <TableHead>Creator</TableHead>
+                                    <TableHead>Players</TableHead>
+                                    <TableHead>Questions</TableHead>
+                                    <TableHead>Created</TableHead>
+                                    <TableHead>Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                    <TableRow key={i}>
+                                        <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                                        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                                        <TableCell><Skeleton className="h-6 w-12" /></TableCell>
+                                        <TableCell><Skeleton className="h-6 w-12" /></TableCell>
+                                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+                                        <TableCell><Skeleton className="h-8 w-8" /></TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     if (!session) return <YouNeedAnAccount />;
     if (session.user.role !== "admin") {
         return (

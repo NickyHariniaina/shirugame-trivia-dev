@@ -1,6 +1,5 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
-import FullScreenLoader from "../loading/fullscreen";
 import { Room } from "@/types/db";
 import { fetchRoomById } from "@/utils/func";
 import { useParams } from "next/navigation";
@@ -11,6 +10,7 @@ import { useUser } from "@/stores/useUser";
 import { useRouter } from "next/navigation";
 import { useLogged } from "@/stores/useLogged";
 import { YouNeedAnAccount } from "../chore-component/you-need-an-account";
+import { Skeleton } from "../shadcn-component/skeleton";
 
 export const RoomDisplayer = () => {
   const {isLogged, setIsLogged} = useLogged();
@@ -45,8 +45,14 @@ export const RoomDisplayer = () => {
     fetchRoom();
   }, [router, roomId, session, userData, room?.openedBy.id, setIsLogged]);
 
-  if (isPending) return <FullScreenLoader />;
-  if (loading) return <FullScreenLoader />;
+  if (isPending || loading) {
+    return (
+      <div className="flex flex-col gap-2 m-1 w-full p-4">
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-64 w-full" />
+      </div>
+    );
+  }
 
   if (!isLogged || !session) return <YouNeedAnAccount />;
 

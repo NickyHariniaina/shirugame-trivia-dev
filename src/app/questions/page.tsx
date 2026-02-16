@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import FullScreenLoader from "@/components/ui/loading/fullscreen";
 import { FilterSelector } from "@/components/ui/room/filter-selector";
 import { useForm } from "react-hook-form";
 import { QuestionSearchBar } from "@/components/ui/search-bar/question-search-bar";
@@ -13,6 +12,7 @@ import { Question } from "@/types/db";
 import { getAllQuestions, getMaxPage, paginate } from "@/utils/func";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { Skeleton } from "@/components/ui/shadcn-component/skeleton";
 
 type QuestionForm = {
     question: string;
@@ -119,7 +119,21 @@ const Page = () => {
         setSearchValue("");
     };
 
-    if (isPending) return <FullScreenLoader />;
+    if (isPending) {
+        return (
+            <div className="flex flex-col gap-4 m-4 p-3 justify-center items-center">
+                <Skeleton className="h-8 w-64" />
+                <Skeleton className="h-10 w-48" />
+                <Skeleton className="h-10 w-full max-w-[600px]" />
+                <Skeleton className="h-10 w-full max-w-[600px]" />
+                <div className="w-full max-w-2xl space-y-2">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                        <Skeleton key={i} className="h-16 w-full" />
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-col gap-4 m-4 p-3 justify-center items-center">
