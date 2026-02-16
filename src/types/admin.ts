@@ -24,3 +24,25 @@ export interface Pagination {
     total: number;
     totalPages: number;
 }
+
+export interface AdminRoom {
+    id: string;
+    title: string;
+    startDate: Date;
+    chronoTiming: number;
+    openedBy: {
+        id: string;
+        name: string;
+        username: string | null;
+        email: string;
+        image?: string | null;
+    };
+    winner: {
+        id: string;
+        name: string;
+    } | null;
+    _count: {
+        players: number;
+        questions: number;
+    };
+}

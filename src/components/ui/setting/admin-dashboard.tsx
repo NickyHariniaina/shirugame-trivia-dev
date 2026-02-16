@@ -10,7 +10,9 @@ export const AdminDashBoard = () => {
         <Link href="/admin/users">
             <Button variant="secondary" className="w-full">Manage users</Button>
         </Link>
-        <Button variant="secondary" disabled>Manage rooms</Button>
+        <Link href="/admin/rooms">
+            <Button variant="secondary" className="w-full">Manage rooms</Button>
+        </Link>
         <Button variant="outline" disabled>Manage reports</Button>
     </div>
 }
