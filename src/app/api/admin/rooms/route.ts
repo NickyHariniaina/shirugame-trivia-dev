@@ -39,6 +39,7 @@ export const GET = async (req: NextRequest) => {
                             name: true,
                             username: true,
                             email: true,
+                            image: true,
                         },
                     },
                     winner: {

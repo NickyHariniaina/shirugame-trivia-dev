@@ -78,7 +78,7 @@ export const RoomSheet = ({
 
                         <div className="flex items-center gap-4 min-w-0">
                             <Avatar
-                                src=""
+                                src={room.openedBy.image || ""}
                                 alt={room.openedBy.username || room.openedBy.name}
                                 size={20}
                             />
